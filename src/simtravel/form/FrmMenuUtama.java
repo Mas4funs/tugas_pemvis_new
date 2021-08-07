@@ -839,10 +839,14 @@ public class FrmMenuUtama extends javax.swing.JDialog {
     }//GEN-LAST:event_salaryCreditingPanelMouseClicked
 
     private void dashboardPenerimaBeasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardPenerimaBeasiswaActionPerformed
-
+try {
             ChartDialog chartDialog = new ChartDialog(null, true);
             chartDialog.setVisible(true);
-
+                    } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_dashboardPenerimaBeasiswaActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
