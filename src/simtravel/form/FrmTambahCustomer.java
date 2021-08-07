@@ -100,7 +100,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             jTextField2.setText(noTelp);                        
             jLabel7.setText("");
 //            jLabel7.setIcon(new ImageIcon("d:/tmp/"+foto));
-            ImageIcon ii = new ImageIcon("d:/tmp/"+foto);
+            ImageIcon ii = new ImageIcon("D:/tmp/"+foto);
             Image img = ii.getImage().getScaledInstance(jLabel7.getWidth(), jLabel7.getHeight(), Image.SCALE_SMOOTH);
             jLabel7.setIcon(new ImageIcon(img));
             
@@ -581,7 +581,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("D:/tmp/");
+        File dir = new File("d:/tmp/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -632,7 +632,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             fileName = fileChooser.getSelectedFile().getName();
             
             // copy file to d:\temp
-            new FileUtils().copyFile(fileChooser.getSelectedFile(), new File("D:/tmp/"+fileName));
+            new FileUtils().copyFile(fileChooser.getSelectedFile(), new File("d:/tmp/"+fileName));
             
         }
             

@@ -69,10 +69,10 @@ public class NotificationUtils {
             MimeBodyPart textPart = new MimeBodyPart();
 
             try {
+File f =new File("D:/tmp/test_photo.PNG");
 
-                //File f =new File("D:/tmp/test_photo.PNG");
+                attachmentPart.attachFile(f);
 
-                attachmentPart.attachFile((File) data.get("attachment"));
                 
                 StringBuffer sb = new StringBuffer();
                 sb.append("Dear All, terlampir data-data pesanan Anda\n");
@@ -144,9 +144,9 @@ public class NotificationUtils {
 
             try {
 
-                File f =new File("D:/tmp/test_photo.PNG");
+                //File f =new File("E:/tmp/test_photo.PNG");
 
-                attachmentPart.attachFile(f);
+                attachmentPart.attachFile((File) data.get("attachment"));
                 
                 StringBuffer sb = new StringBuffer();
                 sb.append("Dear All, terlampir data-data pesanan Anda\n");

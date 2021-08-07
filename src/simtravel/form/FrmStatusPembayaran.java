@@ -7,6 +7,7 @@ package simtravel.form;
 
 import simtravel.utils.DBUtils;
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -448,17 +449,28 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+if(action.equals("tambah")){
         if(validasiUpdate()){
             int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
             if(pilih == JOptionPane.OK_OPTION){
                 updateRecord();
                 sentNotification();
-                //dispose();
-                //new FrmDaftarPengguna(null, true).setVisible(true);
+                
             }
+            
         }
-        
+            
+        } else{
+            if(validasiUpdate()){
+                int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
+                if(pilih == JOptionPane.OK_OPTION){
+                    updateRecord();
+                    sentNotification();
+                    dispose();
+                    //new FrmMenuUtama(null, true).setVisible(true);
+                }
+            }
+}
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
