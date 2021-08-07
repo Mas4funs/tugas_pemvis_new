@@ -222,8 +222,8 @@ public class FrmPemesanan extends javax.swing.JDialog {
         data.put("namaPaket", paketCB.getSelectedItem().toString());
         data.put("hargaPaket", hargaField.getText());
         
-       // File is = new File(generateInvoicePemesanan());
-        //data.put("attachment", is);
+       File is = new File(generateInvoicePemesanan());
+        data.put("attachment", is);
         
         new NotificationUtils().sentEmailPemesanan(data);
     }
