@@ -82,6 +82,8 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             kodeField.setBackground(Color.LIGHT_GRAY);
             kodeField.setEditable(false);
             namaField.setText(nama);
+            jRadioButton1.setEnabled(false);
+            jRadioButton2.setEnabled(false);
             if(jnsKelamin.equals("L")){
                 jRadioButton1.setSelected(true);
                 jRadioButton2.setSelected(false);
@@ -91,6 +93,8 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             }
             jTextField1.setText(tempatLahir);
             jDateChooser1.setDate(tglLahir);
+            jDateChooser1.setEnabled(false);
+            jComboBox1.setEnabled(false);
             jTextField3.setText(email);
             jTextArea1.setText(alamat);
             jTextField2.setText(noTelp);                        
@@ -222,12 +226,20 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_user SET user_name = ? WHERE user_id = ? ";
+        String sql = "UPDATE tbl_customer SET no_ktp = ? WHERE nama = ? and tempat_lahir = ? and alamat = ? and no_telp = ? and email = ? and foto = ?";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
             ps.setString(2, kodeField.getText());
+           //ps.setString(3, jRadioButton1.isSelected()?"L":"P");
+           // ps.setDate(4, new java.sql.Date(jDateChooser1.getDate().getTime()));
+           //ps.setString(5, jComboBox1.getSelectedItem().toString());
+            ps.setString(3, jTextField1.getText());
+            ps.setString(4, jTextArea1.getText());
+            ps.setString(5, jTextField2.getText());
+            ps.setString(6, jTextField3.getText());
+            ps.setString(7, fileName);
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
