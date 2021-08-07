@@ -24,6 +24,7 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="p_nopemesanan" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="logo" isForPrompting="false" class="java.io.InputStream"/>
 	<queryString><![CDATA[SELECT b.nama, b.no_ktp, a.no_pemesanan, a.tgl_pemesanan, a.nama_paket, a.status_pembayaran, a.jns_pembayaran, a.total_bayar as total_harga 
 FROM tbl_pemesanan as a, tbl_customer as b
 WHERE a.no_ktp = b.no_ktp
@@ -44,21 +45,6 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 		</background>
 		<title>
 			<band height="50"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="61"
-						y="5"
-						width="412"
-						height="40"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font size="30"/>
-					</textElement>
-				<text><![CDATA[Invoice Pemesanan]]></text>
-				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
@@ -77,6 +63,43 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 						key="line"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<staticText>
+					<reportElement
+						x="36"
+						y="10"
+						width="428"
+						height="20"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PT. Ismata Nusantara Abadi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="36"
+						y="30"
+						width="428"
+						height="15"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Perumahan Harapan Baru 1, Jl. Harapan Baru Bar. No.Blok FA 1, RT.005/RW.No. 59, Bekasi, Jawa Barat]]></text>
+				</staticText>
+				<image  vAlign="Middle" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="481"
+						y="3"
+						width="51"
+						height="45"
+						key="image-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.io.InputStream"><![CDATA[$P{logo}]]></imageExpression>
+				</image>
 			</band>
 		</title>
 		<pageHeader>
@@ -97,11 +120,11 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="200"  isSplitAllowed="true" >
+			<band height="350"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="2"
+						y="65"
 						width="237"
 						height="17"
 						forecolor="#000000"
@@ -116,7 +139,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="2"
+						y="65"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -132,7 +155,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="23"
+						y="86"
 						width="237"
 						height="17"
 						forecolor="#000000"
@@ -147,7 +170,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="23"
+						y="86"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -163,7 +186,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="44"
+						y="107"
 						width="237"
 						height="17"
 						forecolor="#000000"
@@ -178,7 +201,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="44"
+						y="107"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -194,7 +217,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="65"
+						y="128"
 						width="237"
 						height="17"
 						forecolor="#000000"
@@ -209,7 +232,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="65"
+						y="128"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -225,7 +248,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="86"
+						y="149"
 						width="237"
 						height="17"
 						forecolor="#000000"
@@ -240,7 +263,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="86"
+						y="149"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -256,7 +279,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="130"
+						y="193"
 						width="398"
 						height="17"
 						forecolor="#000000"
@@ -271,7 +294,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="130"
+						y="193"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -287,7 +310,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="151"
+						y="214"
 						width="398"
 						height="17"
 						forecolor="#000000"
@@ -302,7 +325,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="151"
+						y="214"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -318,7 +341,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="107"
+						y="170"
 						width="115"
 						height="17"
 						forecolor="#000000"
@@ -334,8 +357,8 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="107"
-						width="398"
+						y="170"
+						width="138"
 						height="17"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -346,17 +369,139 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{total_harga}]]></textFieldExpression>
 				</textField>
-				<image  scaleImage="RetainShape" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<image  scaleImage="RetainShape" vAlign="Top" hAlign="Left" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="382"
-						y="9"
+						mode="Opaque"
+						x="396"
+						y="65"
 						width="128"
 						height="28"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
 						key="barcode-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<graphicElement stretchType="NoStretch" pen="None"/>
-					<imageExpression class="java.awt.Image"><![CDATA[it.businesslogic.ireport.barcode.BcImage.getBarcodeImage(10,$F{no_pemesanan},true,true,null,0,0)]]></imageExpression>
+					<graphicElement stretchType="NoStretch" pen="None" fill="Solid" />
+					<imageExpression class="java.awt.Image"><![CDATA[it.businesslogic.ireport.barcode.BcImage.getBarcodeImage(10,$F{no_pemesanan},false,false,null,0,0)]]></imageExpression>
 				</image>
+				<staticText>
+					<reportElement
+						x="0"
+						y="26"
+						width="364"
+						height="16"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dear Calon Jamaah,]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="42"
+						width="525"
+						height="16"
+						key="staticText-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Terima kasih atas pemesanan paket Haji/Umrah di PT. Ismata Nusantara Abadi, berikut adalah detail pemesanan Anda]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="167"
+						y="-1"
+						width="197"
+						height="27"
+						key="staticText-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="18" isBold="true"/>
+					</textElement>
+				<text><![CDATA[INVOICE PEMESANAN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="366"
+						y="236"
+						width="36"
+						height="19"
+						key="staticText-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Bekasi, ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="MMMMM dd, yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="402"
+						y="236"
+						width="128"
+						height="19"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="36"
+						y="269"
+						width="115"
+						height="19"
+						key="staticText-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[M. Abdul Aziz, S.Kom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="36"
+						y="316"
+						width="115"
+						height="19"
+						key="staticText-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Manajer Umrah/Travel]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="210"
+						y="269"
+						width="115"
+						height="19"
+						key="staticText-10"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Nahfia Andini]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="210"
+						y="316"
+						width="115"
+						height="19"
+						key="staticText-11"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Bag. Keuangan]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>

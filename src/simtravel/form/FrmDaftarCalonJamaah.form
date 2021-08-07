@@ -95,7 +95,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/simtravel/image/hajj-32.png"/>
+              <Image iconType="3" name="/simtravel/image/report-32.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Daftar Calon Jamaah "/>
           </Properties>

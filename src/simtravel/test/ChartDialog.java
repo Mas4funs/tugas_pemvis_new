@@ -5,6 +5,13 @@
  */
 package simtravel.test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -24,25 +31,33 @@ public class ChartDialog extends javax.swing.JDialog {
      Test123
      
      */
-    public ChartDialog(java.awt.Frame parent, boolean modal) {
+    public ChartDialog(java.awt.Frame parent, boolean modal) throws ClassNotFoundException, SQLException {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
         setContentPane(createDemoPanel());
 
     }
 
-    private static PieDataset createDataset() {
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        dataset.setValue("IPhone 5s", new Double(20));
-        dataset.setValue("SamSung Grand", new Double(20));
-        dataset.setValue("MotoG", new Double(40));
-        dataset.setValue("Nokia Lumia", new Double(10));
+    private static PieDataset createDataset() throws ClassNotFoundException, SQLException {
+        Class.forName( "com.mysql.jdbc.Driver" );
+        Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_travel", "root", "");
+      
+      Statement statement = connect.createStatement();
+      ResultSet resultSet = statement.executeQuery("SELECT CASE jns_kelamin WHEN 'L' THEN 'Laki Laki' ELSE 'Perempuan' END AS jns_kelamin, COUNT(*) AS jumlah FROM tbl_customer GROUP BY jns_kelamin" );
+      DefaultPieDataset dataset = new DefaultPieDataset( );
+      
+      while( resultSet.next( ) ) {
+         dataset.setValue( 
+         resultSet.getString( "jns_kelamin" ) ,
+         Double.parseDouble( resultSet.getString( "jumlah" )));
+      }
         return dataset;
     }
 
     private static JFreeChart createChart(PieDataset dataset) {
         JFreeChart chart = ChartFactory.createPieChart(
-                "Mobile Sales", // chart title 
+                "Laporan Calon Jamaah", // chart title 
                 dataset, // data    
                 true, // include legend   
                 true,
@@ -51,7 +66,7 @@ public class ChartDialog extends javax.swing.JDialog {
         return chart;
     }
 
-    public JPanel createDemoPanel() {
+    public JPanel createDemoPanel() throws ClassNotFoundException, SQLException {
         JFreeChart chart = createChart(createDataset());
         JPanel jpanel1 = new ChartPanel(chart);
         return jpanel1;
@@ -133,7 +148,14 @@ public class ChartDialog extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ChartDialog dialog = new ChartDialog(new javax.swing.JFrame(), true);
+                ChartDialog dialog = null;
+                try {
+                    dialog = new ChartDialog(new javax.swing.JFrame(), true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ChartDialog.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ChartDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

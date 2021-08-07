@@ -25,6 +25,7 @@
 
 	<parameter name="p_noktp" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="foto" isForPrompting="false" class="java.io.InputStream"/>
+	<parameter name="logo" isForPrompting="false" class="java.io.InputStream"/>
 	<queryString><![CDATA[select * from tbl_customer
 where no_ktp = $P{p_noktp}]]></queryString>
 
@@ -45,21 +46,6 @@ where no_ktp = $P{p_noktp}]]></queryString>
 		</background>
 		<title>
 			<band height="50"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="61"
-						y="5"
-						width="412"
-						height="40"
-						forecolor="#000000"
-						backcolor="#FFFFFF"
-						key="staticText"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement textAlignment="Center">
-						<font size="30"/>
-					</textElement>
-				<text><![CDATA[Data Calon Jamaah]]></text>
-				</staticText>
 				<line direction="TopDown">
 					<reportElement
 						x="0"
@@ -78,10 +64,86 @@ where no_ktp = $P{p_noktp}]]></queryString>
 						key="line"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
+				<staticText>
+					<reportElement
+						x="29"
+						y="8"
+						width="428"
+						height="20"
+						key="staticText-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PT. Ismata Nusantara Abadi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="28"
+						width="428"
+						height="15"
+						key="staticText-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+				<text><![CDATA[Perumahan Harapan Baru 1, Jl. Harapan Baru Bar. No.Blok FA 1, RT.005/RW.No. 59, Bekasi, Jawa Barat]]></text>
+				</staticText>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="474"
+						y="3"
+						width="51"
+						height="45"
+						key="image-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.io.InputStream"><![CDATA[$P{logo}]]></imageExpression>
+				</image>
 			</band>
 		</title>
 		<pageHeader>
-			<band height="10"  isSplitAllowed="true" >
+			<band height="50"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="1"
+						y="3"
+						width="534"
+						height="29"
+						key="staticText-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center">
+						<font size="18"/>
+					</textElement>
+				<text><![CDATA[Detail Data Calon Jamaah]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="2"
+						y="32"
+						width="87"
+						height="17"
+						key="staticText-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Dicetak tanggal : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="89"
+						y="31"
+						width="209"
+						height="19"
+						key="textField-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Times-Roman" size="10"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
 			</band>
 		</pageHeader>
 		<columnHeader>
@@ -93,7 +155,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="11"
+						y="14"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -108,7 +170,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="11"
+						y="14"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -124,7 +186,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="33"
+						y="36"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -139,7 +201,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="33"
+						y="36"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -155,7 +217,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="55"
+						y="58"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -170,7 +232,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="55"
+						y="58"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -186,7 +248,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="77"
+						y="80"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -201,7 +263,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="77"
+						y="80"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -217,7 +279,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="99"
+						y="102"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -232,7 +294,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="99"
+						y="102"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -248,7 +310,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="121"
+						y="124"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -263,7 +325,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="121"
+						y="124"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -279,7 +341,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="143"
+						y="146"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -294,7 +356,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="143"
+						y="146"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -310,7 +372,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="165"
+						y="168"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -325,7 +387,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="165"
+						y="168"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -341,7 +403,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
-						y="187"
+						y="190"
 						width="240"
 						height="17"
 						forecolor="#000000"
@@ -356,7 +418,7 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="187"
+						y="190"
 						width="118"
 						height="17"
 						forecolor="#000000"
@@ -372,13 +434,13 @@ where no_ktp = $P{p_noktp}]]></queryString>
 				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="381"
-						y="11"
+						y="14"
 						width="125"
 						height="124"
 						key="image-1"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<graphicElement stretchType="NoStretch"/>
-					<imageExpression class="java.lang.String"><![CDATA[$P{foto}]]></imageExpression>
+					<imageExpression class="java.io.InputStream"><![CDATA[$P{foto}]]></imageExpression>
 				</image>
 			</band>
 		</detail>

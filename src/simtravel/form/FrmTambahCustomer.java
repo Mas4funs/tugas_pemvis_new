@@ -52,6 +52,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     private Date today;
     private java.sql.Date sqlDate;
     private String fileName = "";
+    String foto = "";
     
     public FrmTambahCustomer(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
@@ -66,8 +67,10 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         String email = (String) data.get("email");
         String alamat = (String) data.get("alamat");
         String noTelp = (String) data.get("noTelp");
-        String foto = (String) data.get("foto");
-
+        foto = (String) data.get("foto");
+        
+        System.out.println(data);
+        
         initComponents();
         setLocationRelativeTo(null);
         
@@ -560,6 +563,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
 
     
     public void printDetailJamaah(){
+        
+        System.out.println("foto == "+foto);
+        
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
@@ -578,9 +584,10 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             File file = new File("src/simtravel/report/rpt_customer_detail.jrxml");
             jasperDesign = JRXmlLoader.load(file);
             
-            InputStream imgInputStream = new FileInputStream("d:/tmp/"+"test_photo.png");
-            
             Map param = new HashMap();
+            InputStream imgInputStream = new FileInputStream("d:/tmp/"+foto);
+            InputStream logo = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", logo);
             param.put("p_noktp", kodeField.getText());
             param.put("foto", imgInputStream);
 

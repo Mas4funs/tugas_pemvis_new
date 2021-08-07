@@ -58,7 +58,7 @@
 						key="line"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-				<image  vAlign="Middle" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="480"
 						y="3"

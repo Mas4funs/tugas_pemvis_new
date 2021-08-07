@@ -104,7 +104,7 @@ public class FrmAbout extends javax.swing.JDialog {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel12.setText("Thanks to For All My Team ");
 
-        jLabel13.setText("1. Adi Santoso (201843500686)");
+        jLabel13.setText("1. Adi Santoso (2018435006861)");
 
         jLabel14.setText("2. Devi Marleni (201943570024)");
 

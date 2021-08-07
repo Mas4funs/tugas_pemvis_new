@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,7 +71,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         hargaField.setEditable(false);
         emailField.setEditable(false);
         printInvoice.setEnabled(false);
-        
+        cicilanPerBulanField.setEditable(false);
         if(data != null){
             
             if(data.get("noKTP") != null){
@@ -199,7 +200,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             ps.setDate(5, new java.sql.Date(tglPesananField.getDate().getTime()));
             ps.setString(6, "Belum Lunas");
             ps.setString(7, rbHaji.isSelected()?"Haji":"Umrah");
-            ps.setString(8, uangDPField.getText());
+            ps.setString(8, uangDPField.getText().equals("")?"0":uangDPField.getText());
             ps.setString(9, new CurrencyUtils().unFormatRupiah(hargaField.getText()));
             ps.execute();
             
@@ -217,7 +218,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         data.put("tglPemesanan", tglPesananField.getDate());
         data.put("nama", namaLengkapField.getText());
         data.put("noKTP", noKTPField.getText());
-        data.put("statusPembayaran", "Lunas");
+        data.put("statusPembayaran", jnsPembayaranCB.getSelectedItem().toString());
         data.put("namaPaket", paketCB.getSelectedItem().toString());
         data.put("hargaPaket", hargaField.getText());
         
@@ -276,6 +277,13 @@ public class FrmPemesanan extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         paketCB = new javax.swing.JComboBox<>();
         emailField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        lamaAngsuranCB = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        cicilanPerBulanField = new javax.swing.JTextField();
+        btnHitung = new javax.swing.JButton();
+        btnTableAngsuran = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnSimpan = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
@@ -336,6 +344,11 @@ public class FrmPemesanan extends javax.swing.JDialog {
         jLabel5.setText("Paket  ");
 
         jnsPembayaranCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kredit", "Tunai" }));
+        jnsPembayaranCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jnsPembayaranCBActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Harga Paket ");
 
@@ -354,6 +367,29 @@ public class FrmPemesanan extends javax.swing.JDialog {
         paketCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paketCBActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel9.setText("minimal Rp. 1.000.000,-");
+
+        jLabel10.setText("Lama Angsuran");
+
+        lamaAngsuranCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Lama Angsuran --", "3 Bulan", "6 Bulan", "9 Bulan", "12 Bulan" }));
+
+        jLabel11.setText("Cicilan Perbulan   ");
+
+        btnHitung.setText("Hitung");
+        btnHitung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHitungActionPerformed(evt);
+            }
+        });
+
+        btnTableAngsuran.setText("Tabel Angs");
+        btnTableAngsuran.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTableAngsuranActionPerformed(evt);
             }
         });
 
@@ -377,34 +413,47 @@ public class FrmPemesanan extends javax.swing.JDialog {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel6))
-                        .addGap(91, 91, 91)))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addGap(74, 74, 74)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(uangDPField)
                     .addComponent(jnsPembayaranCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(paketCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(hargaField)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(noKTPField)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(kodeField)
-                                .addGap(18, 18, 18)
-                                .addComponent(tglPesananField, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lamaAngsuranCB, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(noKTPField)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jButton1))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(kodeField)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(tglPesananField, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(namaLengkapField)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                            .addComponent(rbHaji, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(rbUmrah)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(uangDPField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(namaLengkapField)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(rbHaji, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rbUmrah)))
+                                .addComponent(cicilanPerBulanField, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnHitung)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnTableAngsuran, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(54, 54, 54))
+                .addGap(49, 49, 49))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -447,8 +496,19 @@ public class FrmPemesanan extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(uangDPField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                    .addComponent(uangDPField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(lamaAngsuranCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(cicilanPerBulanField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHitung)
+                    .addComponent(btnTableAngsuran))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -605,6 +665,83 @@ public class FrmPemesanan extends javax.swing.JDialog {
         printInvoicePemesanan();
     }//GEN-LAST:event_printInvoiceActionPerformed
 
+    private void btnHitungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHitungActionPerformed
+        if(lamaAngsuranCB.getSelectedItem().equals("-- Pilih Lama Angsuran --")){
+            JOptionPane.showMessageDialog(null, "Silakan Pilih Lama Angsuran", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        calculateAngsuran();
+    }//GEN-LAST:event_btnHitungActionPerformed
+
+    private void btnTableAngsuranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableAngsuranActionPerformed
+        
+        int lama = 0;
+        
+        String lamaAngsuran = lamaAngsuranCB.getSelectedItem().toString();
+        if(lamaAngsuran.equals("3 Bulan")){
+            lama = 3;
+        }else if(lamaAngsuran.equals("6 Bulan")){
+            lama = 6;
+        }else if(lamaAngsuran.equals("9 Bulan")){
+            lama = 9;
+        }else if(lamaAngsuran.equals("12 Bulan")){
+            lama = 12;
+        }
+        
+        Map data = new HashMap();
+        data.put("lama", lama);
+        data.put("cicilanPerbulan", cicilanPerBulanField.getText());
+        new FrmTableAngsuran(null, true, data).setVisible(true);
+    }//GEN-LAST:event_btnTableAngsuranActionPerformed
+
+    private void jnsPembayaranCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnsPembayaranCBActionPerformed
+        if(jnsPembayaranCB.getSelectedItem().equals("Tunai")){
+            uangDPField.setEditable(false);
+            lamaAngsuranCB.setEnabled(false);
+            cicilanPerBulanField.setEditable(false);
+            btnHitung.setEnabled(false);
+            btnTableAngsuran.setEnabled(false);
+        }else{
+            uangDPField.setEditable(true);
+            lamaAngsuranCB.setEnabled(true);
+            cicilanPerBulanField.setEditable(true);
+            btnHitung.setEnabled(true);
+            btnTableAngsuran.setEnabled(true);
+        }
+    }//GEN-LAST:event_jnsPembayaranCBActionPerformed
+
+    public void calculateAngsuran(){
+        BigDecimal hargaPaket = new BigDecimal(new CurrencyUtils().unFormatRupiah(hargaField.getText()));
+        BigDecimal uangDp = new BigDecimal(uangDPField.getText());
+        
+        String lamaAngsuran = lamaAngsuranCB.getSelectedItem().toString();
+        BigDecimal lama = BigDecimal.ZERO;
+        if(lamaAngsuran.equals("3 Bulan")){
+            lama = new BigDecimal("3");
+        }else if(lamaAngsuran.equals("6 Bulan")){
+            lama = new BigDecimal("6");
+        }else if(lamaAngsuran.equals("9 Bulan")){
+            lama = new BigDecimal("9");
+        }else if(lamaAngsuran.equals("12 Bulan")){
+            lama = new BigDecimal("12");
+        }
+        
+        System.out.println("Harga Paket : "+hargaPaket);
+        System.out.println("Uang DP : "+uangDp);
+        System.out.println("Lama Angsuran : "+lama);
+        
+        
+        BigDecimal cicilanPerBulan = hargaPaket.subtract(uangDp);
+        
+        cicilanPerBulan = cicilanPerBulan.divide(lama, 0, RoundingMode.HALF_UP);
+        
+        System.out.println("Cicilan Perbulan : "+cicilanPerBulan);
+        
+        cicilanPerBulanField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(cicilanPerBulan.toString())));
+        
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -650,11 +787,16 @@ public class FrmPemesanan extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
+    private javax.swing.JButton btnHitung;
     private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnTableAngsuran;
+    private javax.swing.JTextField cicilanPerBulanField;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField hargaField;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -662,12 +804,14 @@ public class FrmPemesanan extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JComboBox<String> jnsPembayaranCB;
     private javax.swing.JLabel judulLabel;
     private javax.swing.JTextField kodeField;
+    private javax.swing.JComboBox<String> lamaAngsuranCB;
     private javax.swing.JTextField namaLengkapField;
     private javax.swing.JTextField noKTPField;
     private javax.swing.JComboBox<String> paketCB;
@@ -698,6 +842,8 @@ public class FrmPemesanan extends javax.swing.JDialog {
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
+            InputStream imgInputStream = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", imgInputStream);
             param.put("p_nopemesanan", kodeField.getText());
 
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
@@ -733,6 +879,8 @@ public class FrmPemesanan extends javax.swing.JDialog {
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
+            InputStream imgInputStream = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", imgInputStream);
             param.put("p_nopemesanan", kodeField.getText());
 
             jasperReport = JasperCompileManager.compileReport(jasperDesign);

@@ -14,9 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Connection;
@@ -257,7 +259,10 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
             URL url = getClass().getResource("/simtravel/report/rpt_maskapai.jrxml");
             jasperDesign = JRXmlLoader.load(url.openStream());
             
+            InputStream logo = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            
             Map param = new HashMap();
+            param.put("logo", logo);
 
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             jasperPrint = JasperFillManager.fillReport(jasperReport, param, new DBUtils().getKoneksi());

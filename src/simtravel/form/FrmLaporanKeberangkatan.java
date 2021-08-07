@@ -23,9 +23,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -82,41 +85,62 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
     }
     
     public void showTable(){
-        String kataKunci = "";
+        String statusPembayaran = statusPembayaranCB.getSelectedItem().toString();
         
+        if(statusPembayaran.equals("Semua")){
+            statusPembayaran = "%%";
+        }
+        
+        Date dateFrom = tglFrom.getDate();
+        Date dateTo = tglTo.getDate();
+ 
+        String kataKunci = "Lunas";
         
         
         DefaultTableModel model= new DefaultTableModel(); 
         model.addColumn("No."); 
-        model.addColumn("Nama Maskapai"); 
-        model.addColumn("No. Pesawat");
-        model.addColumn("Bandara");
-        model.addColumn("Kelas");
-        model.addColumn("Tarif");
+        model.addColumn("No KTP"); 
+        model.addColumn("Nama"); 
+        model.addColumn("Tipe Pemesanan");
+        model.addColumn("Nama Paket");
+        model.addColumn("Tgl Berangkat");
+        model.addColumn("Tgl Pulang");
+        model.addColumn("Pimpinan Rombongan");
         dataTable.setModel(model);
         
         String sql = "";
         
-        if("Nama Maskapai".equals("")){
-            sql = "SELECT * FROM tbl_maskapai WHERE nama LIKE ?";
+        if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT tbl_pemesanan.no_ktp, tbl_customer.nama, tbl_pemesanan.tipe_pemesanan, tbl_pemesanan.nama_paket, tbl_pemesanan.tgl_berangkat, tbl_pemesanan.tgl_pulang, tbl_pemesanan.pimpinan_rombongan from tbl_pemesanan inner join tbl_customer on tbl_pemesanan.no_ktp = tbl_customer.no_ktp WHERE tbl_pemesanan.status_pembayaran = ?";
+        }else if("Belum Berangkat".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT tbl_pemesanan.no_ktp, tbl_customer.nama, tbl_pemesanan.tipe_pemesanan, tbl_pemesanan.nama_paket, tbl_pemesanan.tgl_berangkat, tbl_pemesanan.tgl_pulang, tbl_pemesanan.pimpinan_rombongan from tbl_pemesanan inner join tbl_customer on tbl_pemesanan.no_ktp = tbl_customer.no_ktp WHERE DATE(tbl_pemesanan.tgl_pemesanan) BETWEEN ? AND ? AND tbl_pemesanan.tgl_berangkat >= CURDATE() AND tbl_pemesanan.status_pembayaran = 'Lunas'";
+        }else if("Berangkat".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT tbl_pemesanan.no_ktp, tbl_customer.nama, tbl_pemesanan.tipe_pemesanan, tbl_pemesanan.nama_paket, tbl_pemesanan.tgl_berangkat, tbl_pemesanan.tgl_pulang, tbl_pemesanan.pimpinan_rombongan from tbl_pemesanan inner join tbl_customer on tbl_pemesanan.no_ktp = tbl_customer.no_ktp WHERE DATE(tbl_pemesanan.tgl_pemesanan) BETWEEN ? AND ? AND tbl_pemesanan.tgl_pulang BETWEEN CURDATE() and tbl_pemesanan.tgl_pulang and tbl_pemesanan.tgl_berangkat <= CURDATE() AND tbl_pemesanan.status_pembayaran = 'Lunas'";
         }else{
-            sql = "SELECT * FROM tbl_maskapai WHERE no_pesawat LIKE ? ";
+            sql = "SELECT tbl_pemesanan.no_ktp, tbl_customer.nama, tbl_pemesanan.tipe_pemesanan, tbl_pemesanan.nama_paket, tbl_pemesanan.tgl_berangkat, tbl_pemesanan.tgl_pulang, tbl_pemesanan.pimpinan_rombongan from tbl_pemesanan inner join tbl_customer on tbl_pemesanan.no_ktp = tbl_customer.no_ktp WHERE DATE(tbl_pemesanan.tgl_pemesanan) BETWEEN ? AND ? AND tbl_pemesanan.tgl_pulang < CURDATE() AND tbl_pemesanan.status_pembayaran = 'Lunas'";
         }
-        
         con = new DBUtils().getKoneksi();
         int cnt = 1;
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, kataKunci);
+            if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            ps.setString(1, kataKunci);;
+            }else{
+            ps.setDate(1, new java.sql.Date(dateFrom.getTime()));
+            ps.setDate(2, new java.sql.Date(dateTo.getTime()));
+            }
             rs = ps.executeQuery();
             
             while (rs.next()){
                 model.addRow(new Object[]{cnt++, 
-                    rs.getString("nama"), 
-                    rs.getString("no_pesawat"),
-                    rs.getString("bandara"),
-                    rs.getString("kelas"),
-                    rs.getString("tarif")
+                    rs.getString("no_ktp"), 
+                    rs.getString("nama"),
+                    rs.getString("tipe_pemesanan"),
+                    rs.getString("nama_paket"),
+                    rs.getString("tgl_berangkat"),
+                    rs.getString("tgl_pulang"),
+                    rs.getString("pimpinan_rombongan")
+                    
                     } 
                 );
             }    
@@ -468,10 +492,10 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        tglFrom = new com.toedter.calendar.JDateChooser();
+        tglTo = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        statusPembayaranCB = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -518,10 +542,15 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
 
         jLabel3.setText("Status ");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Belum Berangkat", "Berangkat", "Pulang" }));
+        statusPembayaranCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Belum Berangkat", "Berangkat", "Pulang" }));
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/cari-16.png"))); // NOI18N
         jButton1.setText("Cari");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -534,11 +563,11 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
                     .addComponent(jLabel3))
                 .addGap(44, 44, 44)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tglFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statusPembayaranCB, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tglTo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(62, 62, 62))
         );
@@ -547,13 +576,13 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tglTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tglFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statusPembayaranCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
@@ -621,6 +650,7 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        dataTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(dataTable);
 
         jLabel5.setText("Jumlah Data ");
@@ -696,6 +726,19 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
         generateExcel();
     }//GEN-LAST:event_expotXlsMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Date dateFrom = tglFrom.getDate();
+        Date dateTo = tglTo.getDate();
+        
+        if(dateFrom == null || dateTo == null){
+            JOptionPane.showMessageDialog(null, "Silakan isi tanggal pemesanan", "Error", JOptionPane.ERROR_MESSAGE);
+            
+            return;
+        }
+        
+        showTable();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -750,9 +793,6 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
     private javax.swing.JLabel exportPdf;
     private javax.swing.JLabel expotXls;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -765,6 +805,9 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jumlahLabel;
+    private javax.swing.JComboBox<String> statusPembayaranCB;
+    private com.toedter.calendar.JDateChooser tglFrom;
+    private com.toedter.calendar.JDateChooser tglTo;
     // End of variables declaration//GEN-END:variables
 
 

@@ -14,9 +14,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -288,6 +290,8 @@ public class FrmDaftarPengguna extends javax.swing.JDialog {
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
+            InputStream logo = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", logo);
 
             jasperReport = JasperCompileManager.compileReport(jasperDesign);
             jasperPrint = JasperFillManager.fillReport(jasperReport, param, new DBUtils().getKoneksi());

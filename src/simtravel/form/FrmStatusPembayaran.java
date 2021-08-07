@@ -149,7 +149,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             ps.setString(1, noRegistrasiField.getText());
             ps.setString(2, pimpinanRombonganCB.getSelectedItem().toString());
             ps.setDate(3, new java.sql.Date(tglBerangkat.getDate().getTime()));
-            ps.setDate(4, new java.sql.Date(tglBerangkat.getDate().getTime()));
+            ps.setDate(4, new java.sql.Date(tglPulang.getDate().getTime()));
             ps.setString(5, "Lunas");
             ps.setString(6, noPemesananField.getText());
             ps.execute();
