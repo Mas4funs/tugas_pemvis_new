@@ -80,7 +80,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        //showTable();
+        showTable();
         
     }
     
@@ -92,6 +92,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             statusPembayaran = "%%";
         }
         
+        String kataKunci = "%%";
         
         Date dateFrom = tglFrom.getDate();
         Date dateTo = tglTo.getDate();
@@ -109,13 +110,27 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         
         String sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
         
+        
+        if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE status_pembayaran Like ?";
+        }else if("Belum Lunas".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }else {
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }
+        
+        
         con = new DBUtils().getKoneksi();
         int cnt = 1;
         try {
             ps = con.prepareStatement(sql);
+            if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            ps.setString(1, kataKunci);;
+            }else{
             ps.setDate(1, new java.sql.Date(dateFrom.getTime()));
             ps.setDate(2, new java.sql.Date(dateTo.getTime()));
             ps.setString(3, statusPembayaran);
+            }
             rs = ps.executeQuery();
             
             while (rs.next()){
