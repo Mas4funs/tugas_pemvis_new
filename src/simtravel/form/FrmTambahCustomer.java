@@ -71,6 +71,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         
         System.out.println(data);
         
+        
         initComponents();
         setLocationRelativeTo(null);
         
@@ -92,7 +93,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
                 jRadioButton2.setSelected(true);
             }
             jTextField1.setText(tempatLahir);
-            jDateChooser1.setDate(tglLahir);
+            jDateChooser1.setDate(tglLahir);//setDate(tglLahir);
             jDateChooser1.setEnabled(false);
             jComboBox1.setEnabled(false);
             jTextField3.setText(email);

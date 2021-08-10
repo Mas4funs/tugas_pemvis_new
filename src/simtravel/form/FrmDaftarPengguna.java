@@ -187,8 +187,8 @@ public class FrmDaftarPengguna extends javax.swing.JDialog {
         menuItemRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/hapus-16.png")));
  
         popupMenu.add(menuItemAdd);
-        popupMenu.add(menuItemRemove);
         popupMenu.add(menuItemUpdate);
+        popupMenu.add(menuItemRemove);
         
         menuItemAdd.addActionListener(new ActionListener() {
             @Override

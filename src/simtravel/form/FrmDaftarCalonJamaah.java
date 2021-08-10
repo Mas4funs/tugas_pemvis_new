@@ -204,18 +204,18 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
     
     public JPopupMenu showPopupMenu(){
         popupMenu = new JPopupMenu();
+        menuItemDetail = new JMenuItem("Detail Data");
+        menuItemDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/profile-16.png")));
         menuItemAdd = new JMenuItem("Tambah Data");
         menuItemAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/add_plus-16.png")));
         menuItemUpdate = new JMenuItem("Ubah Data");
         menuItemUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/edit-16.png")));
-        menuItemDetail = new JMenuItem("Detail Data");
-        menuItemDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/profile-16.png")));
         menuItemRemove = new JMenuItem("Hapus Data");
         menuItemRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/hapus-16.png")));
- 
-        popupMenu.add(menuItemAdd);
-        popupMenu.add(menuItemUpdate);
+        
         popupMenu.add(menuItemDetail);
+        popupMenu.add(menuItemAdd);
+        popupMenu.add(menuItemUpdate);  
         popupMenu.add(menuItemRemove);
         
         menuItemAdd.addActionListener(new ActionListener() {
@@ -242,13 +242,22 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 String golDarah = (String) dataTable.getValueAt(i, 9);
                 String foto = (String) dataTable.getValueAt(i, 10);
                 
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date myTanggalLahir = null;
+                try {
+                    myTanggalLahir = df.parse(tglLahir);
+                } catch (ParseException ex) {
+                    Logger.getLogger(FrmDaftarCalonJamaah.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
                 Map data = new HashMap();
                 data.put("action", "edit");
                 data.put("nama", nama);
                 data.put("noKtp", noKtp);
                 data.put("jnsKelamin", jnsKelamin);
                 data.put("tempatLahir", tempatLahir);
-                data.put("tglLahir", tglLahir);
+                data.put("tglLahir", myTanggalLahir);
                 data.put("email", email);
                 data.put("alamat", alamat);
                 data.put("noTelp", noTelp);
@@ -759,10 +768,10 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
                 .addComponent(detailButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tambahBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tambahBtn)
+                .addGap(89, 89, 89)
                 .addComponent(btnHapus)
                 .addContainerGap())
         );
