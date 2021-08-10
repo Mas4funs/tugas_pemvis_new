@@ -67,17 +67,11 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
 
         initComponents();
         setLocationRelativeTo(null);
+        struktur2();
         
-        noPemesananField.setEditable(false);
-        tglPesanan.setEnabled(false);
-        namaLengkapField.setEditable(false);
-        noKTPField.setEditable(false);
-        namaPaketField.setEditable(false);
-        hargaField.setEditable(false);
-        noRegistrasiField.setEditable(false);
-        emailField.setEditable(false);
         
         if(data != null){
+            if(data.get("noPemesanan") != null){
             String noPemesanan = (String) data.get("noPemesanan");
             Date tglPemesanan = (Date) data.get("tglPemesanan");
             String namaPaket = (String) data.get("namaPaket");
@@ -93,8 +87,53 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             
             setDataCustomer(noKTP);
             setDataPaket(namaPaket);
+            struktur3();
+        }else{
+            struktur();
         }
-        today = new Date();        
+        
+        today = new Date();       
+        }
+    }
+    
+    public void struktur(){
+        tglPesanan.setEnabled(false);
+        noRegistrasiField.setEnabled(false);
+        emailField.setEnabled(false);
+        namaLengkapField.setEnabled(false);
+        noKTPField.setEnabled(false);
+        namaPaketField.setEnabled(false);
+        hargaField.setEnabled(false);
+        tglBerangkat.setEnabled(false);
+        tglPulang.setEnabled(false);
+        pimpinanRombonganCB.setEnabled(false);
+        pimpinanRombonganCB.setSelectedIndex(-1);
+        btnSimpan.setEnabled(false);
+    }
+    
+    public void struktur2(){
+        noPemesananField.setEditable(false);
+        tglPesanan.setEnabled(false);
+        namaLengkapField.setEditable(false);
+        noKTPField.setEditable(false);
+        namaPaketField.setEditable(false);
+        hargaField.setEditable(false);
+        noRegistrasiField.setEditable(false);
+        emailField.setEditable(false);
+    }
+    
+    public void struktur3(){
+        tglPesanan.setEnabled(false);
+        noRegistrasiField.setEnabled(false);
+        emailField.setEnabled(true);
+        namaLengkapField.setEnabled(true);
+        noKTPField.setEnabled(true);
+        namaPaketField.setEnabled(true);;
+        hargaField.setEnabled(true);
+        tglBerangkat.setEnabled(true);
+        tglPulang.setEnabled(true);
+        pimpinanRombonganCB.setSelectedIndex(-1);
+        btnSimpan.setEnabled(false);
     }
     
     public boolean validasiTambah(){
@@ -241,6 +280,13 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -279,11 +325,51 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
 
         jLabel5.setText("Tanggal Berangkat   ");
 
+        tglBerangkat.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                tglBerangkatComponentAdded(evt);
+            }
+        });
+        tglBerangkat.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tglBerangkatAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        tglBerangkat.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tglBerangkatFocusGained(evt);
+            }
+        });
+        tglBerangkat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tglBerangkatMouseClicked(evt);
+            }
+        });
+        tglBerangkat.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tglBerangkatPropertyChange(evt);
+            }
+        });
+        tglBerangkat.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tglBerangkatKeyPressed(evt);
+            }
+        });
+
         jLabel6.setText("Tanggal Pulang ");
 
         jLabel7.setText("Pimpinan Rombongan   ");
 
         pimpinanRombonganCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ust A", "Ust B", "Ust C" }));
+        pimpinanRombonganCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pimpinanRombonganCBActionPerformed(evt);
+            }
+        });
 
         noPemesananField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -472,6 +558,12 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
 
         if(validasiUpdate()){
+   
+          if(tglBerangkat.getDate()== null){
+                JOptionPane.showMessageDialog(null, "Tgl Berangkat tidak boleh kosong", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+          }else if(tglPulang.getDate()== null){
+                JOptionPane.showMessageDialog(null, "Tgl Pulang tidak boleh kosong", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+          }else{
             int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
             if(pilih == JOptionPane.OK_OPTION){
                 updateRecord();
@@ -479,6 +571,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
                 sentNotification();     
             } 
         }
+       }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
@@ -498,6 +591,42 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
     private void noPemesananFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noPemesananFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_noPemesananFieldActionPerformed
+
+    private void tglBerangkatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tglBerangkatKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tglBerangkatKeyPressed
+
+    private void tglBerangkatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tglBerangkatMouseClicked
+      
+    }//GEN-LAST:event_tglBerangkatMouseClicked
+
+    private void tglBerangkatPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tglBerangkatPropertyChange
+      
+    }//GEN-LAST:event_tglBerangkatPropertyChange
+
+    private void tglBerangkatComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tglBerangkatComponentAdded
+
+    }//GEN-LAST:event_tglBerangkatComponentAdded
+
+    private void tglBerangkatAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tglBerangkatAncestorAdded
+
+    }//GEN-LAST:event_tglBerangkatAncestorAdded
+
+    private void pimpinanRombonganCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pimpinanRombonganCBActionPerformed
+        if("".equals(pimpinanRombonganCB.getSelectedItem())){
+            btnSimpan.setEnabled(false);
+        }else{
+            btnSimpan.setEnabled(true);
+        }
+    }//GEN-LAST:event_pimpinanRombonganCBActionPerformed
+
+    private void tglBerangkatFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tglBerangkatFocusGained
+
+    }//GEN-LAST:event_tglBerangkatFocusGained
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+
+    }//GEN-LAST:event_formWindowGainedFocus
 
     /**
      * @param args the command line arguments

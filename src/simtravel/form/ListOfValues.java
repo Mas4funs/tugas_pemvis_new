@@ -64,6 +64,11 @@ public class ListOfValues extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("List Of Values");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -90,6 +95,11 @@ public class ListOfValues extends javax.swing.JDialog {
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/cari-16.png"))); // NOI18N
         jButton2.setText("Cari");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,8 +138,10 @@ public class ListOfValues extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
+
         int i = dataTable.getSelectedRow();
+        
+         if(i >= 0){  
         String noPemesanan = (String)dataTable.getValueAt(i, 0);
         
         Date tglPemesanan = null;
@@ -149,11 +161,62 @@ public class ListOfValues extends javax.swing.JDialog {
         data.put("Nama", noKTP);
         data.put("namaPaket", namaPaket);
         data.put("tipePemesanan", tipePemesanan);
-        
+        dispose();
         System.out.println(data);
-        
         new FrmStatusPembayaran(null, true, data).setVisible(true);
+        
+        }else{
+             JOptionPane.showMessageDialog(null, "Anda belum memilih", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            String cancel = "cancel";
+            Map data = new HashMap();
+            data.put("Cancel",cancel);
+            new FrmStatusPembayaran(null, true, data).setVisible(true);
+         }
+         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int i = dataTable.getSelectedRow();
+        
+         if(i >= 0){  
+        String noPemesanan = (String)dataTable.getValueAt(i, 0);
+        
+        Date tglPemesanan = null;
+        try {
+            tglPemesanan = new SimpleDateFormat("yyyy-MM-dd").parse((String)dataTable.getValueAt(i, 1));
+        } catch (ParseException ex) {
+            Logger.getLogger(ListOfValues.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String noKTP = (String)dataTable.getValueAt(i, 2);
+        String namaPaket = (String)dataTable.getValueAt(i, 3);
+        String tipePemesanan = (String)dataTable.getValueAt(i, 4);
+        
+        Map data = new HashMap();
+        data.put("noPemesanan", noPemesanan);
+        data.put("tglPemesanan", tglPemesanan);
+        data.put("noKTP", noKTP);
+        data.put("Nama", noKTP);
+        data.put("namaPaket", namaPaket);
+        data.put("tipePemesanan", tipePemesanan);
+        dispose();
+        System.out.println(data);
+        new FrmStatusPembayaran(null, true, data).setVisible(true);
+        
+        }else{
+             JOptionPane.showMessageDialog(null, "Anda belum memilih", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            String cancel = "cancel";
+            Map data = new HashMap();
+            data.put("Cancel",cancel);
+            new FrmStatusPembayaran(null, true, data).setVisible(true);
+         }
+         dispose();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void showTable(Map data){
         String kataKunci = "";
