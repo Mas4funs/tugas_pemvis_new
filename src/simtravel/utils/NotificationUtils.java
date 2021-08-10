@@ -69,7 +69,7 @@ public class NotificationUtils {
             MimeBodyPart textPart = new MimeBodyPart();
 
             try {
-File f =new File("E:/tmp/wew.txt");
+            File f =new File("C:/tmp/rpt_invoice_pemesanan.pdf");
 
                 attachmentPart.attachFile(f);
 
@@ -144,7 +144,7 @@ File f =new File("E:/tmp/wew.txt");
 
             try {
 
-               File f =new File("E:/tmp/wew.txt");
+               File f =new File("C:/tmp/rpt_invoice_pemesanan.pdf");
 
                 attachmentPart.attachFile(f);
                 

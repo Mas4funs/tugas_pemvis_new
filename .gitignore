@@ -1,2 +1,3 @@
 src/simtravel/lib
 build
+/dist/

@@ -274,7 +274,7 @@ public class FrmDaftarPengguna extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("D:/tmp/");
+        File dir = new File("C:/tmp/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -307,7 +307,7 @@ public class FrmDaftarPengguna extends javax.swing.JDialog {
     }
     
     public void generateExcel(){
-        File dir = new File("D:/tmp/");
+        File dir = new File("C:/tmp/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -398,7 +398,7 @@ public class FrmDaftarPengguna extends javax.swing.JDialog {
     }
     
     public void generateWord() throws FileNotFoundException, IOException{
-        File dir = new File("D:/tmp/");
+        File dir = new File("C:/tmp/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();

@@ -187,7 +187,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         return true;
     }
     
-        public boolean validasiUpdate(){
+    public boolean validasiUpdate(){
         if(kodeField.getText() == null || kodeField.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null, "ID Pengguna tidak boleh kosong", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
@@ -226,20 +226,17 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_customer SET no_ktp = ? WHERE nama = ? and tempat_lahir = ? and alamat = ? and no_telp = ? and email = ? and foto = ?";
+        String sql = "UPDATE tbl_customer SET nama = ?, tempat_lahir = ?, alamat = ?, no_telp = ?, email = ?, foto = ? WHERE no_ktp = ?";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
-            ps.setString(2, kodeField.getText());
-           //ps.setString(3, jRadioButton1.isSelected()?"L":"P");
-           // ps.setDate(4, new java.sql.Date(jDateChooser1.getDate().getTime()));
-           //ps.setString(5, jComboBox1.getSelectedItem().toString());
-            ps.setString(3, jTextField1.getText());
-            ps.setString(4, jTextArea1.getText());
-            ps.setString(5, jTextField2.getText());
-            ps.setString(6, jTextField3.getText());
-            ps.setString(7, fileName);
+            ps.setString(2, jTextField1.getText());
+            ps.setString(3, jTextArea1.getText());
+            ps.setString(4, jTextField2.getText());
+            ps.setString(5, jTextField3.getText());
+            ps.setString(6, fileName);
+            ps.setString(7, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -550,6 +547,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        System.out.println("action == "+action);
         if(action.equals("tambah")){
             if(validasiTambah()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
@@ -562,7 +560,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         }else if(action.equals("detail")){
             printDetailJamaah();
         }else{
+            System.out.println("Masuk Edit");
             if(validasiUpdate()){
+                System.out.println("Masuk Edit 123");
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
                     updateRecord();
