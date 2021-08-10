@@ -192,9 +192,9 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         menuItemRemove = new JMenuItem("Hapus Data");
         menuItemRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/hapus-16.png")));
  
-        popupMenu.add(menuItemAdd);
-        popupMenu.add(menuItemRemove);
-        popupMenu.add(menuItemUpdate);
+        //popupMenu.add(menuItemAdd);
+        //popupMenu.add(menuItemRemove);
+        //popupMenu.add(menuItemUpdate);
         
         menuItemAdd.addActionListener(new ActionListener() {
             @Override
@@ -542,6 +542,11 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -623,6 +628,11 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
 
         exportPdf.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Adobe_Reader_PDF.png"))); // NOI18N
         exportPdf.setText("Unduh PDF");
+        exportPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportPdfActionPerformed(evt);
+            }
+        });
 
         exportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Excel.png"))); // NOI18N
         exportExcel.setText("Unduh Excel");
@@ -642,6 +652,11 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/profile-16.png"))); // NOI18N
         jButton4.setText("Detail Pesanan");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -775,6 +790,18 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
     private void exportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportExcelActionPerformed
         generateExcel();
     }//GEN-LAST:event_exportExcelActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void exportPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPdfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exportPdfActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        dataTable.setDefaultEditor(Object.class, null);
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
