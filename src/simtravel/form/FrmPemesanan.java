@@ -530,7 +530,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         });
 
         printInvoice.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/printer-16.png"))); // NOI18N
-        printInvoice.setText("Cetak Invoice");
+        printInvoice.setText("Cetak Faktur");
         printInvoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printInvoiceActionPerformed(evt);

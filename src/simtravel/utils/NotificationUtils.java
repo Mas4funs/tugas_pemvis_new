@@ -69,7 +69,7 @@ public class NotificationUtils {
             MimeBodyPart textPart = new MimeBodyPart();
 
             try {
-File f =new File("D:/tmp/test_photo.PNG");
+File f =new File("E:/tmp/wew.txt");
 
                 attachmentPart.attachFile(f);
 
@@ -144,9 +144,9 @@ File f =new File("D:/tmp/test_photo.PNG");
 
             try {
 
-                //File f =new File("E:/tmp/test_photo.PNG");
+               File f =new File("E:/tmp/wew.txt");
 
-                attachmentPart.attachFile((File) data.get("attachment"));
+                attachmentPart.attachFile(f);
                 
                 StringBuffer sb = new StringBuffer();
                 sb.append("Dear All, terlampir data-data pesanan Anda\n");
@@ -186,7 +186,7 @@ File f =new File("D:/tmp/test_photo.PNG");
         NotificationUtils utils = new NotificationUtils();
         
         Map data = new HashMap();
-        data.put("to", "nursalim.me@gmail.com");
+        data.put("to", "virgan1st@gmail.com");
         data.put("noPemesanan", "P210720RW1Y");
         data.put("tglPemesanan", "20/07/2021");
         data.put("nama", "Nursalim");
@@ -194,6 +194,7 @@ File f =new File("D:/tmp/test_photo.PNG");
         data.put("statusPembayaran", "Lunas");
         data.put("namaPaket", "Paket Umrah 1");
         
-        utils.sentEmailPemesanan(data);
+        //utils.sentEmailPemesanan(data);
+        utils.sentEmailUpdatePembayaran(data);
     }
 }

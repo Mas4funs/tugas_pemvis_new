@@ -25,6 +25,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import simtravel.utils.EncryptionUtils;
 
+
+
 /**
  *
  * @author Febri Nahdatun
@@ -94,17 +96,18 @@ public class FrmLogin extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/user-32.png"))); // NOI18N
-        jLabel1.setText("User ID ");
+        jLabel1.setText("ID Pengguna");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/keychain-32.png"))); // NOI18N
-        jLabel2.setText("Password ");
+        jLabel2.setText("Sandi");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 2, 10)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 51, 0));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Info.png"))); // NOI18N
         jLabel3.setText("Silakan Login Menggunakan User ID Anda");
 
-        showPasswordCB.setText("Show Password");
+        showPasswordCB.setText("Lihatkan Sandi");
+        showPasswordCB.setOpaque(false);
         showPasswordCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showPasswordCBActionPerformed(evt);
@@ -118,12 +121,12 @@ public class FrmLogin extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(showPasswordCB)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -152,7 +155,7 @@ public class FrmLogin extends javax.swing.JDialog {
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {passwordField, userIdField});
 
         loginBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Unlock.png"))); // NOI18N
-        loginBtn.setText("Login");
+        loginBtn.setText("Masuk");
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);

@@ -608,7 +608,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
 
         jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel4.setText("Export ");
+        jLabel4.setText("Laporan");
 
         tambahBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/add_plus-16.png"))); // NOI18N
         tambahBtn.setText("Tambah");
@@ -619,7 +619,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         });
 
         btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/edit-16.png"))); // NOI18N
-        btnEdit.setText("Edit");
+        btnEdit.setText("Ubah");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);

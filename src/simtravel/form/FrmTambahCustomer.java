@@ -382,7 +382,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         jLabel10.setText("Email ");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Open-Folder-Add-icon-16.png"))); // NOI18N
-        jButton2.setText(" Browse...");
+        jButton2.setText(" Pilih...");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);

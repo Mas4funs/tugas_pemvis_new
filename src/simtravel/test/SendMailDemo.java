@@ -26,7 +26,7 @@ import javax.mail.internet.MimeMultipart;
 public class SendMailDemo {
     public static void main(String[] args){
         // Recipient's email ID needs to be mentioned.
-        String to = "nursalim.me@gmail.com";
+        String to = "virgan1st@gmail.com";
 
         // Sender's email ID needs to be mentioned
         String from = "klp2pemvis@gmail.com";
@@ -76,18 +76,18 @@ public class SendMailDemo {
 
             try {
 
-                File f =new File("D:/tmp/test_photo.PNG");
+                File f =new File("E:/tmp/wew.txt");
 
                 attachmentPart.attachFile(f);
                 
                 StringBuffer sb = new StringBuffer();
                 sb.append("Dear All, terlampir data-data pesanan Anda\n");
-                sb.append("Nama : \n");
-                sb.append("No. KTP : \n");
-                sb.append("No. Pemesanan : \n");
-                sb.append("Tgl. Pemesanan : \n");
-                sb.append("Status Pembayaran : \n");
-                sb.append("Nama Paket : \n");
+                sb.append("Nama \t\t\t\t : \n");
+                sb.append("No. KTP \t\t\t: \n");
+                sb.append("No. Pemesanan  \t\t  : \n");
+                sb.append("Tgl. Pemesanan  \t   : \n");
+                sb.append("Status Pembayaran \t : \n");
+                sb.append("Nama Paket  \t\t      : \n");
 
                 textPart.setText(sb.toString());
                 multipart.addBodyPart(textPart);

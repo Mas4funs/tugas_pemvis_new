@@ -250,7 +250,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Export "/>
+            <Property name="text" type="java.lang.String" value="Laporan"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="tambahBtn">
@@ -269,7 +269,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/simtravel/image/edit-16.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Edit"/>
+            <Property name="text" type="java.lang.String" value="Ubah"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditActionPerformed"/>
@@ -321,7 +321,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/simtravel/image/profile-16.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Lihat Detail "/>
+            <Property name="text" type="java.lang.String" value="Lihat Detail"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="detailButtonActionPerformed"/>

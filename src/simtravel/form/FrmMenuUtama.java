@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package simtravel.form;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import simtravel.utils.DateUtils;
 import it.businesslogic.ireport.chart.PieChart;
 import java.awt.Color;
@@ -36,6 +40,37 @@ import org.jfree.data.general.PieDataset;
 import org.jfree.ui.RefineryUtilities;
 import simtravel.test.ChartDialog;
 import simtravel.utils.DBUtils;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import javax.swing.ImageIcon;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.jdbc.JDBCCategoryDataset;
+import javax.swing.UIManager;
+import java.util.Calendar;
+import java.util.Date;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -72,7 +107,9 @@ public class FrmMenuUtama extends javax.swing.JDialog {
 //        labelWelcome = new MarqueeLabel(labelWelcome.getText(), MarqueeLabel.RIGHT_TO_LEFT, 20);
         
         setDashboard();
+        setGrafik();
 //        randomColorJamaahDashboard();
+
     }
     
     
@@ -139,6 +176,43 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         totalJamaahLabel.setText(new DBUtils().getTotalJamaah());
         totalPemesananLabel.setText(new DBUtils().getTotalPemesanan());
     }
+    
+    public void setGrafik(){
+try 
+	{
+	UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+	String query = "SELECT distinct(LEFT(MONTHNAME(tgl_pemesanan), 3)) as Months, COUNT(tgl_pemesanan) as Pemesanan FROM tbl_pemesanan where YEAR(tgl_pemesanan) = YEAR(CURDATE()) GROUP BY Months ORDER BY tgl_pemesanan";
+	JDBCCategoryDataset data = new JDBCCategoryDataset("jdbc:mysql://localhost:3306/db_travel","com.mysql.jdbc.Driver","root","");
+	data.executeQuery(query);
+        
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(date);
+        int dateYear = calendar.get(Calendar.YEAR);
+	JFreeChart chart = ChartFactory.createLineChart("Trafik Pemesanan "+dateYear+"","", "", data,PlotOrientation.VERTICAL,true, true, false);
+	ChartPanel cPanel = new ChartPanel(chart);
+        //cPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        cPanel.setBackground(new Color(153,153,255));
+        add(cPanel);
+        
+        CategoryPlot cplot = (CategoryPlot)chart.getPlot();
+        cplot.setBackgroundPaint(new Color(153,153,255));
+        cplot.setRangeGridlinesVisible(true);
+        cplot.setRangeGridlinePaint(Color.BLACK);
+
+        cplot.setDomainGridlinesVisible(true);
+        cplot.setDomainGridlinePaint(Color.BLACK);
+
+    panelChart.removeAll();
+    panelChart.add(cPanel,BorderLayout.CENTER);
+    panelChart.validate();
+					//frame.setContentPane(cPanel);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}//wew
+}
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -149,6 +223,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         backgroundPanel1 = new simtravel.form.BackgroundPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -163,7 +238,6 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jLabel20 = new javax.swing.JLabel();
         labelWelcome = new javax.swing.JLabel();
         jamDigital = new javax.swing.JLabel();
-        jSeparator2 = new javax.swing.JSeparator();
         ubahPasswordLabel = new javax.swing.JLabel();
         logoutLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -182,6 +256,9 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jPanel7 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        panelChart = new javax.swing.JPanel();
+        labelWelcome1 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         kategoriMenu = new javax.swing.JMenuItem();
@@ -202,20 +279,32 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
 
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
-        jLabel1.setBackground(new java.awt.Color(153, 153, 255));
+        jLabel1.setBackground(new java.awt.Color(102, 102, 255));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(51, 51, 255));
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/Apps-menu-editor-icon.png"))); // NOI18N
         jLabel1.setText("Menu Favorit");
         jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLabel1.setOpaque(true);
 
         candidatPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         candidatPanel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -226,7 +315,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Registrasi Calon Jamaah");
+        jLabel4.setText("Pendaftaran Calon Jamaah");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/registration_icon_32.png"))); // NOI18N
@@ -257,7 +346,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("Input Pemesanan");
+        jLabel6.setText("Masukkan Pemesanan");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/shopping-cart.png"))); // NOI18N
@@ -314,7 +403,6 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,11 +412,12 @@ public class FrmMenuUtama extends javax.swing.JDialog {
                     .addComponent(pesertaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(salaryCreditingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(candidatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -338,26 +427,26 @@ public class FrmMenuUtama extends javax.swing.JDialog {
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        labelWelcome.setForeground(new java.awt.Color(255, 255, 255));
-        labelWelcome.setText("Selamat Datang, ");
+        labelWelcome.setForeground(new java.awt.Color(255, 153, 0));
+        labelWelcome.setText("  ");
 
-        jamDigital.setForeground(new java.awt.Color(255, 255, 255));
+        jamDigital.setForeground(new java.awt.Color(255, 255, 102));
         jamDigital.setText("Rabu, 10 Desember 1983 10:10:10");
 
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        ubahPasswordLabel.setForeground(new java.awt.Color(255, 255, 255));
+        ubahPasswordLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ubahPasswordLabel.setForeground(new java.awt.Color(255, 255, 153));
         ubahPasswordLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/change-password-icon-16.png"))); // NOI18N
-        ubahPasswordLabel.setText("Ubah Password");
+        ubahPasswordLabel.setText("Ubah Sandi");
         ubahPasswordLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 ubahPasswordLabelMouseClicked(evt);
             }
         });
 
-        logoutLabel.setForeground(new java.awt.Color(255, 255, 255));
+        logoutLabel.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        logoutLabel.setForeground(new java.awt.Color(255, 0, 0));
         logoutLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/App-shutdown-icon-16.png"))); // NOI18N
-        logoutLabel.setText("Logout");
+        logoutLabel.setText("Keluar");
         logoutLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logoutLabelMouseClicked(evt);
@@ -365,7 +454,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         });
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
 
         jPanel4.setBackground(new java.awt.Color(102, 102, 255));
 
@@ -522,7 +611,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(153, 51, 255));
@@ -553,56 +642,82 @@ public class FrmMenuUtama extends javax.swing.JDialog {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+        panelChart.setBackground(new java.awt.Color(153, 153, 255));
+        panelChart.setLayout(new java.awt.BorderLayout());
+
+        labelWelcome1.setForeground(new java.awt.Color(0, 255, 51));
+        labelWelcome1.setText("Selamat Datang,  ");
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("|");
+
         javax.swing.GroupLayout backgroundPanel1Layout = new javax.swing.GroupLayout(backgroundPanel1);
         backgroundPanel1.setLayout(backgroundPanel1Layout);
         backgroundPanel1Layout.setHorizontalGroup(
             backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 956, Short.MAX_VALUE)
+            .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                .addGap(370, 370, 370)
+                .addComponent(panelChart, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                        .addComponent(labelWelcome1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                        .addComponent(jamDigital)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(496, 496, 496)
+                .addComponent(ubahPasswordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logoutLabel)
+                .addGap(114, 114, 114))
             .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(backgroundPanel1Layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                            .addGap(37, 37, 37)
                             .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jamDigital))
-                            .addGap(112, 112, 112)
-                            .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundPanel1Layout.createSequentialGroup()
-                                    .addComponent(ubahPasswordLabel)
-                                    .addGap(10, 10, 10)
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(logoutLabel))))
+                                .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                                    .addGap(37, 37, 37)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                                    .addGap(135, 135, 135)
+                                    .addComponent(labelWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(41, 41, 41)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap()))
         );
         backgroundPanel1Layout.setVerticalGroup(
             backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 523, Short.MAX_VALUE)
+            .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(logoutLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ubahPasswordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8))
+                    .addGroup(backgroundPanel1Layout.createSequentialGroup()
+                        .addComponent(labelWelcome1)
+                        .addGap(8, 8, 8)
+                        .addComponent(jamDigital)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 187, Short.MAX_VALUE)
+                .addComponent(panelChart, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
             .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(backgroundPanel1Layout.createSequentialGroup()
                     .addContainerGap()
+                    .addComponent(labelWelcome)
+                    .addGap(28, 28, 28)
                     .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                            .addComponent(labelWelcome)
-                            .addGap(8, 8, 8)
-                            .addComponent(jamDigital))
-                        .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                            .addGap(9, 9, 9)
-                            .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ubahPasswordLabel)
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(logoutLabel))))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap()))
         );
@@ -670,7 +785,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         penjualanMenu.setText("Transaksi");
 
         kandidatMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/shopping-cart-24.png"))); // NOI18N
-        kandidatMenu.setText("Input Pemesanan");
+        kandidatMenu.setText("Masukkan Pemesanan");
         kandidatMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 kandidatMenuActionPerformed(evt);
@@ -679,7 +794,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         penjualanMenu.add(kandidatMenu);
 
         jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/credit-card-24.png"))); // NOI18N
-        jMenuItem3.setText("Update Status Pembayaran");
+        jMenuItem3.setText("Ubah Status Pembayaran");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -723,7 +838,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jMenu5.setText("Bantuan");
 
         menuAbout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/computer-24.png"))); // NOI18N
-        menuAbout.setText("About");
+        menuAbout.setText("Tentang");
         menuAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAboutActionPerformed(evt);
@@ -741,7 +856,7 @@ public class FrmMenuUtama extends javax.swing.JDialog {
         jMenu5.add(jMenuItem8);
 
         jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/google-docs-24.png"))); // NOI18N
-        jMenuItem5.setText("Download Laporan KKP");
+        jMenuItem5.setText("Unduh Laporan KKP");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -839,14 +954,16 @@ public class FrmMenuUtama extends javax.swing.JDialog {
     }//GEN-LAST:event_salaryCreditingPanelMouseClicked
 
     private void dashboardPenerimaBeasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardPenerimaBeasiswaActionPerformed
-try {
+
+        new FrmLaporanCalonJamaah(null, true).setVisible(true);
+        /*try {
             ChartDialog chartDialog = new ChartDialog(null, true);
             chartDialog.setVisible(true);
                     } catch (ClassNotFoundException ex) {
             Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }//GEN-LAST:event_dashboardPenerimaBeasiswaActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -894,8 +1011,11 @@ try {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         setDashboard();
+        setGrafik();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -929,6 +1049,8 @@ try {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+               
+            
                 FrmMenuUtama dialog = new FrmMenuUtama(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
@@ -937,9 +1059,7 @@ try {
                     }
                 });
                 dialog.setVisible(true);
-                
-                
-                
+
                 
             }
         });
@@ -951,6 +1071,7 @@ try {
     private javax.swing.JPanel candidatPanel;
     private javax.swing.JMenuItem dashboardPenerimaBeasiswa;
     private javax.swing.JButton jButton1;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -964,6 +1085,7 @@ try {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu5;
@@ -982,13 +1104,14 @@ try {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel jamDigital;
     private javax.swing.JMenuItem kandidatMenu;
     private javax.swing.JMenuItem kategoriMenu;
     private javax.swing.JLabel labelWelcome;
+    private javax.swing.JLabel labelWelcome1;
     private javax.swing.JLabel logoutLabel;
     private javax.swing.JMenuItem menuAbout;
+    private javax.swing.JPanel panelChart;
     private javax.swing.JMenuItem penggunaMenu;
     private javax.swing.JMenu penjualanMenu;
     private javax.swing.JPanel pesertaPanel;
