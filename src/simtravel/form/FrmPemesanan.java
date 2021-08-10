@@ -682,12 +682,16 @@ public class FrmPemesanan extends javax.swing.JDialog {
 
     private void paketCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paketCBActionPerformed
         if(("Pilih Paket Haji".equals(paketCB.getSelectedItem())) || ("Pilih Paket Umrah".equals(paketCB.getSelectedItem()))){
+           if("".equals(hargaField.getText())){
+               btnSimpan.setEnabled(false);
+           }
             hargaField.setEnabled(false);
             jnsPembayaranCB.setEnabled(false);
             printInvoice.setEnabled(false);
             btnSimpan.setEnabled(false);
             uangDPField.setEnabled(false);
             lamaAngsuranCB.setEnabled(false);
+            jnsPembayaranCB.setSelectedIndex(0);
             lamaAngsuranCB.setSelectedIndex(0);
 
         }else{
@@ -704,9 +708,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
                     printInvoice.setEnabled(false);
                btnSimpan.setEnabled(false);
 
-           }else{
-           btnSimpan.setEnabled(true);
-            }
+           }
            }
             
         }
@@ -717,10 +719,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
                 if("".equals(hargaField.getText())){
                     printInvoice.setEnabled(false);
                btnSimpan.setEnabled(false);
-               jnsPembayaranCB.setSelectedIndex(0);
-           }else{
-           btnSimpan.setEnabled(true);
-            }
+           }
             }
         }
     }//GEN-LAST:event_paketCBActionPerformed
@@ -776,6 +775,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             btnTableAngsuran.setEnabled(false);
             printInvoice.setEnabled(false);
             btnSimpan.setEnabled(true);
+            jLabel9.setEnabled(false);
             
             uangDPField.setText("");
             lamaAngsuranCB.setSelectedIndex(0);
@@ -790,6 +790,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             uangDPField.setText("0");
             printInvoice.setEnabled(false);
             btnSimpan.setEnabled(false);
+            jLabel9.setEnabled(true);
         }
     }//GEN-LAST:event_jnsPembayaranCBActionPerformed
 
@@ -880,7 +881,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         btnTableAngsuran.setEnabled(false);
         printInvoice.setEnabled(false);
         btnSimpan.setEnabled(false);
-        
+        jLabel9.setEnabled(false);
         
     }
     
@@ -892,6 +893,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         hargaField.setEditable(false);
         emailField.setEditable(false);
         cicilanPerBulanField.setEditable(false);
+        jLabel9.setEnabled(false);
     }
     
     public void struktur3(){
@@ -905,6 +907,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         btnTableAngsuran.setEnabled(false);
         printInvoice.setEnabled(false);
         btnSimpan.setEnabled(false);
+        jLabel9.setEnabled(false);
     }
     /**
      * @param args the command line arguments
