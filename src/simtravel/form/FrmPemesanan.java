@@ -61,17 +61,10 @@ public class FrmPemesanan extends javax.swing.JDialog {
         con = new DBUtils().getKoneksi();
         userId = ""; //(String) data.get("userId");
         action = "tambah"; //(String) data.get("action");
-
         initComponents();
         setLocationRelativeTo(null);
-        kodeField.setEditable(false);
-        tglPesananField.setEnabled(false);
-        noKTPField.setEditable(false);
-        namaLengkapField.setEditable(false);
-        hargaField.setEditable(false);
-        emailField.setEditable(false);
-        printInvoice.setEnabled(false);
-        cicilanPerBulanField.setEditable(false);
+        struktur2();
+
         if(data != null){
             
             if(data.get("noKTP") != null){
@@ -81,7 +74,9 @@ public class FrmPemesanan extends javax.swing.JDialog {
                 kodeField.setText(new RegexUtils().generateNoPemesanan());
                 tglPesananField.setDate(new Date());
                 emailField.setText(data.get("email").toString());
-                
+                struktur3();
+            }else{
+                struktur();
             }
             
         }
@@ -343,7 +338,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
 
         jLabel5.setText("Paket  ");
 
-        jnsPembayaranCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kredit", "Tunai" }));
+        jnsPembayaranCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "Kredit" }));
         jnsPembayaranCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jnsPembayaranCBActionPerformed(evt);
@@ -356,6 +351,17 @@ public class FrmPemesanan extends javax.swing.JDialog {
 
         jLabel6.setText("Uang DP ");
 
+        uangDPField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                uangDPFieldFocusGained(evt);
+            }
+        });
+        uangDPField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                uangDPFieldPropertyChange(evt);
+            }
+        });
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/cari-16.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -363,6 +369,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             }
         });
 
+        paketCB.setToolTipText("");
         paketCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paketCBActionPerformed(evt);
@@ -623,11 +630,13 @@ public class FrmPemesanan extends javax.swing.JDialog {
         rbHaji.setSelected(true);
         rbUmrah.setSelected(false);
         displayPaketHaji();
+        paketCB.setEnabled(true);
     }//GEN-LAST:event_rbHajiActionPerformed
 
     private void rbUmrahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbUmrahActionPerformed
         rbHaji.setSelected(false);
         rbUmrah.setSelected(true);
+        paketCB.setEnabled(true);
         try {
             displayPaketUmrah();
         } catch (SQLException ex) {
@@ -636,6 +645,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
     }//GEN-LAST:event_rbUmrahActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         dispose();
         
         String sql = "SELECT * FROM tbl_customer";
@@ -646,6 +656,14 @@ public class FrmPemesanan extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void paketCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paketCBActionPerformed
+        if(("Pilih Paket Haji".equals(paketCB.getSelectedItem())) || ("Pilih Paket Umroh".equals(paketCB.getSelectedItem()))){
+            hargaField.setEnabled(false);
+            jnsPembayaranCB.setEnabled(false); 
+        }else{
+           hargaField.setEnabled(true); 
+           jnsPembayaranCB.setEnabled(true); 
+        }
+        
         if(rbHaji.isSelected()){
             if(paketCB.getSelectedItem() != null){
                 displayDataPaketHaji(paketCB.getSelectedItem().toString());
@@ -655,7 +673,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         
         if(rbUmrah.isSelected()){
             if(paketCB.getSelectedItem() != null){
-                displayDataPaketUmrah(paketCB.getSelectedItem().toString());
+                displayDataPaketUmrah(paketCB.getSelectedItem().toString());;
             }
         }
     }//GEN-LAST:event_paketCBActionPerformed
@@ -696,18 +714,33 @@ public class FrmPemesanan extends javax.swing.JDialog {
     private void jnsPembayaranCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnsPembayaranCBActionPerformed
         if(jnsPembayaranCB.getSelectedItem().equals("Tunai")){
             uangDPField.setEnabled(false);
-            lamaAngsuranCB.setEnabled(false);
             cicilanPerBulanField.setEnabled(false);
             btnHitung.setEnabled(false);
             btnTableAngsuran.setEnabled(false);
+            btnSimpan.setEnabled(false);
+            uangDPField.setText("");
+            lamaAngsuranCB.setSelectedItem(0);
+            lamaAngsuranCB.setSelectedIndex(0);
+            cicilanPerBulanField.setText("");
+            lamaAngsuranCB.setEnabled(false);
         }else{
             uangDPField.setEnabled(true);
             lamaAngsuranCB.setEnabled(true);
-            cicilanPerBulanField.setEnabled(true);
+            cicilanPerBulanField.setEnabled(false);
             btnHitung.setEnabled(true);
-            btnTableAngsuran.setEnabled(true);
+            btnTableAngsuran.setEnabled(false);
+            uangDPField.setText("0");
+            btnSimpan.setEnabled(false);
         }
     }//GEN-LAST:event_jnsPembayaranCBActionPerformed
+
+    private void uangDPFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_uangDPFieldFocusGained
+        
+    }//GEN-LAST:event_uangDPFieldFocusGained
+
+    private void uangDPFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_uangDPFieldPropertyChange
+        
+    }//GEN-LAST:event_uangDPFieldPropertyChange
 
     public void calculateAngsuran(){
         BigDecimal hargaPaket = new BigDecimal(new CurrencyUtils().unFormatRupiah(hargaField.getText()));
@@ -737,10 +770,53 @@ public class FrmPemesanan extends javax.swing.JDialog {
         System.out.println("Cicilan Perbulan : "+cicilanPerBulan);
         
         cicilanPerBulanField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(cicilanPerBulan.toString())));
+ 
+    }
+    
+    public void struktur(){
+        
+        noKTPField.setEnabled(false);
+        tglPesananField.setEnabled(false);
+        namaLengkapField.setEnabled(false);
+        emailField.setEnabled(false);
+        rbHaji.setEnabled(false);
+        rbUmrah.setEnabled(false);
+        paketCB.setEnabled(false);
+        hargaField.setEnabled(false);
+        jnsPembayaranCB.setEnabled(false);
+        uangDPField.setEnabled(false);
+        lamaAngsuranCB.setEnabled(false);
+        cicilanPerBulanField.setEnabled(false);
+        btnHitung.setEnabled(false);
+        btnTableAngsuran.setEnabled(false);
+        printInvoice.setEnabled(false);
+        btnSimpan.setEnabled(false);
         
         
     }
     
+    public void struktur2(){
+        kodeField.setEditable(false);
+        noKTPField.setEditable(false);
+        tglPesananField.setEnabled(false);
+        namaLengkapField.setEditable(false);
+        hargaField.setEditable(false);
+        emailField.setEditable(false);
+        cicilanPerBulanField.setEditable(false);
+    }
+    
+    public void struktur3(){
+        paketCB.setEnabled(false);
+        hargaField.setEnabled(false);
+        jnsPembayaranCB.setEnabled(false);
+        uangDPField.setEnabled(false);
+        lamaAngsuranCB.setEnabled(false);
+        cicilanPerBulanField.setEnabled(false);
+        btnHitung.setEnabled(false);
+        btnTableAngsuran.setEnabled(false);
+        printInvoice.setEnabled(false);
+        btnSimpan.setEnabled(false);
+    }
     /**
      * @param args the command line arguments
      */
@@ -772,6 +848,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 FrmPemesanan dialog = new FrmPemesanan(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override

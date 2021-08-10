@@ -64,6 +64,11 @@ public class ListOfValuesCustomer extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("List Of Values");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,6 +161,36 @@ public class ListOfValuesCustomer extends javax.swing.JDialog {
         }
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int i = dataTable.getSelectedRow();
+        
+        if(i >= 0){  
+            String noKTP = (String)dataTable.getValueAt(i, 0);
+            String nama = (String)dataTable.getValueAt(i, 1);
+            String jnsKelamin = (String)dataTable.getValueAt(i, 2);
+            String email = (String)dataTable.getValueAt(i, 3);
+
+            Map data = new HashMap();
+            data.put("noKTP", noKTP);
+            data.put("nama", nama);
+            data.put("jnsKelamin", jnsKelamin);
+            data.put("email", email);
+            dispose();
+            System.out.println(data);
+            new FrmPemesanan(null, true, data).setVisible(true);
+            
+        }else{
+            
+            JOptionPane.showMessageDialog(null, "Anda belum memilih", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            String cancel = "cancel";
+            Map data = new HashMap();
+            data.put("Cancel",cancel);
+            new FrmPemesanan(null, true, data).setVisible(true);
+        }
+        dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     public void showTable(Map data){
         String kataKunci = "";

@@ -310,8 +310,8 @@
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
-                <StringItem index="0" value="Kredit"/>
-                <StringItem index="1" value="Tunai"/>
+                <StringItem index="0" value="Tunai"/>
+                <StringItem index="1" value="Kredit"/>
               </StringArray>
             </Property>
           </Properties>
@@ -340,6 +340,10 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="uangDPField">
+          <Events>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="uangDPFieldFocusGained"/>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="uangDPFieldPropertyChange"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="noKTPField">
         </Component>
@@ -358,6 +362,7 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="paketCBActionPerformed"/>
