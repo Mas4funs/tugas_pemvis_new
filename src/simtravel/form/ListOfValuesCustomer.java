@@ -128,23 +128,33 @@ public class ListOfValuesCustomer extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
         int i = dataTable.getSelectedRow();
+        
+        if(i >= 0){  
+            String noKTP = (String)dataTable.getValueAt(i, 0);
+            String nama = (String)dataTable.getValueAt(i, 1);
+            String jnsKelamin = (String)dataTable.getValueAt(i, 2);
+            String email = (String)dataTable.getValueAt(i, 3);
 
-        String noKTP = (String)dataTable.getValueAt(i, 0);
-        String nama = (String)dataTable.getValueAt(i, 1);
-        String jnsKelamin = (String)dataTable.getValueAt(i, 2);
-        String email = (String)dataTable.getValueAt(i, 3);
-        
-        Map data = new HashMap();
-        data.put("noKTP", noKTP);
-        data.put("nama", nama);
-        data.put("jnsKelamin", jnsKelamin);
-        data.put("email", email);
-        
-        System.out.println(data);
-        
-        new FrmPemesanan(null, true, data).setVisible(true);
+            Map data = new HashMap();
+            data.put("noKTP", noKTP);
+            data.put("nama", nama);
+            data.put("jnsKelamin", jnsKelamin);
+            data.put("email", email);
+            dispose();
+            System.out.println(data);
+            new FrmPemesanan(null, true, data).setVisible(true);
+            
+        }else{
+            
+            JOptionPane.showMessageDialog(null, "Anda belum memilih", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            String cancel = "cancel";
+            Map data = new HashMap();
+            data.put("Cancel",cancel);
+            new FrmPemesanan(null, true, data).setVisible(true);
+        }
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void showTable(Map data){

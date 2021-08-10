@@ -695,15 +695,15 @@ public class FrmPemesanan extends javax.swing.JDialog {
 
     private void jnsPembayaranCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jnsPembayaranCBActionPerformed
         if(jnsPembayaranCB.getSelectedItem().equals("Tunai")){
-            uangDPField.setEditable(false);
+            uangDPField.setEnabled(false);
             lamaAngsuranCB.setEnabled(false);
-            cicilanPerBulanField.setEditable(false);
+            cicilanPerBulanField.setEnabled(false);
             btnHitung.setEnabled(false);
             btnTableAngsuran.setEnabled(false);
         }else{
-            uangDPField.setEditable(true);
+            uangDPField.setEnabled(true);
             lamaAngsuranCB.setEnabled(true);
-            cicilanPerBulanField.setEditable(true);
+            cicilanPerBulanField.setEnabled(true);
             btnHitung.setEnabled(true);
             btnTableAngsuran.setEnabled(true);
         }
