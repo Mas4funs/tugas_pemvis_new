@@ -144,7 +144,7 @@ public class NotificationUtils {
 
             try {
 
-               File f =new File("C:/tmp/rpt_invoice_pemesanan.pdf");
+               File f =new File("C:/tmp/rpt_invoice_keberangkatan.pdf");
 
                 attachmentPart.attachFile(f);
                 

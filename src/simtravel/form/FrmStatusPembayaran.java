@@ -7,7 +7,10 @@ package simtravel.form;
 
 import simtravel.utils.DBUtils;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +25,13 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import simtravel.utils.CurrencyUtils;
 import simtravel.utils.EncryptionUtils;
 import simtravel.utils.NotificationUtils;
@@ -166,20 +176,31 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
         Map data = new HashMap();
         data.put("to", emailField.getText());
         data.put("noPemesanan", noPemesananField.getText());
-        data.put("tglPemesanan", tglPesanan.getDateFormatString());
+        data.put("tglPemesanan", tglPesanan.getDate());
         data.put("nama", namaLengkapField.getText());
         data.put("noKTP", noKTPField.getText());
         data.put("statusPembayaran", "Lunas");
         data.put("namaPaket", namaPaketField.getText());
         data.put("hargaPaket", hargaField.getText());
-        data.put("tglBerangkat", tglBerangkat.getDateFormatString());
-        data.put("tglPulang", tglPulang.getDateFormatString());
+        data.put("tglBerangkat", tglBerangkat.getDate());//.getDateFormatString());
+        data.put("tglPulang", tglPulang.getDate());
         data.put("pimpinanRombongan", pimpinanRombonganCB.getSelectedItem().toString());
+        
+        File is = new File(generateInvoiceKeberangkatan());
+        data.put("attachment", is);
         
         new NotificationUtils().sentEmailUpdatePembayaran(data);
     }
     
-     
+     public void clear(){
+        noPemesananField.setText("");
+        noRegistrasiField.setText("");
+        emailField.setText("");
+        namaLengkapField.setText("");
+        noKTPField.setText("");
+        namaPaketField.setText("");
+        hargaField.setText("");
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -385,7 +406,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
         jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/simpan-16.png"))); // NOI18N
-        btnSimpan.setText("Ubah");
+        btnSimpan.setText("Simpan");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSimpanActionPerformed(evt);
@@ -449,28 +470,15 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-if(action.equals("tambah")){
+
         if(validasiUpdate()){
             int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
             if(pilih == JOptionPane.OK_OPTION){
                 updateRecord();
-                sentNotification();
-                
-            }
-            
+                clear();
+                sentNotification();     
+            } 
         }
-            
-        } else{
-            if(validasiUpdate()){
-                int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
-                if(pilih == JOptionPane.OK_OPTION){
-                    updateRecord();
-                    sentNotification();
-                    dispose();
-                    //new FrmMenuUtama(null, true).setVisible(true);
-                }
-            }
-}
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
@@ -565,4 +573,78 @@ if(action.equals("tambah")){
     private com.toedter.calendar.JDateChooser tglPesanan;
     private com.toedter.calendar.JDateChooser tglPulang;
     // End of variables declaration//GEN-END:variables
+
+    private void printInvoiceKeberangkatan() {
+        JasperDesign jasperDesign = null;
+        JasperReport jasperReport = null;
+        JasperPrint jasperPrint = null;
+        File dir = new File("C:/tmp/");
+        if(!dir.exists()){
+            try{
+                dir.mkdirs();
+            }catch(Exception iex){
+                iex.printStackTrace();
+            }
+            
+        }
+        
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_keberangkatan.pdf";
+         try {
+            File file = new File("src/simtravel/report/invoice_keberangkatan.jrxml");
+            jasperDesign = JRXmlLoader.load(file);
+            
+            Map param = new HashMap();
+            InputStream imgInputStream = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", imgInputStream);
+            param.put("p_nopemesanan", noPemesananField.getText());
+
+            jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            jasperPrint = JasperFillManager.fillReport(jasperReport, param, new DBUtils().getKoneksi());
+
+            //JasperViewer.viewReport(jasperPrint, false);
+             JasperExportManager jem = new JasperExportManager();
+             jem.exportReportToPdfFile(jasperPrint, FILE_NAME);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         
+        new DBUtils().openFile(FILE_NAME);
+    }
+    
+    private String generateInvoiceKeberangkatan(){
+        JasperDesign jasperDesign = null;
+        JasperReport jasperReport = null;
+        JasperPrint jasperPrint = null;
+        File dir = new File("C:/tmp/");
+        if(!dir.exists()){
+            try{
+                dir.mkdirs();
+            }catch(Exception iex){
+                iex.printStackTrace();
+            }
+            
+        }
+        
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_keberangkatan.pdf";
+         try {
+            File file = new File("src/simtravel/report/invoice_keberangkatan.jrxml");
+            jasperDesign = JRXmlLoader.load(file);
+            
+            Map param = new HashMap();
+            InputStream imgInputStream = new FileInputStream(new File("src/simtravel/image/logo.png"));
+            param.put("logo", imgInputStream);
+            param.put("p_nopemesanan", noPemesananField.getText());
+
+            jasperReport = JasperCompileManager.compileReport(jasperDesign);
+            jasperPrint = JasperFillManager.fillReport(jasperReport, param, new DBUtils().getKoneksi());
+
+            //JasperViewer.viewReport(jasperPrint, false);
+             JasperExportManager jem = new JasperExportManager();
+             jem.exportReportToPdfFile(jasperPrint, FILE_NAME);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         
+         return FILE_NAME;
+    }
 }
