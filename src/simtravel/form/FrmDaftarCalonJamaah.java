@@ -218,6 +218,9 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         popupMenu.add(menuItemUpdate);  
         popupMenu.add(menuItemRemove);
         
+        
+        
+        
         menuItemAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -331,6 +334,8 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         
         return popupMenu;
     }
+    
+    
     
     public void generatePdf(){
         JasperDesign jasperDesign = null;

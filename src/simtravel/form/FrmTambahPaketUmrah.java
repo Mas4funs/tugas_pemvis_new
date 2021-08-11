@@ -30,7 +30,7 @@ import simtravel.utils.CurrencyUtils;
  *
  * @author nursalim
  */
-public class FrmTambahPaketHaji extends javax.swing.JDialog {
+public class FrmTambahPaketUmrah extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmDaftar
@@ -44,7 +44,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     private Date today;
     private java.sql.Date sqlDate;
     
-    public FrmTambahPaketHaji(java.awt.Frame parent, boolean modal, Map data) {
+    public FrmTambahPaketUmrah(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
         con = new DBUtils().getKoneksi();
         userId = ""; //(String) data.get("userId");
@@ -230,7 +230,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_paket_haji(nama_paket, hotel, maskapai, transportasi, fasilitas, harga_paket, harga_total) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO tbl_paket_umrah(nama_paket, hotel, maskapai, transportasi, fasilitas, harga_paket, harga_total) VALUES (?, ?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
@@ -250,7 +250,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_paket_haji SET hotel = ?, maskapai = ?, transportasi = ?, fasilitas = ?, harga_paket = ?, harga_total = ? WHERE nama_paket = ? ";
+        String sql = "UPDATE tbl_paket_umrah SET hotel = ?, maskapai = ?, transportasi = ?, fasilitas = ?, harga_paket = ?, harga_total = ? WHERE nama_paket = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
@@ -356,7 +356,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
         judulLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         judulLabel.setForeground(new java.awt.Color(255, 255, 255));
         judulLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/building-32.png"))); // NOI18N
-        judulLabel.setText("Tambah Paket Haji ");
+        judulLabel.setText("Tambah Paket Umrah");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -785,7 +785,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
                 if(pilih == JOptionPane.OK_OPTION){
                     tambahRecord();
                     dispose();
-                    new FrmDaftarPaketHaji(null, true).setVisible(true);
+                    new FrmDaftarPaketUmrah(null, true).setVisible(true);
                 }
             }
         }else{
@@ -794,7 +794,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
                 if(pilih == JOptionPane.OK_OPTION){
                     updateRecord();
                     dispose();
-                    new FrmDaftarPaketHaji(null, true).setVisible(true);
+                    new FrmDaftarPaketUmrah(null, true).setVisible(true);
                 }
             }
         }
@@ -821,13 +821,13 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmTambahPaketHaji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmTambahPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmTambahPaketHaji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmTambahPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmTambahPaketHaji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmTambahPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmTambahPaketHaji.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmTambahPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -849,7 +849,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmTambahPaketHaji dialog = new FrmTambahPaketHaji(new javax.swing.JFrame(), true, null);
+                FrmTambahPaketUmrah dialog = new FrmTambahPaketUmrah(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

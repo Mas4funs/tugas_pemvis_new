@@ -68,7 +68,7 @@ import simtravel.utils.CurrencyUtils;
  *
  * @author nursalim
  */
-public class FrmDaftarPaket extends javax.swing.JDialog {
+public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmDaftar
@@ -80,7 +80,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
     JMenuItem menuItemAdd, menuItemRemove, menuItemUpdate;
     JPopupMenu popupMenu;
     
-    public FrmDaftarPaket(java.awt.Frame parent, boolean modal) {
+    public FrmDaftarPaketUmrah(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
@@ -105,13 +105,14 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         model.addColumn("Maskapai");
         model.addColumn("Transportasi");
         model.addColumn("Fasilitas");
-        model.addColumn("Harga");
+        model.addColumn("Harga Paket");
+        model.addColumn("Harga Total");
         dataTable.setModel(model);
         
         String sql = "";
         
         if("Semua".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? OR hotel LIKE ? OR maskapai LIKE ? OR transportasi LIKE ? OR harga LIKE ?";
+            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? OR hotel LIKE ? OR maskapai LIKE ? OR transportasi LIKE ? OR harga_paket LIKE ?";
         }else if("Nama Paket".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? ";
         }else if("Hotel".equals(cbPengguna.getSelectedItem())){
@@ -119,7 +120,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         }else if("Maskapai".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_paket_umrah WHERE maskapai LIKE ? ";
         }else if("Harga".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_paket_umrah WHERE harga LIKE ? ";
+            sql = "SELECT * FROM tbl_paket_umrah WHERE harga_paket LIKE ? ";
         }
         
         con = new DBUtils().getKoneksi();
@@ -145,7 +146,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                     rs.getString("maskapai"),
                     rs.getString("transportasi"),                    
                     rs.getString("fasilitas"),
-                    new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga"))),
+                    new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))),
+                    new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total"))),
                     } 
                 );
             }    
@@ -207,7 +209,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 Map data = new HashMap();
                 data.put("action", "tambah");
-                new FrmTambahPaket(null, true, data).setVisible(true);
+                new FrmTambahPaketUmrah(null, true, data).setVisible(true);
             }
         });
         
@@ -220,7 +222,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                 String maskapai = (String)dataTable.getValueAt(i, 3);
                 String transportasi = (String)dataTable.getValueAt(i, 4);
                 String fasilitas = (String)dataTable.getValueAt(i, 5);
-                String harga = (String)dataTable.getValueAt(i, 6);
+                String harga_paket = (String)dataTable.getValueAt(i, 6);
+                String harga_total = (String)dataTable.getValueAt(i, 7);
 
 
                 Map data = new HashMap();
@@ -230,8 +233,9 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                 data.put("maskapai", maskapai);
                 data.put("transportasi", transportasi);
                 data.put("fasilitas", fasilitas);
-                data.put("harga", new CurrencyUtils().unFormatRupiah(harga));
-                new FrmTambahPaket(null, true, data).setVisible(true);
+                data.put("harga_paket", new CurrencyUtils().unFormatRupiah(harga_paket));
+                data.put("harga_total", new CurrencyUtils().unFormatRupiah(harga_total));
+                new FrmTambahPaketUmrah(null, true, data).setVisible(true);
             }
         });
         
@@ -336,7 +340,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("data");
         
-        Object[] header = {"No", "Nama Paket", "Hotel", "Maskapai", "Transportasi", "Fasilitas", "Harga"};
+        Object[] header = {"No", "Nama Paket", "Hotel", "Maskapai", "Transportasi", "Fasilitas", "Harga Paket", "Harga Total"};
         
         
         String sql = "SELECT * FROM tbl_paket_umrah";
@@ -356,7 +360,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                 dataMap.put("maskapai", rs.getString("maskapai"));
                 dataMap.put("transportasi", rs.getString("transportasi"));
                 dataMap.put("fasilitas", rs.getString("fasilitas"));
-                dataMap.put("harga", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga"))));                
+                dataMap.put("harga_paket", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))));                
+                dataMap.put("harga_total", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total")))); 
                 dataList.add(dataMap);
             }    
         } catch (SQLException ex) {
@@ -398,7 +403,9 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
             cell = row.createCell(colNum++);
             cell.setCellValue((String)dataMap.get("fasilitas"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("harga"));
+            cell.setCellValue((String)dataMap.get("harga_paket"));
+            cell = row.createCell(colNum++);
+            cell.setCellValue((String)dataMap.get("harga_total"));
             
         }
 
@@ -453,7 +460,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         tableRowOne.addNewTableCell().setText("Maskapai");
         tableRowOne.addNewTableCell().setText("Maskapai");
         tableRowOne.addNewTableCell().setText("Fasilitas");
-        tableRowOne.addNewTableCell().setText("Harga");
+        tableRowOne.addNewTableCell().setText("Harga Paket");
+        tableRowOne.addNewTableCell().setText("Harga Total");
         
         String sql = "SELECT * FROM tbl_paket_umrah";
         con = new DBUtils().getKoneksi();
@@ -472,7 +480,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                 dataMap.put("maskapai", rs.getString("maskapai"));
                 dataMap.put("transportasi", rs.getString("transportasi"));
                 dataMap.put("fasilitas", rs.getString("fasilitas"));
-                dataMap.put("harga", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga"))));
+                dataMap.put("harga_paket", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))));                
+                dataMap.put("harga_total", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total")))); 
                 
                 dataList.add(dataMap);
             }    
@@ -490,7 +499,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
             tableRowTwo.getCell(3).setText((String) dataMap.get("maskapai"));
             tableRowTwo.getCell(4).setText((String) dataMap.get("transportasi"));
             tableRowTwo.getCell(5).setText((String) dataMap.get("fasilitas"));
-            tableRowTwo.getCell(6).setText((String) dataMap.get("harga"));
+            tableRowTwo.getCell(6).setText((String) dataMap.get("harga_paket"));
+            tableRowTwo.getCell(7).setText((String) dataMap.get("harga_total"));
             
         }
         document.write(out);
@@ -789,7 +799,8 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         String maskapai = (String)dataTable.getValueAt(i, 3);
         String transportasi = (String)dataTable.getValueAt(i, 4);
         String fasilitas = (String)dataTable.getValueAt(i, 5);
-        String harga = (String)dataTable.getValueAt(i, 6);
+        String harga_paket = (String)dataTable.getValueAt(i, 6);
+        String harga_total = (String)dataTable.getValueAt(i, 7);;
 
         Map data = new HashMap();
         data.put("action", "edit");
@@ -798,9 +809,10 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         data.put("maskapai", maskapai);
         data.put("transportasi", transportasi);
         data.put("fasilitas", fasilitas);
-        data.put("harga", new CurrencyUtils().unFormatRupiah(harga));
+        data.put("harga_paket", new CurrencyUtils().unFormatRupiah(harga_paket));
+        data.put("harga_total", new CurrencyUtils().unFormatRupiah(harga_total));
                 
-        new FrmTambahPaket(null, true, data).setVisible(true);
+        new FrmTambahPaketUmrah(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
@@ -825,7 +837,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         dispose();
         Map data = new HashMap();
         data.put("action", "tambah");
-        new FrmTambahPaket(null, true, data).setVisible(true);
+        new FrmTambahPaketUmrah(null, true, data).setVisible(true);
     }//GEN-LAST:event_tambahBtnActionPerformed
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
@@ -845,7 +857,7 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
         try {
             generateWord();
         } catch (IOException ex) {
-            Logger.getLogger(FrmDaftarPaket.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FrmDaftarPaketUmrah.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportWordMouseClicked
 
@@ -870,21 +882,23 @@ public class FrmDaftarPaket extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmDaftarPaket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDaftarPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmDaftarPaket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDaftarPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmDaftarPaket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDaftarPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmDaftarPaket.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmDaftarPaketUmrah.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmDaftarPaket dialog = new FrmDaftarPaket(new javax.swing.JFrame(), true);
+                FrmDaftarPaketUmrah dialog = new FrmDaftarPaketUmrah(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
