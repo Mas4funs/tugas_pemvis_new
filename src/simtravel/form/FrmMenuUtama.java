@@ -264,6 +264,7 @@ try
         kategoriMenu = new javax.swing.JMenuItem();
         barangMenu = new javax.swing.JMenuItem();
         vendorMenu = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         penggunaMenu = new javax.swing.JMenuItem();
@@ -657,25 +658,22 @@ try
         backgroundPanel1Layout.setHorizontalGroup(
             backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                .addGap(370, 370, 370)
-                .addComponent(panelChart, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                .addGap(48, 48, 48)
                 .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                        .addComponent(labelWelcome1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(370, 370, 370)
+                        .addComponent(panelChart, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(backgroundPanel1Layout.createSequentialGroup()
-                        .addComponent(jamDigital)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(496, 496, 496)
-                .addComponent(ubahPasswordLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(logoutLabel)
-                .addGap(114, 114, 114))
+                        .addGap(48, 48, 48)
+                        .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelWelcome1)
+                            .addComponent(jamDigital))
+                        .addGap(496, 496, 496)
+                        .addComponent(ubahPasswordLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(logoutLabel)))
+                .addContainerGap(111, Short.MAX_VALUE))
             .addGroup(backgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(backgroundPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -752,6 +750,15 @@ try
             }
         });
         jMenu1.add(vendorMenu);
+
+        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/transport-24.png"))); // NOI18N
+        jMenuItem7.setText("Transport");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
 
         jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/umrah-24.png"))); // NOI18N
         jMenuItem4.setText("Paket Umrah");
@@ -1014,6 +1021,13 @@ try
         setGrafik();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        System.out.println("UserId == "+userId);
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarTransport(null, true).setVisible(true);
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     
     
     /**
@@ -1096,6 +1110,7 @@ try
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
