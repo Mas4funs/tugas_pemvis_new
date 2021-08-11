@@ -101,7 +101,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             jTextField2.setText(noTelp);                        
             jLabel7.setText("");
 //            jLabel7.setIcon(new ImageIcon("d:/tmp/"+foto));
-            ImageIcon ii = new ImageIcon("C:/tmp/"+foto);
+            ImageIcon ii = new ImageIcon("C:/tmp/photo_jamaah/"+foto);
             Image img = ii.getImage().getScaledInstance(jLabel7.getWidth(), jLabel7.getHeight(), Image.SCALE_SMOOTH);
             jLabel7.setIcon(new ImageIcon(img));
             
@@ -132,7 +132,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             jTextField2.setEditable(false);
             jLabel7.setText("");
 //            jLabel7.setIcon(new ImageIcon("d:/tmp/"+foto));
-            ImageIcon ii = new ImageIcon("C:/tmp/"+foto);
+            ImageIcon ii = new ImageIcon("C:/tmp/photo_jamaah/"+foto);
             Image img = ii.getImage().getScaledInstance(jLabel7.getWidth(), jLabel7.getHeight(), Image.SCALE_SMOOTH);
             jLabel7.setIcon(new ImageIcon(img));
             jButton2.setEnabled(false);
@@ -582,7 +582,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/pdf/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -598,7 +598,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
-            InputStream imgInputStream = new FileInputStream("C:/tmp/"+foto);
+            InputStream imgInputStream = new FileInputStream("C:/tmp/photo_jamaah/"+foto);
             InputStream logo = new FileInputStream(new File("src/simtravel/image/logo.png"));
             param.put("logo", logo);
             param.put("p_noktp", kodeField.getText());
@@ -633,7 +633,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             fileName = fileChooser.getSelectedFile().getName();
             
             // copy file to d:\temp
-            new FileUtils().copyFile(fileChooser.getSelectedFile(), new File("C:/tmp/"+fileName));
+            new FileUtils().copyFile(fileChooser.getSelectedFile(), new File("C:/tmp/photo_jamaah/"+fileName));
             
         }
             

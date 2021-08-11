@@ -994,7 +994,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/pdf/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -1031,7 +1031,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/pdf/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();

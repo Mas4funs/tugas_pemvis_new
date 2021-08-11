@@ -364,7 +364,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/pdf/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -397,7 +397,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
     }
     
     public void generateExcel(){
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/excel/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
@@ -500,7 +500,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
     }
     
     public void generateWord() throws FileNotFoundException, IOException{
-        File dir = new File("C:/tmp/");
+        File dir = new File("C:/tmp/word/");
         if(!dir.exists()){
             try{
                 dir.mkdirs();
