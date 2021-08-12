@@ -316,7 +316,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{bintang}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Rp #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="399"
 						y="1"

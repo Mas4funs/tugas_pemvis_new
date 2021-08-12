@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +51,7 @@ public class FrmTambahHotel extends javax.swing.JDialog {
         String tarif = (String) data.get("tarif");
         
         initComponents();
+        
         setLocationRelativeTo(null);
         
         if(action.equals("edit")){
@@ -83,7 +85,7 @@ public class FrmTambahHotel extends javax.swing.JDialog {
     }
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_hotel(nama, lokasi, bintang, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO tbl_hotel(nama_hotel, lokasi, bintang, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, kodeField.getText());
@@ -102,14 +104,16 @@ public class FrmTambahHotel extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_hotel SET lokasi = ?, bintang = ?, tarif = ? WHERE nama = ? ";
+        String sql = "UPDATE tbl_hotel SET lokasi = ?, bintang = ?, tarif = ?, updated_by = ?, updated_dt = ? WHERE nama_hotel = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
             ps.setString(2, levelCB.getSelectedItem().toString());
             ps.setString(3, tarifField.getText());
-            ps.setString(4, kodeField.getText());
+            ps.setString(4, userId);
+            ps.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
+            ps.setString(6, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -148,6 +152,11 @@ public class FrmTambahHotel extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -303,18 +312,38 @@ public class FrmTambahHotel extends javax.swing.JDialog {
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    tambahRecord();
-                    dispose();
-                    new FrmDaftarHotel(null, true).setVisible(true);
+                    //tambahRecord();
+                    //dispose();
+                    //new FrmDaftarHotel(null, true).setVisible(true);
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Add]Hotel == "+userId);
+                        tambahRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarHotel(null, true, data).setVisible(true);
+                    }
                 }
             }
         }else{
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    updateRecord();
-                    dispose();
-                    new FrmDaftarHotel(null, true).setVisible(true);
+                   // updateRecord();
+                    //dispose();
+                    //new FrmDaftarHotel(null, true, data).setVisible(true);
+                     Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Update]Hotel == "+userId);
+                        updateRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarHotel(null, true, data).setVisible(true);
+                    }
                 }
             }
         }
@@ -322,7 +351,17 @@ public class FrmTambahHotel extends javax.swing.JDialog {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         dispose();
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarHotel(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnBatalActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        dispose();
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarHotel(null, true, data).setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

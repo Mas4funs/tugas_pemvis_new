@@ -50,7 +50,6 @@ public class FrmTambahTransport extends javax.swing.JDialog {
         
         
         initComponents();
-        System.out.println("UserId == "+userId);
         setLocationRelativeTo(null);
         
         if(action.equals("edit")){
@@ -320,6 +319,7 @@ public class FrmTambahTransport extends javax.swing.JDialog {
                     Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
+                        System.out.println("    ==>> : [Add]Transport == "+userId);
                         tambahRecord();
                         dispose();
                         Map data = new HashMap();
@@ -338,6 +338,7 @@ public class FrmTambahTransport extends javax.swing.JDialog {
                     Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
+                        System.out.println("    ==>> : [Update]Hotel == "+userId);
                         updateRecord();
                         dispose();
                         Map data = new HashMap();

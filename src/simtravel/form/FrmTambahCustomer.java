@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     public FrmTambahCustomer(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
         con = new DBUtils().getKoneksi();
-        userId = ""; //(String) data.get("userId");
+        userId = (String) data.get("userId");
         action = (String) data.get("action");
         String nama = (String) data.get("nama");
         String noKtp = (String) data.get("noKtp");
@@ -69,7 +70,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         String noTelp = (String) data.get("noTelp");
         foto = (String) data.get("foto");
         
-        System.out.println(data);
+        //System.out.println(data);
         
         
         initComponents();
@@ -107,6 +108,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             
         }else if(action.equals("detail")){
             judulLabel.setText("Detail Calon Jamaah");
+            System.out.println("    ==>> : [View]Calon Jamaah == "+userId);
             kodeField.setText(noKtp);
             kodeField.setEditable(false);
             namaField.setText(nama);
@@ -203,7 +205,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_customer(no_ktp, nama, jns_kelamin, tgl_lahir, gol_darah, tempat_lahir, alamat, no_telp, email, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO tbl_customer(no_ktp, nama, jns_kelamin, tgl_lahir, gol_darah, tempat_lahir, alamat, no_telp, email, foto, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, kodeField.getText());
@@ -216,6 +218,8 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setString(8, jTextField2.getText());
             ps.setString(9, jTextField3.getText());
             ps.setString(10, fileName);
+            ps.setString(11, userId);
+            ps.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di tambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -227,7 +231,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_customer SET nama = ?, tempat_lahir = ?, alamat = ?, no_telp = ?, email = ?, foto = ? WHERE no_ktp = ?";
+        String sql = "UPDATE tbl_customer SET nama = ?, tempat_lahir = ?, alamat = ?, no_telp = ?, email = ?, foto = ?, updated_by = ?, updated_dt = ? WHERE no_ktp = ?";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
@@ -237,7 +241,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setString(4, jTextField2.getText());
             ps.setString(5, jTextField3.getText());
             ps.setString(6, fileName);
-            ps.setString(7, kodeField.getText());
+            ps.setString(7, userId);
+            ps.setTimestamp(8, new Timestamp(new java.util.Date().getTime()));
+            ps.setString(9, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -548,27 +554,45 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        System.out.println("action == "+action);
         if(action.equals("tambah")){
             if(validasiTambah()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    tambahRecord();
-                    dispose();
-                    new FrmDaftarCalonJamaah(null, true).setVisible(true);
+                    //tambahRecord();
+                    //dispose();
+                    //new FrmDaftarCalonJamaah(null, true).setVisible(true);
+                     Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Add]Calon Jamaah == "+userId);
+                        tambahRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
+                    }
                 }
             }
         }else if(action.equals("detail")){
+            System.out.println("    ==>> : [Print]Calon Jamaah == "+userId);
             printDetailJamaah();
         }else{
-            System.out.println("Masuk Edit");
             if(validasiUpdate()){
-                System.out.println("Masuk Edit 123");
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    updateRecord();
-                    dispose();
-                    new FrmDaftarCalonJamaah(null, true).setVisible(true);
+                    //updateRecord();
+                    //dispose();
+                    //new FrmDaftarCalonJamaah(null, true).setVisible(true);
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Update]Calon Jamaah == "+userId);
+                        updateRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
+                    }
                 }
             }
         }
@@ -577,7 +601,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     
     public void printDetailJamaah(){
         
-        System.out.println("foto == "+foto);
+       // System.out.println("foto == "+foto);
         
         JasperDesign jasperDesign = null;
         JasperReport jasperReport = null;

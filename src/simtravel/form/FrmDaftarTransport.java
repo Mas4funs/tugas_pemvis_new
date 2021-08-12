@@ -85,6 +85,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         super(parent, modal);
         userId = (String) data.get("userId");
         initComponents();
+        System.out.println("[Access] : Transport == "+userId);
         setLocationRelativeTo(null);
         showTable();
         
@@ -786,11 +787,12 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         
         Map data = new HashMap();
         data.put("action", "edit");
+        data.put("userId", userId);
         data.put("namaTransport", namaTransport);
         data.put("kelas", kelas);
         data.put("status", status);
         data.put("tarif", new CurrencyUtils().unFormatRupiah(tarif));
-        data.put("userId", userId);
+        
         
         new FrmTambahTransport(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed

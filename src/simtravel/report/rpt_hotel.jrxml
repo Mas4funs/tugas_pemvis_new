@@ -26,10 +26,14 @@
 	<parameter name="logo" isForPrompting="false" class="java.io.InputStream"/>
 	<queryString><![CDATA[select * from tbl_hotel]]></queryString>
 
-	<field name="nama" class="java.lang.String"/>
+	<field name="nama_hotel" class="java.lang.String"/>
 	<field name="lokasi" class="java.lang.String"/>
 	<field name="bintang" class="java.lang.String"/>
 	<field name="tarif" class="java.lang.Integer"/>
+	<field name="created_by" class="java.lang.String"/>
+	<field name="created_dt" class="java.sql.Timestamp"/>
+	<field name="updated_by" class="java.lang.String"/>
+	<field name="updated_dt" class="java.sql.Timestamp"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -280,7 +284,7 @@
 					<textElement>
 						<font fontName="Times-Roman" size="12"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama_hotel}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -316,7 +320,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{bintang}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Rp #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="399"
 						y="1"

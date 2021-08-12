@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,7 +78,7 @@ public class FrmTambahMaskapai extends javax.swing.JDialog {
     }
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_maskapai(nama, bandara, kelas, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO tbl_maskapai(nama_maskapai, bandara, kelas, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, kodeField.getText());
@@ -96,14 +97,16 @@ public class FrmTambahMaskapai extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_maskapai SET bandara = ?, kelas = ?, tarif = ? WHERE nama = ? ";
+        String sql = "UPDATE tbl_maskapai SET bandara = ?, kelas = ?, tarif = ?, updated_by = ?, updated_dt = ? WHERE nama_maskapai = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, bandaraField.getText());
             ps.setString(2, levelCB.getSelectedItem().toString());
             ps.setString(3, tarifField.getText());
-            ps.setString(4, kodeField.getText());
+            ps.setString(4, userId);
+            ps.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
+            ps.setString(6, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -300,18 +303,38 @@ public class FrmTambahMaskapai extends javax.swing.JDialog {
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    tambahRecord();
-                    dispose();
-                    new FrmDaftarMaskapai(null, true).setVisible(true);
+                    //tambahRecord();
+                    //dispose();
+                    //new FrmDaftarMaskapai(null, true).setVisible(true);
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Add]Maskapai == "+userId);
+                        tambahRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarMaskapai(null, true, data).setVisible(true);
+                    }
                 }
             }
         }else{
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    updateRecord();
-                    dispose();
-                    new FrmDaftarMaskapai(null, true).setVisible(true);
+                    //updateRecord();
+                    //dispose();
+                    //new FrmDaftarMaskapai(null, true).setVisible(true);
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        System.out.println("    ==>> : [Update]Maskapai == "+userId);
+                        updateRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarMaskapai(null, true, data).setVisible(true);
+                    }
                 }
             }
         }

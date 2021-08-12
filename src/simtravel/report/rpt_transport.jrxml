@@ -26,7 +26,7 @@
 	<parameter name="logo" isForPrompting="false" class="java.io.InputStream"/>
 	<queryString><![CDATA[select * from tbl_transport]]></queryString>
 
-	<field name="nama" class="java.lang.String"/>
+	<field name="nama_transport" class="java.lang.String"/>
 	<field name="kelas" class="java.lang.String"/>
 	<field name="status" class="java.lang.String"/>
 	<field name="tarif" class="java.lang.Integer"/>
@@ -284,7 +284,7 @@
 					<textElement>
 						<font fontName="Times-Roman" size="12"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama_transport}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -320,7 +320,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{status}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="Rp #,##0.00" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="399"
 						y="1"

@@ -76,12 +76,15 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
+    private String userId;
     JMenuItem menuItemAdd, menuItemRemove, menuItemUpdate;
     JPopupMenu popupMenu;
     
-    public FrmDaftarHotel(java.awt.Frame parent, boolean modal) {
+    public FrmDaftarHotel(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
         initComponents();
+        userId = (String) data.get("userId");
+        System.out.println("[Access] : Hotel == "+userId);
         setLocationRelativeTo(null);
         showTable();
         
@@ -108,9 +111,9 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
         String sql = "";
         
         if("Semua".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_hotel WHERE nama LIKE ? OR lokasi LIKE ? OR bintang LIKE ? OR tarif LIKE ?";
+            sql = "SELECT * FROM tbl_hotel WHERE nama_hotel LIKE ? OR lokasi LIKE ? OR bintang LIKE ? OR tarif LIKE ?";
         }else if("Nama Hotel".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_hotel WHERE nama LIKE ? ";
+            sql = "SELECT * FROM tbl_hotel WHERE nama_hotel LIKE ? ";
         }else if("Bintang".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_hotel WHERE bintang LIKE ? ";
         }else if("Lokasi".equals(cbPengguna.getSelectedItem())){
@@ -137,7 +140,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             
             while (rs.next()){
                 model.addRow(new Object[]{cnt++, 
-                    rs.getString("nama"), 
+                    rs.getString("nama_hotel"), 
                     rs.getString("lokasi"),
                     rs.getString("bintang"),
                     new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif"))) ,
@@ -168,7 +171,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
     }
     
     public void hapusRecord(String kode){
-        String sql = "DELETE FROM tbl_hotel WHERE nama = ? ";
+        String sql = "DELETE FROM tbl_hotel WHERE nama_hotel = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
@@ -341,7 +344,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             while (rs.next()){
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
-                dataMap.put("nama", rs.getString("nama"));
+                dataMap.put("nama_hotel", rs.getString("nama_hotel"));
                 dataMap.put("lokasi", rs.getString("lokasi"));
                 dataMap.put("bintang", rs.getString("bintang"));
                 dataMap.put("tarif", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif"))));
@@ -377,7 +380,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             Cell cell = row.createCell(colNum++);
             cell.setCellValue((Integer)dataMap.get("no"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("nama"));
+            cell.setCellValue((String)dataMap.get("nama_hotel"));
             cell = row.createCell(colNum++);
             cell.setCellValue((String)dataMap.get("lokasi"));
             cell = row.createCell(colNum++);
@@ -451,7 +454,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             while (rs.next()){
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
-                dataMap.put("nama", rs.getString("nama"));
+                dataMap.put("nama_hotel", rs.getString("nama_hotel"));
                 dataMap.put("lokasi", rs.getString("lokasi"));
                 dataMap.put("bintang", rs.getString("bintang"));
                 dataMap.put("tarif", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif"))));
@@ -467,7 +470,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
 
             XWPFTableRow tableRowTwo = table.createRow();
             tableRowTwo.getCell(0).setText(dataMap.get("no").toString());
-            tableRowTwo.getCell(1).setText((String) dataMap.get("nama"));
+            tableRowTwo.getCell(1).setText((String) dataMap.get("nama_hotel"));
             tableRowTwo.getCell(2).setText((String) dataMap.get("lokasi"));
             tableRowTwo.getCell(3).setText((String) dataMap.get("bintang"));
             tableRowTwo.getCell(4).setText((String) dataMap.get("tarif"));
@@ -772,7 +775,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Silakan pilih Data yang akan diupdate", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        dispose();
         int i = dataTable.getSelectedRow();
         String namaHotel = (String)dataTable.getValueAt(i, 1);
         String lokasi = (String)dataTable.getValueAt(i, 2);
@@ -781,6 +784,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
         
         Map data = new HashMap();
         data.put("action", "edit");
+        data.put("userId", userId);
         data.put("namaHotel", namaHotel);
         data.put("lokasi", lokasi);
         data.put("bintang", bintang);
@@ -810,6 +814,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
         dispose();
         Map data = new HashMap();
         data.put("action", "tambah");
+        data.put("userId", userId);
         new FrmTambahHotel(null, true, data).setVisible(true);
     }//GEN-LAST:event_tambahBtnActionPerformed
 
@@ -847,7 +852,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmDaftarHotel dialog = new FrmDaftarHotel(new javax.swing.JFrame(), true);
+                FrmDaftarHotel dialog = new FrmDaftarHotel(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

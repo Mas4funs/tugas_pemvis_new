@@ -78,12 +78,15 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
+    private String userId;
     JMenuItem menuItemAdd, menuItemRemove, menuItemUpdate, menuItemDetail;
     JPopupMenu popupMenu;
     
-    public FrmDaftarCalonJamaah(java.awt.Frame parent, boolean modal) {
+    public FrmDaftarCalonJamaah(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
+        userId = (String) data.get("userId");
         initComponents();
+        System.out.println("[Access] : Calon Jamaah == "+userId);
         setLocationRelativeTo(null);
         showTable();
         
@@ -226,6 +229,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 Map data = new HashMap();
                 data.put("action", "tambah");
+                data.put("userId", userId);
                 new FrmTambahCustomer(null, true, data).setVisible(true);
             }
         });
@@ -256,6 +260,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 
                 Map data = new HashMap();
                 data.put("action", "edit");
+                data.put("userId", userId);
                 data.put("nama", nama);
                 data.put("noKtp", noKtp);
                 data.put("jnsKelamin", jnsKelamin);
@@ -267,7 +272,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 data.put("golDarah", golDarah);
                 data.put("foto", foto);
                 
-                System.out.println(data);
+                //System.out.println(data);
                 new FrmTambahCustomer(null, true, data).setVisible(true);
             }
         });
@@ -297,6 +302,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 
                 Map data = new HashMap();
                 data.put("action", "detail");
+                data.put("userId", userId);
                 data.put("nama", nama);
                 data.put("noKtp", noKtp);
                 data.put("jnsKelamin", jnsKelamin);
@@ -308,7 +314,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 data.put("golDarah", golDarah);
                 data.put("foto", foto);
                 
-                System.out.println(data);
+               // System.out.println(data);
                 new FrmTambahCustomer(null, true, data).setVisible(true);
             }
         });
@@ -909,6 +915,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
 
         Map data = new HashMap();
         data.put("action", "edit");
+        data.put("userId", userId);
         data.put("nama", nama);
         data.put("noKtp", noKtp);
         data.put("jnsKelamin", jnsKelamin);
@@ -920,7 +927,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         data.put("golDarah", golDarah);
         data.put("foto", foto);
         
-        System.out.println(data);
+        //System.out.println(data);
         
         new FrmTambahCustomer(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
@@ -947,6 +954,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         dispose();
         Map data = new HashMap();
         data.put("action", "tambah");
+        data.put("userId", userId);
         new FrmTambahCustomer(null, true, data).setVisible(true);
     }//GEN-LAST:event_tambahBtnActionPerformed
 
@@ -999,6 +1007,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
 
         Map data = new HashMap();
         data.put("action", "detail");
+        data.put("userId", userId);
         data.put("nama", nama);
         data.put("noKtp", noKtp);
         data.put("jnsKelamin", jnsKelamin);
@@ -1042,7 +1051,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmDaftarCalonJamaah dialog = new FrmDaftarCalonJamaah(new javax.swing.JFrame(), true);
+                FrmDaftarCalonJamaah dialog = new FrmDaftarCalonJamaah(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

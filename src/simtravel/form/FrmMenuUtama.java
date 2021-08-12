@@ -917,14 +917,13 @@ try
         System.out.println("UserId == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
-        new FrmDaftarCalonJamaah(null, true).setVisible(true);
+        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_kategoriMenuActionPerformed
 
     private void penggunaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penggunaMenuActionPerformed
         System.out.println("UserId == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
-            
         new FrmDaftarPengguna(null, true).setVisible(true);
     }//GEN-LAST:event_penggunaMenuActionPerformed
 
@@ -944,13 +943,13 @@ try
         System.out.println("UserId == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
-        new FrmDaftarMaskapai(null, true).setVisible(true);
+        new FrmDaftarMaskapai(null, true, data).setVisible(true);
     }//GEN-LAST:event_barangMenuActionPerformed
 
     private void candidatPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_candidatPanelMouseClicked
         Map data = new HashMap();
         data.put("userId", userId);
-        new FrmDaftarCalonJamaah(null, true).setVisible(true);
+        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_candidatPanelMouseClicked
 
     private void pesertaPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesertaPanelMouseClicked
@@ -996,7 +995,7 @@ try
     private void vendorMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorMenuActionPerformed
         Map data = new HashMap();
         data.put("userId", userId);
-        new FrmDaftarHotel(null, true).setVisible(true);
+        new FrmDaftarHotel(null, true, data).setVisible(true);
     }//GEN-LAST:event_vendorMenuActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed

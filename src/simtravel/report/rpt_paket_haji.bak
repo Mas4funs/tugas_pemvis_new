@@ -86,7 +86,7 @@
 					</textElement>
 				<text><![CDATA[Perumahan Harapan Baru 1, Jl. Harapan Baru Bar. No.Blok FA 1, RT.005/RW.No. 59, Bekasi, Jawa Barat]]></text>
 				</staticText>
-				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<image  vAlign="Middle" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="478"
 						y="3"
