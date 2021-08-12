@@ -181,6 +181,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             ps.setString(1, kode);
             ps.execute();
             
+            System.out.println("    ==>> : [Delete]Transpost == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di hapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Data Gagal di hapus", "Error", JOptionPane.ERROR_MESSAGE);
@@ -244,7 +245,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
 
                 int i = dataTable.getSelectedRow();
                 String kode = (String) dataTable.getValueAt(i, 1);
-                System.out.println("kode == "+kode);
+                //System.out.println("kode == "+kode);
 
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
@@ -534,6 +535,9 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
         });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
@@ -780,7 +784,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Silakan pilih Data yang akan diupdate", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        dispose();
         int i = dataTable.getSelectedRow();
         String namaTransport = (String)dataTable.getValueAt(i, 1);
         String kelas = (String)dataTable.getValueAt(i, 2);
@@ -808,7 +812,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         
         int i = dataTable.getSelectedRow();
         String kode = (String) dataTable.getValueAt(i, 1);
-        System.out.println("kode == "+kode);
+        //System.out.println("kode == "+kode);
         
         int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
         if(pilih == JOptionPane.OK_OPTION){
@@ -847,6 +851,13 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         dataTable.setDefaultEditor(Object.class, null);
     }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        System.out.println("[Exit]   : Calon Jamaah == "+userId);
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarHotel(null, true, data).setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -298,6 +298,9 @@ try
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
@@ -728,6 +731,11 @@ try
         jamDigital.getAccessibleContext().setAccessibleName("");
 
         jMenu1.setText("Master");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         kategoriMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/hajj-24.png"))); // NOI18N
         kategoriMenu.setText("Calon Jamaah");
@@ -895,6 +903,7 @@ try
     }// </editor-fold>//GEN-END:initComponents
 
     private void ubahPasswordLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ubahPasswordLabelMouseClicked
+        //System.out.println("[Access] : Ubah Password == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmUbahPassword(null, true, data).setVisible(true);
@@ -914,51 +923,55 @@ try
     }//GEN-LAST:event_logoutLabelMouseClicked
 
     private void kategoriMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kategoriMenuActionPerformed
-        System.out.println("UserId == "+userId);
+        System.out.println("[Access] : Calon Jamaah == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_kategoriMenuActionPerformed
 
     private void penggunaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penggunaMenuActionPerformed
-        System.out.println("UserId == "+userId);
+        System.out.println("[Access] : User Pengguna == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarPengguna(null, true).setVisible(true);
     }//GEN-LAST:event_penggunaMenuActionPerformed
 
     private void menuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAboutActionPerformed
+        System.out.println("[Access] : About APP == "+userId);
         new FrmAbout(null, true).setVisible(true);
     }//GEN-LAST:event_menuAboutActionPerformed
     
     
     private void kandidatMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kandidatMenuActionPerformed
-        System.out.println("UserId == "+userId);
+        System.out.println("[Access] : Pemesanan == "+userId);;
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmPemesanan(null, true, data).setVisible(true);
     }//GEN-LAST:event_kandidatMenuActionPerformed
 
     private void barangMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barangMenuActionPerformed
-        System.out.println("UserId == "+userId);
+        System.out.println("[Access] : Maskapai == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarMaskapai(null, true, data).setVisible(true);
     }//GEN-LAST:event_barangMenuActionPerformed
 
     private void candidatPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_candidatPanelMouseClicked
+       // System.out.println("[Access] : Calon Jamaah == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_candidatPanelMouseClicked
 
     private void pesertaPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesertaPanelMouseClicked
+        //System.out.println("[Access] : Pemesanan == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmPemesanan(null, true, data).setVisible(true);
     }//GEN-LAST:event_pesertaPanelMouseClicked
 
     private void salaryCreditingPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_salaryCreditingPanelMouseClicked
+        //System.out.println("[Access] : Status Pembayaran == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmStatusPembayaran(null, true, data).setVisible(true);
@@ -967,75 +980,88 @@ try
     private void dashboardPenerimaBeasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardPenerimaBeasiswaActionPerformed
 
         new FrmLaporanCalonJamaah(null, true).setVisible(true);
-        /*try {
-            ChartDialog chartDialog = new ChartDialog(null, true);
-            chartDialog.setVisible(true);
-                    } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(FrmMenuUtama.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+
     }//GEN-LAST:event_dashboardPenerimaBeasiswaActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
+        System.out.println("[Access] : Laporan Keberangkatan == "+userId);
         new FrmLaporanKeberangkatan(null, true).setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.out.println("[Access] : Laporan Pemesanan == "+userId);
         new FrmLaporanPemesanan(null, true).setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        System.out.println("[Access] : Status Pembayaran == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmStatusPembayaran(null, true, data).setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void vendorMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorMenuActionPerformed
+        System.out.println("[Access] : Hotel == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarHotel(null, true, data).setVisible(true);
     }//GEN-LAST:event_vendorMenuActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        System.out.println("[Access] : Dokumen Lap.KKP == "+userId);
         File file = new File("src/simtravel/doc/Laporan KKP.docx");
         new DBUtils().openFile(file.getAbsolutePath());
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        System.out.println("[Access] : Dokumen Panduan APP == "+userId);
         File file = new File("src/simtravel/doc/Panduan Aplikasi.docx");
         new DBUtils().openFile(file.getAbsolutePath());
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        System.out.println("[Access] : Paket Umrah == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarPaketUmrah(null, true).setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        System.out.println("[Access] : Paket Haji == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarPaketHaji(null, true).setVisible(true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        System.out.println("[Access] : Refresh Dssboard == "+userId);
         setDashboard();
         setGrafik();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        System.out.println("UserId == "+userId);
+        System.out.println("[Access] : Status Transport == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
         new FrmDaftarTransport(null, true, data).setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        //System.out.println("[Access] : Menu Utama == "+userId);
         setDashboard();
         setGrafik();
     }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        System.out.println("[Access] : Menu Utama == "+userId);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        System.out.println("[Access] : Maskapai == "+userId);
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarMaskapai(null, true, data).setVisible(true);
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     
     

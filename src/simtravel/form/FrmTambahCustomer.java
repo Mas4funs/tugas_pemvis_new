@@ -222,6 +222,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
             ps.execute();
             
+            System.out.println("    Data  == "+kodeField.getText()+" - "+namaField.getText());
             System.out.println("    ==>> : [Add]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di tambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
@@ -247,6 +248,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setString(9, kodeField.getText());
             ps.execute();
             
+            System.out.println("    Data  == "+kodeField.getText()+" - "+namaField.getText());
             System.out.println("    ==>> : [Update]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
@@ -298,6 +300,11 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -599,6 +606,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
 
     
     public void printDetailJamaah(){
+        System.out.println("    Data  == "+kodeField.getText()+" - "+namaField.getText());
         System.out.println("    ==>> : [Print]Calon Jamaah == "+userId);
        // System.out.println("foto == "+foto);
         
@@ -642,6 +650,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
     
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         dispose();
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -671,6 +682,13 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         jRadioButton1.setSelected(false);
         jRadioButton2.setSelected(true);
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        dispose();
+        Map data = new HashMap();
+        data.put("userId", userId);
+        new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

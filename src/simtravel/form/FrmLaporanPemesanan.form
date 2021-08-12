@@ -124,9 +124,9 @@
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="tglFrom" alignment="0" min="-2" pref="174" max="-2" attributes="0"/>
-                      <Component id="statusPembayaranCB" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="tglFrom" pref="174" max="32767" attributes="0"/>
+                      <Component id="statusPembayaranCB" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace pref="28" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">

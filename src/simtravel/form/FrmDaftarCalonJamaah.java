@@ -86,7 +86,6 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         super(parent, modal);
         userId = (String) data.get("userId");
         initComponents();
-        System.out.println("[Access] : Calon Jamaah == "+userId);
         setLocationRelativeTo(null);
         showTable();
         
@@ -182,7 +181,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             public void mousePressed(MouseEvent event) {
                 Point point = event.getPoint();
                 int currentRow = dataTable.rowAtPoint(point);
-                System.out.println("currentRow == "+currentRow);
+                System.out.println("    Pilih == "+currentRow);
                 dataTable.setRowSelectionInterval(currentRow, currentRow);
             }
         });
@@ -198,6 +197,11 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             
             System.out.println("    ==>> : [Delete]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di hapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            
+            dispose();
+            Map data = new HashMap();
+            data.put("userId", userId);
+            new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Data gagal di hapus", "Error", JOptionPane.ERROR_MESSAGE);
@@ -329,12 +333,13 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 }
 
                 int i = dataTable.getSelectedRow();
-                String kode = (String) dataTable.getValueAt(i, 1);
-                //System.out.println("kode == "+kode);
+                String ktp = (String) dataTable.getValueAt(i, 2);
+                String nama = (String) dataTable.getValueAt(i, 3);
+                System.out.println("    Data   == "+ktp+" - "+nama);
 
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    hapusRecord(kode);
+                    hapusRecord(ktp);
                 }
             }
         });
@@ -633,6 +638,11 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
         jPanel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -780,9 +790,9 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
                 .addComponent(detailButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEdit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tambahBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHapus)
                 .addContainerGap())
@@ -941,12 +951,14 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         }
         
         int i = dataTable.getSelectedRow();
-        String kode = (String) dataTable.getValueAt(i, 2);
-        System.out.println("kode == "+kode);
+        String ktp = (String) dataTable.getValueAt(i, 2);
+        String nama = (String) dataTable.getValueAt(i, 1);
+        System.out.println("    Data   == "+ktp+" - "+nama);
         
         int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
         if(pilih == JOptionPane.OK_OPTION){
-            hapusRecord(kode);
+            hapusRecord(ktp);
+            
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -985,7 +997,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Silakan pilih Data yang akan di lihat", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        dispose();
         int i = dataTable.getSelectedRow();
         String nama = (String)dataTable.getValueAt(i, 1);
         String noKtp = (String)dataTable.getValueAt(i, 2);
@@ -1021,6 +1033,10 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
         data.put("foto", foto);
         new FrmTambahCustomer(null, true, data).setVisible(true);
     }//GEN-LAST:event_detailButtonActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

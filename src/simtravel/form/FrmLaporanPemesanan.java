@@ -249,7 +249,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         JasperPrint jasperPrint = null;
                
          try {
-            URL url = getClass().getResource("/simtravel/report/rpt_maskapai.jrxml");
+            URL url = getClass().getResource("/simtravel/report/rpt_status_pemesanan.jrxml");
             jasperDesign = JRXmlLoader.load(url.openStream());
             
             Map param = new HashMap();
@@ -262,7 +262,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             JDialog dialog = new JDialog(this);
             dialog.setContentPane(jasperViewer.getContentPane());
             dialog.setSize(jasperViewer.getSize());
-            dialog.setTitle("Report Data Pengguna");
+            dialog.setTitle("Report Pemesanaan Jamaah");
             dialog.setVisible(true);
             dialog.setLocationRelativeTo(null);
         } catch (Exception e) {
@@ -285,7 +285,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             
         }
         
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_maskapai.pdf";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_pemesanan.pdf";
          try {
             File file = new File("src/simtravel/report/rpt_maskapai.jrxml");
             jasperDesign = JRXmlLoader.load(file);
@@ -315,7 +315,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             }
             
         }
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_maskapai.xlsx";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_pemesanan.xlsx";
         
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("data");
@@ -433,7 +433,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         XWPFParagraph paragraph = document.createParagraph();
         paragraph.setAlignment(ParagraphAlignment.CENTER);
         XWPFRun run = paragraph.createRun();
-        run.setText("Laporan Daftar Pemesanan");
+        run.setText("Laporan Pemesanan Jamaah");
         run.setFontSize(20);
         run.setBold(true);
         
@@ -599,9 +599,9 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addGap(44, 44, 44)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tglFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(statusPembayaranCB, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tglFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(statusPembayaranCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tglTo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)

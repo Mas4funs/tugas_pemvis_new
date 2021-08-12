@@ -93,6 +93,7 @@ public class FrmTambahTransport extends javax.swing.JDialog {
             ps.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
             ps.execute();
             
+            System.out.println("    ==>> : [Add]Transport == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di tambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Data gagal di tambahkan\n"+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -113,6 +114,7 @@ public class FrmTambahTransport extends javax.swing.JDialog {
             ps.setString(6, kodeField.getText());
             ps.execute();
             
+            System.out.println("    ==>> : [Update]Transport == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -319,7 +321,6 @@ public class FrmTambahTransport extends javax.swing.JDialog {
                     Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
-                        System.out.println("    ==>> : [Add]Transport == "+userId);
                         tambahRecord();
                         dispose();
                         Map data = new HashMap();
@@ -338,7 +339,6 @@ public class FrmTambahTransport extends javax.swing.JDialog {
                     Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
-                        System.out.println("    ==>> : [Update]Hotel == "+userId);
                         updateRecord();
                         dispose();
                         Map data = new HashMap();

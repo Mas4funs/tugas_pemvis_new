@@ -322,8 +322,8 @@ public class FrmLogin extends javax.swing.JDialog {
             return false;
         }
         
-        System.out.println("userId == "+userId);
-        System.out.println("password == "+password);
+        System.out.println("[Login]  : userId == "+userId);
+        System.out.println("    ==>> : Password == "+password); 
         
         String sql = "SELECT COUNT(*) as cnt FROM tbl_user WHERE user_id = ? AND password = ? ";
         
@@ -338,7 +338,7 @@ public class FrmLogin extends javax.swing.JDialog {
             
             while (rs.next()){
                 cnt = rs.getInt("cnt");
-                System.out.println("row == "+cnt);
+                //System.out.println("row == "+cnt);
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();

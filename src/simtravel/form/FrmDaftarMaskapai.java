@@ -82,9 +82,9 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
     
     public FrmDaftarMaskapai(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
-        initComponents();
         userId = (String) data.get("userId");
-        System.out.println("[Access] : Maskapai == "+userId);
+        initComponents();
+        
         setLocationRelativeTo(null);
         showTable();
         
@@ -206,6 +206,7 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 Map data = new HashMap();
                 data.put("action", "tambah");
+                 data.put("userId", userId);
                 new FrmTambahMaskapai(null, true, data).setVisible(true);
             }
         });
@@ -805,7 +806,7 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
         
         int i = dataTable.getSelectedRow();
         String kode = (String) dataTable.getValueAt(i, 1);
-        System.out.println("kode == "+kode);
+        System.out.println("    Data  == "+kode);
         
         int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
         if(pilih == JOptionPane.OK_OPTION){
