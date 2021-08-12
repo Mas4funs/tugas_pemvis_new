@@ -137,7 +137,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             rs2 = ps.executeQuery();
             
             while (rs2.next()){
-                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs2.getString("harga"))));
+                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs2.getString("harga_paket"))));
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -155,7 +155,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             rs2 = ps.executeQuery();
             
             while (rs2.next()){
-                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs2.getString("harga"))));
+                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs2.getString("harga_paket"))));
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();

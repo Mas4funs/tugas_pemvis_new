@@ -112,13 +112,13 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
         String sql = "";
         
         if("Semua".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? OR hotel LIKE ? OR maskapai LIKE ? OR transportasi LIKE ? OR harga_paket LIKE ?";
+            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? OR nama_hotel LIKE ? OR nama_maskapai LIKE ? OR nama_transportasi LIKE ? OR harga_paket LIKE ?";
         }else if("Nama Paket".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_paket_umrah WHERE nama_paket LIKE ? ";
         }else if("Hotel".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_paket_umrah WHERE hotel LIKE ? ";
+            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_hotel LIKE ? ";
         }else if("Maskapai".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_paket_umrah WHERE maskapai LIKE ? ";
+            sql = "SELECT * FROM tbl_paket_umrah WHERE nama_maskapai LIKE ? ";
         }else if("Harga".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_paket_umrah WHERE harga_paket LIKE ? ";
         }
@@ -142,9 +142,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
             while (rs.next()){
                 model.addRow(new Object[]{cnt++, 
                     rs.getString("nama_paket"), 
-                    rs.getString("hotel"),
-                    rs.getString("maskapai"),
-                    rs.getString("transportasi"),                    
+                    rs.getString("nama_hotel"),
+                    rs.getString("nama_maskapai"),
+                    rs.getString("nama_transportasi"),                    
                     rs.getString("fasilitas"),
                     new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))),
                     new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total"))),
@@ -229,9 +229,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
                 Map data = new HashMap();
                 data.put("action", "edit");
                 data.put("namaPaket", namaPaket);
-                data.put("hotel", hotel);
-                data.put("maskapai", maskapai);
-                data.put("transportasi", transportasi);
+                data.put("nama_hotel", hotel);
+                data.put("nama_maskapai", maskapai);
+                data.put("nama_transportasi", transportasi);
                 data.put("fasilitas", fasilitas);
                 data.put("harga_paket", new CurrencyUtils().unFormatRupiah(harga_paket));
                 data.put("harga_total", new CurrencyUtils().unFormatRupiah(harga_total));
@@ -356,9 +356,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
                 dataMap.put("nama_paket", rs.getString("nama_paket"));
-                dataMap.put("hotel", rs.getString("hotel"));
-                dataMap.put("maskapai", rs.getString("maskapai"));
-                dataMap.put("transportasi", rs.getString("transportasi"));
+                dataMap.put("nama_hotel", rs.getString("nama_hotel"));
+                dataMap.put("nama_maskapai", rs.getString("nama_maskapai"));
+                dataMap.put("nama_transportasi", rs.getString("nama_transportasi"));
                 dataMap.put("fasilitas", rs.getString("fasilitas"));
                 dataMap.put("harga_paket", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))));                
                 dataMap.put("harga_total", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total")))); 
@@ -395,11 +395,11 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
             cell = row.createCell(colNum++);
             cell.setCellValue((String)dataMap.get("nama_paket"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("hotel"));
+            cell.setCellValue((String)dataMap.get("nama_hotel"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("maskapai"));
+            cell.setCellValue((String)dataMap.get("nama_maskapai"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("transportasi"));
+            cell.setCellValue((String)dataMap.get("nama_transportasi"));
             cell = row.createCell(colNum++);
             cell.setCellValue((String)dataMap.get("fasilitas"));
             cell = row.createCell(colNum++);
@@ -476,9 +476,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
                 dataMap.put("nama_paket", rs.getString("nama_paket"));
-                dataMap.put("hotel", rs.getString("hotel"));
-                dataMap.put("maskapai", rs.getString("maskapai"));
-                dataMap.put("transportasi", rs.getString("transportasi"));
+                dataMap.put("nama_hotel", rs.getString("nama_hotel"));
+                dataMap.put("nama_maskapai", rs.getString("nama_maskapai"));
+                dataMap.put("nama_transportasi", rs.getString("nama_transportasi"));
                 dataMap.put("fasilitas", rs.getString("fasilitas"));
                 dataMap.put("harga_paket", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_paket"))));                
                 dataMap.put("harga_total", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total")))); 
@@ -495,9 +495,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
             XWPFTableRow tableRowTwo = table.createRow();
             tableRowTwo.getCell(0).setText(dataMap.get("no").toString());
             tableRowTwo.getCell(1).setText((String) dataMap.get("nama_paket"));
-            tableRowTwo.getCell(2).setText((String) dataMap.get("hotel"));
-            tableRowTwo.getCell(3).setText((String) dataMap.get("maskapai"));
-            tableRowTwo.getCell(4).setText((String) dataMap.get("transportasi"));
+            tableRowTwo.getCell(2).setText((String) dataMap.get("nama_hotel"));
+            tableRowTwo.getCell(3).setText((String) dataMap.get("nama_maskapai"));
+            tableRowTwo.getCell(4).setText((String) dataMap.get("nama_transportasi"));
             tableRowTwo.getCell(5).setText((String) dataMap.get("fasilitas"));
             tableRowTwo.getCell(6).setText((String) dataMap.get("harga_paket"));
             tableRowTwo.getCell(7).setText((String) dataMap.get("harga_total"));
@@ -805,9 +805,9 @@ public class FrmDaftarPaketUmrah extends javax.swing.JDialog {
         Map data = new HashMap();
         data.put("action", "edit");
         data.put("namaPaket", namaPaket);
-        data.put("hotel", hotel);
-        data.put("maskapai", maskapai);
-        data.put("transportasi", transportasi);
+        data.put("nama_hotel", hotel);
+        data.put("nama_maskapai", maskapai);
+        data.put("nama_transportasi", transportasi);
         data.put("fasilitas", fasilitas);
         data.put("harga_paket", new CurrencyUtils().unFormatRupiah(harga_paket));
         data.put("harga_total", new CurrencyUtils().unFormatRupiah(harga_total));

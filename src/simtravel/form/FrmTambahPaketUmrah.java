@@ -50,9 +50,9 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
         userId = ""; //(String) data.get("userId");
         action = (String) data.get("action");
         String namaPaket = (String) data.get("namaPaket");
-        String hotel = (String) data.get("hotel");
-        String maskapai = (String) data.get("maskapai");
-        String transportasi = (String) data.get("transportasi");
+        String hotel = (String) data.get("nama_hotel");
+        String maskapai = (String) data.get("nama_maskapai");
+        String transportasi = (String) data.get("nama_transportasi");
         String fasilitas = (String) data.get("fasilitas");
         String harga_paket = (String) data.get("harga_paket");
         String harga_total = (String) data.get("harga_total");
@@ -85,7 +85,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
     }
     
     public void displayHotelCB(){
-        String sql = "SELECT * FROM tbl_hotel";
+        String sql = "SELECT nama_hotel FROM tbl_hotel";
         con = new DBUtils().getKoneksi();
         
         try {
@@ -93,7 +93,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
             rs = ps.executeQuery();
             
             while (rs.next()){
-                hotelCB.addItem(rs.getString("nama"));   
+                hotelCB.addItem(rs.getString("nama_hotel"));   
                 //hargaField1.setText(rs.getString("tarif"));;
             }    
         } catch (SQLException ex) {
@@ -102,7 +102,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
     }
     
     public void displayMaskapaiCB(){
-        String sql = "SELECT nama FROM tbl_maskapai";
+        String sql = "SELECT nama_maskapai FROM tbl_maskapai";
         con = new DBUtils().getKoneksi();
         
         try {
@@ -110,7 +110,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
             rs = ps.executeQuery();
             
             while (rs.next()){
-                maskapaiCB.addItem(rs.getString("nama"));                
+                maskapaiCB.addItem(rs.getString("nama_maskapai"));                
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -118,7 +118,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
     }
     
     public void displayTransportCB(){
-        String sql = "SELECT nama FROM tbl_transport";
+        String sql = "SELECT nama_transport FROM tbl_transport";
         con = new DBUtils().getKoneksi();
         
         try {
@@ -126,7 +126,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
             rs = ps.executeQuery();
             
             while (rs.next()){
-                transportCB.addItem(rs.getString("nama"));                
+                transportCB.addItem(rs.getString("nama_transport"));                
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -154,7 +154,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
         con = new DBUtils().getKoneksi();  
         try {
            
-        String sql = "select tarif from tbl_hotel where nama='"+hotelCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
+        String sql = "select tarif from tbl_hotel where nama_hotel='"+hotelCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql);                                // yang anda ingin kan
         rs = ps.executeQuery();
         String trfhotel1 = null;
@@ -165,7 +165,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
 		rs.close();
 
 
-        String sql2 = "select tarif from tbl_maskapai where nama='"+maskapaiCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
+        String sql2 = "select tarif from tbl_maskapai where nama_maskapai='"+maskapaiCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql2);                                // yang anda ingin kan
         rs = ps.executeQuery();
         String trfmaskapai1 = null;
@@ -175,7 +175,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
         long trfmaskapai = Integer.parseInt(trfmaskapai1);
 		rs.close();
 
-        String sql3 = "select tarif from tbl_transport where nama='"+transportCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
+        String sql3 = "select tarif from tbl_transport where nama_transport='"+transportCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql3);                                // yang anda ingin kan
         rs = ps.executeQuery();
         String trftransport1 = null;
@@ -236,7 +236,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
     }
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_paket_umrah(nama_paket, hotel, maskapai, transportasi, fasilitas, harga_paket, harga_total) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO tbl_paket_umrah(nama_paket, nama_hotel, nama_maskapai, nama_transportasi, fasilitas, harga_paket, harga_total) VALUES (?, ?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
@@ -256,7 +256,7 @@ public class FrmTambahPaketUmrah extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_paket_umrah SET hotel = ?, maskapai = ?, transportasi = ?, fasilitas = ?, harga_paket = ?, harga_total = ? WHERE nama_paket = ? ";
+        String sql = "UPDATE tbl_paket_umrah SET nama_hotel = ?, nama_maskapai = ?, nama_transportasi = ?, fasilitas = ?, harga_paket = ?, harga_total = ? WHERE nama_paket = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
