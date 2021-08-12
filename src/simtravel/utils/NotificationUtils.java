@@ -81,6 +81,7 @@ public class NotificationUtils {
                 sb.append("No. Pemesanan \t\t:"+data.get("noPemesanan")+"\n");
                 sb.append("Tgl. Pemesanan \t\t:"+data.get("tglPemesanan")+"\n");
                 sb.append("Status Pembayaran \t:"+data.get("statusPembayaran")+"\n");
+                sb.append("Jenis Pembayaran \t:"+data.get("jenisPembayaran")+"\n");
                 sb.append("Nama Paket \t\t:"+data.get("namaPaket")+"\n");
                 sb.append("Harga Paket \t\t:"+data.get("hargaPaket")+"\n"); 
 

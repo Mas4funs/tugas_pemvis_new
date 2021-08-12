@@ -186,6 +186,13 @@ public class FrmPemesanan extends javax.swing.JDialog {
     
     
     public void tambahRecord(){
+        String Status = "";
+               if("Tunai".equals(jnsPembayaranCB.getSelectedItem())){
+                   Status = "Lunas";
+               }else{
+                   Status = "Belum Lunas";
+               }
+               
         String sql = "INSERT INTO tbl_pemesanan(no_pemesanan, no_ktp, nama_paket, jns_pembayaran, tgl_pemesanan, status_pembayaran, tipe_pemesanan, uang_dp, total_bayar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
@@ -194,7 +201,7 @@ public class FrmPemesanan extends javax.swing.JDialog {
             ps.setString(3, paketCB.getSelectedItem().toString());
             ps.setString(4, jnsPembayaranCB.getSelectedItem().toString());
             ps.setDate(5, new java.sql.Date(tglPesananField.getDate().getTime()));
-            ps.setString(6, "Belum Lunas");
+            ps.setString(6, Status);
             ps.setString(7, rbHaji.isSelected()?"Haji":"Umrah");
             ps.setString(8, uangDPField.getText().equals("")?"0":uangDPField.getText());
             ps.setString(9, new CurrencyUtils().unFormatRupiah(hargaField.getText()));
@@ -208,13 +215,21 @@ public class FrmPemesanan extends javax.swing.JDialog {
     }
     
     public void sentNotification() throws FileNotFoundException{
+        String Status = "";
+               if("Tunai".equals(jnsPembayaranCB.getSelectedItem())){
+                   Status = "Lunas";
+               }else{
+                   Status = "Belum Lunas";
+               }
+               
         Map data = new HashMap();
         data.put("to", emailField.getText());
         data.put("noPemesanan", kodeField.getText());
         data.put("tglPemesanan", tglPesananField.getDate());
         data.put("nama", namaLengkapField.getText());
         data.put("noKTP", noKTPField.getText());
-        data.put("statusPembayaran", jnsPembayaranCB.getSelectedItem().toString());
+        data.put("statusPembayaran", Status);
+        data.put("jenisPembayaran", jnsPembayaranCB.getSelectedItem().toString());
         data.put("namaPaket", paketCB.getSelectedItem().toString());
         data.put("hargaPaket", hargaField.getText());
         
