@@ -196,6 +196,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             ps.setString(1, kode);
             ps.execute();
             
+            System.out.println("    ==>> : [Delete]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di hapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -329,7 +330,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
 
                 int i = dataTable.getSelectedRow();
                 String kode = (String) dataTable.getValueAt(i, 1);
-                System.out.println("kode == "+kode);
+                //System.out.println("kode == "+kode);
 
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
@@ -892,7 +893,7 @@ public class FrmDaftarCalonJamaah extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Silakan pilih Data yang akan diupdate", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+        dispose();
         int i = dataTable.getSelectedRow();
         String nama = (String)dataTable.getValueAt(i, 1);
         String noKtp = (String)dataTable.getValueAt(i, 2);

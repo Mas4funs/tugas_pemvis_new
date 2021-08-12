@@ -82,8 +82,8 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
     
     public FrmDaftarHotel(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
-        initComponents();
         userId = (String) data.get("userId");
+        initComponents();
         System.out.println("[Access] : Hotel == "+userId);
         setLocationRelativeTo(null);
         showTable();
@@ -178,7 +178,8 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             ps.setString(1, kode);
             ps.execute();
             
-            JOptionPane.showMessageDialog(null, "Data berhasil di hapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("    ==>> : [Delete]Hotel == "+userId);
+            JOptionPane.showMessageDialog(null, "Data berhasil di hapus", "Informasi", JOptionPane.INFORMATION_MESSAGE);         
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "Data gagal di hapus\n"+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -205,6 +206,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 Map data = new HashMap();
                 data.put("action", "tambah");
+                data.put("userId", userId);
                 new FrmTambahHotel(null, true, data).setVisible(true);
             }
         });
@@ -220,6 +222,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
 
                 Map data = new HashMap();
                 data.put("action", "edit");
+                data.put("userId", userId);
                 data.put("namaHotel", namaHotel);
                 data.put("lokasi", lokasi);
                 data.put("bintang", bintang);
@@ -238,7 +241,7 @@ public class FrmDaftarHotel extends javax.swing.JDialog {
 
                 int i = dataTable.getSelectedRow();
                 String kode = (String) dataTable.getValueAt(i, 1);
-                System.out.println("kode == "+kode);
+               // System.out.println("kode == "+kode);
 
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin menghapus data ?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){

@@ -222,6 +222,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setTimestamp(12, new Timestamp(new java.util.Date().getTime()));
             ps.execute();
             
+            System.out.println("    ==>> : [Add]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di tambahkan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -246,6 +247,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             ps.setString(9, kodeField.getText());
             ps.execute();
             
+            System.out.println("    ==>> : [Update]Calon Jamaah == "+userId);
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -564,7 +566,6 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
                      Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
-                        System.out.println("    ==>> : [Add]Calon Jamaah == "+userId);
                         tambahRecord();
                         dispose();
                         Map data = new HashMap();
@@ -574,7 +575,6 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
                 }
             }
         }else if(action.equals("detail")){
-            System.out.println("    ==>> : [Print]Calon Jamaah == "+userId);
             printDetailJamaah();
         }else{
             if(validasiUpdate()){
@@ -586,7 +586,6 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
                     Boolean isSuccessLogin = true;
         
                     if(isSuccessLogin){
-                        System.out.println("    ==>> : [Update]Calon Jamaah == "+userId);
                         updateRecord();
                         dispose();
                         Map data = new HashMap();
@@ -600,7 +599,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
 
     
     public void printDetailJamaah(){
-        
+        System.out.println("    ==>> : [Print]Calon Jamaah == "+userId);
        // System.out.println("foto == "+foto);
         
         JasperDesign jasperDesign = null;

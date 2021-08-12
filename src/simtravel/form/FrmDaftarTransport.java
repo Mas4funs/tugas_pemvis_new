@@ -207,6 +207,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             public void actionPerformed(ActionEvent e) {
                 Map data = new HashMap();
                 data.put("action", "tambah");
+                data.put("userId", userId);
                 new FrmTambahTransport(null, true, data).setVisible(true);
             }
         });
@@ -223,6 +224,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
 
                 Map data = new HashMap();
                 data.put("action", "edit");
+                data.put("userId", userId);
                 data.put("namaTransport", namaTransport);
                 data.put("kelas", kelas);
                 data.put("status", status);

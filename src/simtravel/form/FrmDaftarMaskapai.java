@@ -222,6 +222,7 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
 
                 Map data = new HashMap();
                 data.put("action", "edit");
+                data.put("userId", userId);
                 data.put("namaMaskapai", namaMaskapai);
                 data.put("bandara", bandara);
                 data.put("kelas", kelas);
@@ -786,6 +787,7 @@ public class FrmDaftarMaskapai extends javax.swing.JDialog {
         
         Map data = new HashMap();
         data.put("action", "edit");
+        data.put("userId", userId);
         data.put("namaMaskapai", namaMaskapai);
         data.put("bandara", bandara);
         data.put("kelas", kelas);
