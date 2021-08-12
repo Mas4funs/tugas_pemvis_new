@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 11, 2021 at 10:40 AM
+-- Generation Time: Aug 12, 2021 at 01:16 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.3
 
@@ -38,18 +38,20 @@ CREATE TABLE `tbl_customer` (
   `alamat` varchar(100) NOT NULL,
   `no_telp` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `foto` varchar(100) NOT NULL
+  `foto` varchar(100) NOT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_dt` date DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_customer`
 --
 
-INSERT INTO `tbl_customer` (`no_ktp`, `nama`, `jns_kelamin`, `tgl_lahir`, `gol_darah`, `tempat_lahir`, `alamat`, `no_telp`, `email`, `foto`) VALUES
-('111111', 'Nursalim', 'L', '2021-07-20', 'AB', 'Brebes', 'asdsa', '2312312', '4funs.adi@gmail.com', ''),
-('11111111', 'adi santoso', 'L', '2021-08-01', 'A', 'jakarta', 'jl. wkwkw', '081212', 'virgan1st@gmail.com', '1619107333638.png'),
-('1122334455', 'Naura Krasiva', 'P', '2021-07-22', 'AB', 'Jakarta', 'Jalan Raya Bogor', '383838', '4funs.adi@gmail.com', 'test_photo.png'),
-('1234', 'adi', 'L', '2021-08-02', 'A', 'akar', 'wew', '0812', 'virgan1st@gmail.com', 'test_photo.png');
+INSERT INTO `tbl_customer` (`no_ktp`, `nama`, `jns_kelamin`, `tgl_lahir`, `gol_darah`, `tempat_lahir`, `alamat`, `no_telp`, `email`, `foto`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('111111', 'Nursalim', 'L', '2021-07-20', 'AB', 'Brebes', 'asdsa', '2312312', '4funs.adi@gmail.com', '', NULL, NULL, 'admin', '2021-08-12 08:34:52'),
+('1234', 'Test', 'L', '2021-08-01', 'A', 'jakarta', 'wew', '12345', 'wew@gmail.com', '1619107333638.png', 'admin', '2021-08-12', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -58,7 +60,7 @@ INSERT INTO `tbl_customer` (`no_ktp`, `nama`, `jns_kelamin`, `tgl_lahir`, `gol_d
 --
 
 CREATE TABLE `tbl_hotel` (
-  `nama` varchar(50) NOT NULL,
+  `nama_hotel` varchar(50) NOT NULL,
   `lokasi` varchar(50) NOT NULL,
   `bintang` varchar(10) NOT NULL,
   `tarif` int(12) NOT NULL,
@@ -72,9 +74,10 @@ CREATE TABLE `tbl_hotel` (
 -- Dumping data for table `tbl_hotel`
 --
 
-INSERT INTO `tbl_hotel` (`nama`, `lokasi`, `bintang`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+INSERT INTO `tbl_hotel` (`nama_hotel`, `lokasi`, `bintang`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('Hotel Melati', 'Jakarta', 'Bintang 1', 100000, NULL, '2021-07-20 06:50:31', 'admin', '2021-08-12 08:58:07'),
 ('Hotel Shangrilla', 'Mekah 123', 'Bintang 1', 10000000, NULL, '2021-07-18 13:32:54', NULL, NULL),
-('Hotel Melati', 'Jakarta', 'Bintang 1', 100000, NULL, '2021-07-20 06:50:31', NULL, NULL);
+('test lagi', 'qwert', 'Bintang 1', 1234567, 'admin', '2021-08-12 08:58:28', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +86,7 @@ INSERT INTO `tbl_hotel` (`nama`, `lokasi`, `bintang`, `tarif`, `created_by`, `cr
 --
 
 CREATE TABLE `tbl_maskapai` (
-  `nama` varchar(50) NOT NULL,
+  `nama_maskapai` varchar(50) NOT NULL,
   `bandara` varchar(100) NOT NULL,
   `kelas` varchar(50) NOT NULL,
   `tarif` int(12) NOT NULL,
@@ -97,10 +100,11 @@ CREATE TABLE `tbl_maskapai` (
 -- Dumping data for table `tbl_maskapai`
 --
 
-INSERT INTO `tbl_maskapai` (`nama`, `bandara`, `kelas`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
-('Citilink', 'Soekarno Hatta eut', 'Presiden Suite', 10000000, NULL, '2021-07-20 06:30:35', NULL, NULL),
+INSERT INTO `tbl_maskapai` (`nama_maskapai`, `bandara`, `kelas`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('Citilink', 'Soekarno Hatta eut', 'Presiden Suite', 10000000, NULL, '2021-07-20 06:30:35', NULL, '2021-08-12 06:56:52'),
 ('Etihad Airways', 'King Abdul Aziz', 'Eksekutif', 2000000, NULL, '2021-07-21 13:55:03', NULL, NULL),
-('Test123', 'Test123', 'Bisnis', 100000, NULL, '2021-07-21 14:03:24', NULL, NULL);
+('test dulu', 'wew', 'Bisnis', 133456, NULL, '2021-08-12 08:54:38', NULL, NULL),
+('Test123', 'Test123', 'Bisnis', 100000, NULL, '2021-07-21 14:03:24', 'admin', '2021-08-12 08:54:15');
 
 -- --------------------------------------------------------
 
@@ -110,20 +114,27 @@ INSERT INTO `tbl_maskapai` (`nama`, `bandara`, `kelas`, `tarif`, `created_by`, `
 
 CREATE TABLE `tbl_paket_haji` (
   `nama_paket` varchar(50) NOT NULL,
-  `hotel` varchar(50) NOT NULL,
-  `maskapai` varchar(50) NOT NULL,
-  `transportasi` varchar(50) NOT NULL,
+  `nama_hotel` varchar(50) NOT NULL,
+  `nama_maskapai` varchar(50) NOT NULL,
+  `nama_transportasi` varchar(50) NOT NULL,
   `fasilitas` varchar(255) NOT NULL,
-  `harga` int(10) DEFAULT NULL
+  `harga_paket` int(30) DEFAULT NULL,
+  `harga_total` int(30) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_dt` timestamp NULL DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_paket_haji`
 --
 
-INSERT INTO `tbl_paket_haji` (`nama_paket`, `hotel`, `maskapai`, `transportasi`, `fasilitas`, `harga`) VALUES
-('Paket Haji 1', 'Hotel Shangrilla', 'Citilink', 'Travel Antar Jemput', 'Makan Minum, Buku Manasik, Batik, Air Zamzam, Kain Ihram', 36000000),
-('Paket Haji Mabrur', 'Hotel Melati', 'Citilink', 'Jet', 'asdsa', 123456);
+INSERT INTO `tbl_paket_haji` (`nama_paket`, `nama_hotel`, `nama_maskapai`, `nama_transportasi`, `fasilitas`, `harga_paket`, `harga_total`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('Paket Haji 1', 'Hotel Shangrilla', 'Citilink', 'Travel Antar Jemput', 'Makan Minum, Buku Manasik, Batik, Air Zamzam, Kain Ihram', 36000000, 0, NULL, NULL, NULL, NULL),
+('Paket Haji Fast', 'Hotel Shangrilla', 'Citilink', 'Bus', 'Fast wkwkw', 10000000, 40000000, NULL, NULL, NULL, NULL),
+('Paket Haji Mabrur', 'Hotel Melati', 'Citilink', 'Bus', 'asdsa', 1234561, 21334561, NULL, NULL, NULL, NULL),
+('wew', 'Hotel Melati', 'Citilink', 'Bus', 'wew', 12, 20100012, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,20 +144,25 @@ INSERT INTO `tbl_paket_haji` (`nama_paket`, `hotel`, `maskapai`, `transportasi`,
 
 CREATE TABLE `tbl_paket_umrah` (
   `nama_paket` varchar(50) NOT NULL,
-  `hotel` varchar(50) NOT NULL,
-  `maskapai` varchar(50) NOT NULL,
-  `transportasi` varchar(50) NOT NULL,
+  `nama_hotel` varchar(50) NOT NULL,
+  `nama_maskapai` varchar(50) NOT NULL,
+  `nama_transportasi` varchar(50) NOT NULL,
   `fasilitas` varchar(255) NOT NULL,
-  `harga` int(10) DEFAULT NULL
+  `harga_paket` int(30) DEFAULT NULL,
+  `harga_total` int(30) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_dt` timestamp NULL DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_paket_umrah`
 --
 
-INSERT INTO `tbl_paket_umrah` (`nama_paket`, `hotel`, `maskapai`, `transportasi`, `fasilitas`, `harga`) VALUES
-('Paket Hemat', 'Hotel Shangrilla', 'Citilink', 'Jet Pribadi', 'Kamar Mandi, Baju Ihram, Batik, Air Zamza', 12345),
-('Paket Umrah 1', 'Hotel Shangrilla', 'Garuda Indonesia', 'antar jemput di hotel', 'Batik, Buku Manasik, Baju Batik, Pakaian Ikhram', 123456);
+INSERT INTO `tbl_paket_umrah` (`nama_paket`, `nama_hotel`, `nama_maskapai`, `nama_transportasi`, `fasilitas`, `harga_paket`, `harga_total`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('Paket Hemat', 'Hotel Shangrilla', 'Citilink', 'Bus', 'Kamar Mandi, Baju Ihram, Batik, Air Zamza', 123451, 30123451, NULL, NULL, NULL, NULL),
+('Paket Umrah 1', 'Hotel Shangrilla', 'Citilink', 'Motor', 'Batik, Buku Manasik, Baju Batik, Pakaian Ikhram', 1234561, 21334561, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -167,34 +183,39 @@ CREATE TABLE `tbl_pemesanan` (
   `total_bayar` int(11) DEFAULT NULL,
   `pimpinan_rombongan` varchar(50) DEFAULT NULL,
   `tipe_pemesanan` varchar(10) DEFAULT NULL,
-  `uang_dp` int(10) DEFAULT NULL
+  `uang_dp` int(10) DEFAULT NULL,
+  `created_by` varchar(50) DEFAULT NULL,
+  `created_dt` timestamp NULL DEFAULT NULL,
+  `updated_by` varchar(50) DEFAULT NULL,
+  `updated_dt` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `tbl_pemesanan`
 --
 
-INSERT INTO `tbl_pemesanan` (`no_pemesanan`, `no_ktp`, `nama_paket`, `jns_pembayaran`, `tgl_berangkat`, `tgl_pulang`, `tgl_pemesanan`, `status_pembayaran`, `no_registrasi`, `total_bayar`, `pimpinan_rombongan`, `tipe_pemesanan`, `uang_dp`) VALUES
-('P210720LEA9', '111111', 'Paket Haji Mabrur', 'Kredit', '2021-08-01', '2021-08-07', '2021-01-20', 'Lunas', 'R210720GS02', 123456, 'Ust B', 'Haji', 10000000),
-('P2107223HRR', '111111', 'Paket Haji 1', 'Tunai', '2021-08-03', '2021-08-10', '2021-04-22', 'Lunas', 'R210806EKBK', 36000000, 'Ust B', 'Haji', 0),
-('P210722U6LH', '1122334455', 'Paket Umrah 1', 'Kredit', '2021-08-08', '2021-08-08', '2021-08-22', 'Lunas', 'R210807HQ77', 123456, 'Ust C', 'Umrah', 900000),
-('P210723XA1L', '1122334455', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-12-23', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000),
-('P21080732KD', '1234', 'Paket Hemat', 'Tunai', '2021-08-17', '2021-09-17', '2021-08-07', 'Lunas', 'R210810YEHO', 12345, 'Ust C', 'Umrah', 0),
-('P210807KPAS', '111111', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-01-07', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000),
-('P210807S2P8', '11111111', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-09-07', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000),
-('P210807S652', '1234', 'Paket Haji 1', 'Tunai', '2021-08-01', '2021-08-31', '2021-10-07', 'Lunas', 'R210810Z822', 36000000, 'Ust A', 'Haji', 0),
-('P210807YM8O', '1234', 'Paket Haji 1', 'Tunai', '2021-08-01', '2021-08-31', '2021-10-07', 'Lunas', 'R210810YOON', 36000000, 'Ust A', 'Haji', 1000000),
-('P210809KRNU', '1234', 'Paket Hemat', 'Tunai', '2021-08-01', '2021-08-31', '2021-08-09', 'Lunas', 'R210809FP23', 12345, 'Ust A', 'Umrah', 0),
-('P210810CA6W', '1234', 'Paket Haji 1', 'Kredit', '2021-08-11', '2021-08-31', '2021-08-10', 'Lunas', 'R2108100HVW', 36000000, 'Ust B', 'Haji', 1000000),
-('P210810VANE', '1234', 'Paket Haji 1', 'Kredit', '2021-08-31', '2021-08-31', '2021-08-10', 'Lunas', 'R2108109SBJ', 36000000, 'Ust B', 'Haji', 1000);
+INSERT INTO `tbl_pemesanan` (`no_pemesanan`, `no_ktp`, `nama_paket`, `jns_pembayaran`, `tgl_berangkat`, `tgl_pulang`, `tgl_pemesanan`, `status_pembayaran`, `no_registrasi`, `total_bayar`, `pimpinan_rombongan`, `tipe_pemesanan`, `uang_dp`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('P210720LEA9', '111111', 'Paket Haji Mabrur', 'Kredit', '2021-08-01', '2021-08-07', '2021-01-20', 'Lunas', 'R210720GS02', 123456, 'Ust B', 'Haji', 10000000, NULL, NULL, NULL, NULL),
+('P2107223HRR', '111111', 'Paket Haji 1', 'Tunai', '2021-08-03', '2021-08-10', '2021-04-22', 'Lunas', 'R210806EKBK', 36000000, 'Ust B', 'Haji', 0, NULL, NULL, NULL, NULL),
+('P210722U6LH', '1122334455', 'Paket Umrah 1', 'Kredit', '2021-08-08', '2021-08-08', '2021-08-22', 'Lunas', 'R210807HQ77', 123456, 'Ust C', 'Umrah', 900000, NULL, NULL, NULL, NULL),
+('P210723XA1L', '1122334455', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-12-23', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000, NULL, NULL, NULL, NULL),
+('P21080732KD', '1234', 'Paket Hemat', 'Tunai', '2021-08-17', '2021-09-17', '2021-08-07', 'Lunas', 'R210810YEHO', 12345, 'Ust C', 'Umrah', 0, NULL, NULL, NULL, NULL),
+('P210807KPAS', '111111', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-01-07', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000, NULL, NULL, NULL, NULL),
+('P210807S2P8', '11111111', 'Paket Haji 1', 'Kredit', NULL, NULL, '2021-09-07', 'Belum Lunas', NULL, 36000000, NULL, 'Haji', 1000000, NULL, NULL, NULL, NULL),
+('P210807S652', '1234', 'Paket Haji 1', 'Tunai', '2021-08-01', '2021-08-31', '2021-10-07', 'Lunas', 'R210810Z822', 36000000, 'Ust A', 'Haji', 0, NULL, NULL, NULL, NULL),
+('P210807YM8O', '1234', 'Paket Haji 1', 'Tunai', '2021-08-01', '2021-08-31', '2021-10-07', 'Lunas', 'R210810YOON', 36000000, 'Ust A', 'Haji', 1000000, NULL, NULL, NULL, NULL),
+('P210809KRNU', '1234', 'Paket Hemat', 'Tunai', '2021-08-01', '2021-08-31', '2021-08-09', 'Lunas', 'R210809FP23', 12345, 'Ust A', 'Umrah', 0, NULL, NULL, NULL, NULL),
+('P210810CA6W', '1234', 'Paket Haji 1', 'Kredit', '2021-08-11', '2021-08-31', '2021-08-10', 'Lunas', 'R2108100HVW', 36000000, 'Ust B', 'Haji', 1000000, NULL, NULL, NULL, NULL),
+('P210810VANE', '1234', 'Paket Haji 1', 'Kredit', '2021-08-31', '2021-08-31', '2021-08-10', 'Lunas', 'R2108109SBJ', 36000000, 'Ust B', 'Haji', 1000, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
+
 --
--- Table structure for table `tbl_trasnport`
+-- Table structure for table `tbl_transport`
 --
 
 CREATE TABLE `tbl_transport` (
-  `nama` varchar(50) NOT NULL,
+  `nama_transport` varchar(50) NOT NULL,
   `kelas` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL,
   `tarif` int(12) NOT NULL,
@@ -205,15 +226,17 @@ CREATE TABLE `tbl_transport` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `transport`
+-- Dumping data for table `tbl_transport`
 --
 
-INSERT INTO `tbl_transport` (`nama`, `kelas`, `status`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
-('Bus', 'Soekarno Hatta eut', 'Presiden Suite', 10000000, NULL, '2021-07-20 06:30:35', NULL, NULL),
-('Taxi', 'King Abdul Aziz', 'Eksekutif', 2000000, NULL, '2021-07-21 13:55:03', NULL, NULL),
-('Motor', 'Test123', 'Bisnis', 100000, NULL, '2021-07-21 14:03:24', NULL, NULL);
+INSERT INTO `tbl_transport` (`nama_transport`, `kelas`, `status`, `tarif`, `created_by`, `created_dt`, `updated_by`, `updated_dt`) VALUES
+('Bus', 'Presiden Suite', 'Pulang-Pergi', 10000000, NULL, '2021-07-20 06:30:35', 'admin', '2021-08-12 04:00:10'),
+('FakeTaxi', 'Presiden Suite', 'Pulang-Pergi', 9999999, 'admin', '2021-08-12 04:03:16', NULL, NULL),
+('Motor', 'Bisnis', 'Antar', 800000, NULL, '2021-07-21 14:03:24', 'admin', '2021-08-12 04:01:50'),
+('Taxi', 'Eksekutif', 'Jemput', 2000000, NULL, '2021-07-21 13:55:03', NULL, NULL);
 
 -- --------------------------------------------------------
+
 --
 -- Table structure for table `tbl_user`
 --
@@ -250,10 +273,16 @@ ALTER TABLE `tbl_customer`
   ADD PRIMARY KEY (`no_ktp`);
 
 --
+-- Indexes for table `tbl_hotel`
+--
+ALTER TABLE `tbl_hotel`
+  ADD PRIMARY KEY (`nama_hotel`);
+
+--
 -- Indexes for table `tbl_maskapai`
 --
 ALTER TABLE `tbl_maskapai`
-  ADD PRIMARY KEY (`nama`);
+  ADD PRIMARY KEY (`nama_maskapai`);
 
 --
 -- Indexes for table `tbl_paket_haji`
@@ -277,7 +306,7 @@ ALTER TABLE `tbl_pemesanan`
 -- Indexes for table `tbl_transport`
 --
 ALTER TABLE `tbl_transport`
-  ADD PRIMARY KEY (`nama`);
+  ADD PRIMARY KEY (`nama_transport`);
 
 --
 -- Indexes for table `tbl_user`
