@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -301,6 +302,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -629,6 +633,9 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
+            
+           
+        
             InputStream imgInputStream = new FileInputStream("C:/tmp/photo_jamaah/"+foto);
             InputStream logo = new FileInputStream(new File("src/simtravel/image/logo.png"));
             param.put("logo", logo);
@@ -641,6 +648,7 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
             //JasperViewer.viewReport(jasperPrint, false);
              JasperExportManager jem = new JasperExportManager();
              jem.exportReportToPdfFile(jasperPrint, FILE_NAME);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -689,6 +697,10 @@ public class FrmTambahCustomer extends javax.swing.JDialog {
         data.put("userId", userId);
         new FrmDaftarCalonJamaah(null, true, data).setVisible(true);
     }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

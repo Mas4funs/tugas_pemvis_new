@@ -134,12 +134,14 @@ public class FrmTambahPengguna extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_user SET user_name = ? WHERE user_id = ? ";
+        String sql = "UPDATE tbl_user SET user_name = ?, email = ?, level = ? WHERE user_id = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, namaField.getText());
-            ps.setString(2, kodeField.getText());
+            ps.setString(2, emailField.getText());
+            ps.setString(3, levelCB.getSelectedItem().toString());
+            ps.setString(4, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);

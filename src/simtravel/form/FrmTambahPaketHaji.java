@@ -103,7 +103,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }
     
     public void displayMaskapaiCB(){
-        String sql = "SELECT nama FROM tbl_maskapai";
+        String sql = "SELECT nama_maskapai FROM tbl_maskapai";
         con = new DBUtils().getKoneksi();
         
         try {
@@ -119,7 +119,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }
     
     public void displayTransportCB(){
-        String sql = "SELECT nama FROM tbl_transport";
+        String sql = "SELECT nama_transport FROM tbl_transport";
         con = new DBUtils().getKoneksi();
         
         try {
