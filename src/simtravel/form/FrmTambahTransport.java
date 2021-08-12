@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,11 +48,14 @@ public class FrmTambahTransport extends javax.swing.JDialog {
         String status = (String) data.get("status");
         String tarif = (String) data.get("tarif");
         
+        
         initComponents();
+        System.out.println("UserId == "+userId);
         setLocationRelativeTo(null);
         
         if(action.equals("edit")){
             judulLabel.setText("Update Transport");
+            
             kodeField.setText(namaTransport);
             kodeField.setBackground(Color.LIGHT_GRAY);
             kodeField.setEditable(false);
@@ -78,7 +82,8 @@ public class FrmTambahTransport extends javax.swing.JDialog {
     }
     
     public void tambahRecord(){
-        String sql = "INSERT INTO tbl_transport(nama, kelas, status, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
+        
+        String sql = "INSERT INTO tbl_transport(nama_transport, kelas, status, tarif, created_by, created_dt) VALUES (?, ?, ?, ?, ?, ?) ";
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, kodeField.getText());
@@ -97,14 +102,16 @@ public class FrmTambahTransport extends javax.swing.JDialog {
     }
     
     public void updateRecord(){
-        String sql = "UPDATE tbl_transport SET kelas = ?, status = ?, tarif = ? WHERE nama = ? ";
+        String sql = "UPDATE tbl_transport SET kelas = ?, status = ?, tarif = ?, updated_by = ?, updated_dt = ? WHERE nama_transport = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
             ps.setString(1, levelCB.getSelectedItem().toString());
             ps.setString(2, levelCB1.getSelectedItem().toString());
             ps.setString(3, tarifField.getText());
-            ps.setString(4, kodeField.getText());
+            ps.setString(4, userId);
+            ps.setTimestamp(5, new Timestamp(new java.util.Date().getTime()));
+            ps.setString(6, kodeField.getText());
             ps.execute();
             
             JOptionPane.showMessageDialog(null, "Data berhasil di update", "Informasi", JOptionPane.INFORMATION_MESSAGE);
@@ -299,23 +306,44 @@ public class FrmTambahTransport extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(action.equals("tambah")){
+            
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    tambahRecord();
-                    dispose();
-                    new FrmDaftarTransport(null, true).setVisible(true);
+                    //tambahRecord();
+                    //dispose();
+                    //new FrmDaftarTransport(null, true).setVisible(true);
+                    
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        tambahRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarTransport(null, true, data).setVisible(true);
+                    }
                 }
             }
         }else{
             if(validasi()){
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
-                    updateRecord();
-                    dispose();
-                    new FrmDaftarTransport(null, true).setVisible(true);
+                    //updateRecord();
+                    //dispose();
+                    //new FrmDaftarTransport(null, true).setVisible(true);
+                    Boolean isSuccessLogin = true;
+        
+                    if(isSuccessLogin){
+                        updateRecord();
+                        dispose();
+                        Map data = new HashMap();
+                        data.put("userId", userId);
+                        new FrmDaftarTransport(null, true, data).setVisible(true);
+                    }
                 }
             }
         }

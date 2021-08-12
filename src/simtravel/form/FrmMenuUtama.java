@@ -294,6 +294,11 @@ try
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 2));
@@ -1025,8 +1030,13 @@ try
         System.out.println("UserId == "+userId);
         Map data = new HashMap();
         data.put("userId", userId);
-        new FrmDaftarTransport(null, true).setVisible(true);
+        new FrmDaftarTransport(null, true, data).setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        setDashboard();
+        setGrafik();
+    }//GEN-LAST:event_formWindowActivated
 
     
     

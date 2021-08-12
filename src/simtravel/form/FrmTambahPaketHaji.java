@@ -61,7 +61,6 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
         displayHotelCB();
         displayMaskapaiCB();
         displayTransportCB();
-      
         total1.setVisible(false);
         total2.setVisible(false);
         setLocationRelativeTo(null);
@@ -78,7 +77,8 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
             fasilitasArea.setText(fasilitas);
             hargaField.setText(harga_paket);
             total2.setText(harga_total);
-            jLabel10.setText(harga_total);
+            //jLabel10.setText(harga_total);
+            jLabel10.setText(new CurrencyUtils().formatRupiah(new BigDecimal(""+harga_total)));
         }
         
         today = new Date();
@@ -135,60 +135,47 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }
     
     
-    public void tampil_hotel()
+     public void tampil_coba()
     {
-        con = new DBUtils().getKoneksi();
+        con = new DBUtils().getKoneksi();  
         try {
-            
-        String sql = "select nama from tbl_hotel order by nama asc";      // disini saya menampilkan NIM, anda dapat menampilkan
-        ps = con.prepareStatement(sql);                                // yang anda ingin kan
-        rs = ps.executeQuery();
-        
-        while(rs.next()){
-            Object[] ob = new Object[1];
-            ob[0] = rs.getString(1);
-            
-            hotelCB.addItem((String) ob[0]);                                      // fungsi ini bertugas menampung isi dari database
-        }
-        rs.close();
-         
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    
-     public void tampil()
-    {
-        con = new DBUtils().getKoneksi();
-        try {
-            
+           
         String sql = "select tarif from tbl_hotel where nama='"+hotelCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql);                                // yang anda ingin kan
         rs = ps.executeQuery();
-        rs.next();
-        long trfhotel =rs.getInt(1);
-        
-        
+        String trfhotel1 = null;
+        while (rs.next()) {
+            trfhotel1 = rs.getString(1);
+        }
+        long trfhotel = Integer.parseInt(trfhotel1);
+		rs.close();
+
+
         String sql2 = "select tarif from tbl_maskapai where nama='"+maskapaiCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql2);                                // yang anda ingin kan
         rs = ps.executeQuery();
-        rs.next();
-        long trfmaskapai =rs.getInt(1);
-        
+        String trfmaskapai1 = null;
+        while (rs.next()) {
+            trfmaskapai1 = rs.getString(1);
+        }
+        long trfmaskapai = Integer.parseInt(trfmaskapai1);
+		rs.close();
 
         String sql3 = "select tarif from tbl_transport where nama='"+transportCB.getSelectedItem()+"'";      // disini saya menampilkan NIM, anda dapat menampilkan
         ps = con.prepareStatement(sql3);                                // yang anda ingin kan
         rs = ps.executeQuery();
-        rs.next();
-        long trftransport =rs.getInt(1);
+        String trftransport1 = null;
+        while (rs.next()) {
+            trftransport1 = rs.getString(1);
+        }
+        long trftransport = Integer.parseInt(trftransport1);
+		rs.close();
+  
         
         long testhasil = trfhotel + trfmaskapai + trftransport;
         //jLabel7.setText(""+testhasil);
         jLabel7.setText(new CurrencyUtils().formatRupiah(new BigDecimal(""+testhasil)));
         total1.setText(""+testhasil);
-
-        rs.close();
          
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -222,9 +209,27 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     
     public boolean validasi(){
         if(namaField.getText() == null || namaField.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null, "Nama Tidak Boleh Kosong", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nama Paket Tidak Boleh Kosong", "Error", JOptionPane.ERROR_MESSAGE);
             return false;       
-        }    
+        }else if("-- Pilih Nama Hotel --".equals(hotelCB.getSelectedItem()) ){
+            JOptionPane.showMessageDialog(null, "Pilih Nama Hotel Terlebih Dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if("-- Pilih Nama Maskapai --".equals(maskapaiCB.getSelectedItem()) ){
+            JOptionPane.showMessageDialog(null, "Pilih Nama Maskapai Terlebih Dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if("-- Pilih Nama Transport --".equals(transportCB.getSelectedItem()) ){
+            JOptionPane.showMessageDialog(null, "Pilih Nama Transport Terlebih Dahulu", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }else if(jLabel7.getText() == null || jLabel7.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Jumlah Harga Tidak ditemukan", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;       
+        }else if(hargaField.getText() == null || hargaField.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Harga Paket Tidak Boleh Kosong", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;       
+        }else if(total2.getText() == null || total2.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Total Harga Paket Tidak ditemukan", "Error", JOptionPane.ERROR_MESSAGE);
+            return false; 
+        }
         
         return true;
     }
@@ -383,6 +388,12 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
 
         jLabel6.setText("Hotel ");
 
+        hotelCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Nama Hotel --" }));
+        hotelCB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                hotelCBMouseClicked(evt);
+            }
+        });
         hotelCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hotelCBActionPerformed(evt);
@@ -391,6 +402,12 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
 
         jLabel4.setText("Maskapai    ");
 
+        maskapaiCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Nama Maskapai --" }));
+        maskapaiCB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                maskapaiCBMouseClicked(evt);
+            }
+        });
         maskapaiCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 maskapaiCBActionPerformed(evt);
@@ -445,6 +462,12 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
         fasilitasArea.setAutoscrolls(false);
         jScrollPane1.setViewportView(fasilitasArea);
 
+        transportCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Nama Transport --" }));
+        transportCB.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transportCBMouseClicked(evt);
+            }
+        });
         transportCB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transportCBActionPerformed(evt);
@@ -659,15 +682,33 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void transportCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transportCBActionPerformed
-        // TODO add your handling code here:
+            if("-- Pilih Nama Transport --".equals(hotelCB.getSelectedItem()) ){
+                    System.out.print("Data Kosong");
+                }else{
+                   tampil_coba();
+                   tampil2();
+        
+                }
     }//GEN-LAST:event_transportCBActionPerformed
 
     private void maskapaiCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maskapaiCBActionPerformed
-        // TODO add your handling code here:
+            if("-- Pilih Nama Maskapai --".equals(hotelCB.getSelectedItem()) ){
+                    System.out.print("Data Kosong");
+                }else{
+                   tampil_coba();
+                   tampil2();
+        
+                }
     }//GEN-LAST:event_maskapaiCBActionPerformed
 
     private void hotelCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hotelCBActionPerformed
-
+            if("-- Pilih Nama Hotel --".equals(hotelCB.getSelectedItem()) ){
+                    System.out.print("Data Kosong");
+                }else{
+                   tampil_coba();
+                   tampil2();
+        
+                }
     }//GEN-LAST:event_hotelCBActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -716,7 +757,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }//GEN-LAST:event_hargaFieldActionPerformed
 
     private void hargaFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hargaFieldKeyPressed
-      tampil();
+      tampil_coba();
       tampil2();
       
         char c = evt.getKeyChar();
@@ -733,7 +774,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
   
     
     private void hargaFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hargaFieldKeyTyped
-      tampil();
+      tampil_coba();
       tampil2();
       
         char c = evt.getKeyChar();
@@ -748,7 +789,7 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     }//GEN-LAST:event_hargaFieldKeyTyped
 
     private void hargaFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_hargaFieldKeyReleased
-        tampil();
+        tampil_coba();
       tampil2();
       
         char c = evt.getKeyChar();
@@ -781,8 +822,11 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(action.equals("tambah")){
             if(validasi()){
+                tampil_coba();
+                tampil2();
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
+                    
                     tambahRecord();
                     dispose();
                     new FrmDaftarPaketHaji(null, true).setVisible(true);
@@ -790,6 +834,8 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
             }
         }else{
             if(validasi()){
+                tampil_coba();
+                tampil2();
                 int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
                 if(pilih == JOptionPane.OK_OPTION){
                     updateRecord();
@@ -803,6 +849,18 @@ public class FrmTambahPaketHaji extends javax.swing.JDialog {
     private void total2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_total2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_total2ActionPerformed
+
+    private void maskapaiCBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maskapaiCBMouseClicked
+
+    }//GEN-LAST:event_maskapaiCBMouseClicked
+
+    private void hotelCBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hotelCBMouseClicked
+
+    }//GEN-LAST:event_hotelCBMouseClicked
+
+    private void transportCBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transportCBMouseClicked
+
+    }//GEN-LAST:event_transportCBMouseClicked
 
     /**
      * @param args the command line arguments

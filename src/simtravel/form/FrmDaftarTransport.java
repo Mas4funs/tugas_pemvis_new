@@ -63,6 +63,7 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import simtravel.utils.CurrencyUtils;
 
+
 /**
  *
  * @author nursalim
@@ -76,11 +77,13 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
     private Connection con;
     private PreparedStatement ps;
     private ResultSet rs;
+    private String userId;
     JMenuItem menuItemAdd, menuItemRemove, menuItemUpdate;
     JPopupMenu popupMenu;
     
-    public FrmDaftarTransport(java.awt.Frame parent, boolean modal) {
+    public FrmDaftarTransport(java.awt.Frame parent, boolean modal, Map data) {
         super(parent, modal);
+        userId = (String) data.get("userId");
         initComponents();
         setLocationRelativeTo(null);
         showTable();
@@ -108,9 +111,9 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         String sql = "";
         
         if("Semua".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_transport WHERE nama LIKE ? OR kelas LIKE ? or status LIKE ? or tarif LIKE ?";
+            sql = "SELECT * FROM tbl_transport WHERE nama_transport LIKE ? OR kelas LIKE ? or status LIKE ? or tarif LIKE ?";
         }else if("Nama Transport".equals(cbPengguna.getSelectedItem())){
-            sql = "SELECT * FROM tbl_transport WHERE nama LIKE ? ";
+            sql = "SELECT * FROM tbl_transport WHERE nama_transport LIKE ? ";
         }else if("Kelas".equals(cbPengguna.getSelectedItem())){
             sql = "SELECT * FROM tbl_transport WHERE kelas LIKE ? ";
         }else if("Status".equals(cbPengguna.getSelectedItem())){
@@ -139,7 +142,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             
             while (rs.next()){
                 model.addRow(new Object[]{cnt++, 
-                    rs.getString("nama"), 
+                    rs.getString("nama_transport"), 
                     rs.getString("kelas"),
                     rs.getString("status"),
                     new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif").toString()))
@@ -170,7 +173,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
     }
     
     public void hapusRecord(String kode){
-        String sql = "DELETE FROM tbl_transport WHERE nama = ? ";
+        String sql = "DELETE FROM tbl_transport WHERE nama_transport = ? ";
         con = new DBUtils().getKoneksi();
         try {
             ps = con.prepareStatement(sql);
@@ -345,7 +348,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             while (rs.next()){
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
-                dataMap.put("nama", rs.getString("nama"));
+                dataMap.put("nama_transport", rs.getString("nama_transport"));
                 dataMap.put("kelas", rs.getString("kelas"));
                 dataMap.put("status", rs.getString("status"));
                 dataMap.put("tarif", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif").toString())));
@@ -387,7 +390,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             Cell cell = row.createCell(colNum++);
             cell.setCellValue((Integer)dataMap.get("no"));
             cell = row.createCell(colNum++);
-            cell.setCellValue((String)dataMap.get("nama"));
+            cell.setCellValue((String)dataMap.get("nama_transport"));
             cell = row.createCell(colNum++);
             cell.setCellValue((String)dataMap.get("kelas"));
             cell = row.createCell(colNum++);
@@ -461,7 +464,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
             while (rs.next()){
                 Map dataMap = new HashMap();
                 dataMap.put("no", cnt++);
-                dataMap.put("nama", rs.getString("nama"));
+                dataMap.put("nama_transport", rs.getString("nama_transport"));
                 dataMap.put("kelas", rs.getString("kelas"));
                 dataMap.put("status", rs.getString("status"));
                 dataMap.put("tarif", new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("tarif").toString())));
@@ -479,7 +482,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
 
             XWPFTableRow tableRowTwo = table.createRow();
             tableRowTwo.getCell(0).setText(dataMap.get("no").toString());
-            tableRowTwo.getCell(1).setText((String) dataMap.get("nama"));
+            tableRowTwo.getCell(1).setText((String) dataMap.get("nama_transport"));
             tableRowTwo.getCell(2).setText((String) dataMap.get("kelas"));
             tableRowTwo.getCell(3).setText((String) dataMap.get("status"));
             tableRowTwo.getCell(4).setText((String) dataMap.get("tarif"));
@@ -787,6 +790,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         data.put("kelas", kelas);
         data.put("status", status);
         data.put("tarif", new CurrencyUtils().unFormatRupiah(tarif));
+        data.put("userId", userId);
         
         new FrmTambahTransport(null, true, data).setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
@@ -812,6 +816,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         dispose();
         Map data = new HashMap();
         data.put("action", "tambah");
+        data.put("userId", userId);
         new FrmTambahTransport(null, true, data).setVisible(true);
     }//GEN-LAST:event_tambahBtnActionPerformed
 
@@ -872,7 +877,7 @@ public class FrmDaftarTransport extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmDaftarTransport dialog = new FrmDaftarTransport(new javax.swing.JFrame(), true);
+                FrmDaftarTransport dialog = new FrmDaftarTransport(new javax.swing.JFrame(), true, null);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
