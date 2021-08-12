@@ -249,7 +249,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         JasperPrint jasperPrint = null;
                
          try {
-            URL url = getClass().getResource("/simtravel/report/rpt_status_pemesanan.jrxml");
+            URL url = getClass().getResource("/simtravel/report/rpt_pemesanan.jrxml");
             jasperDesign = JRXmlLoader.load(url.openStream());
             
             Map param = new HashMap();
@@ -285,9 +285,9 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             
         }
         
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_pemesanan.pdf";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_pemesanan.pdf";
          try {
-            File file = new File("src/simtravel/report/rpt_maskapai.jrxml");
+            File file = new File("src/simtravel/report/rpt_pemesanan.jrxml");
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
@@ -315,7 +315,7 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             }
             
         }
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_pemesanan.xlsx";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_pemesanan.xlsx";
         
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("data");
@@ -331,15 +331,27 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         Object[] header = {"No", "No. Pemesanan", "Tgl Pemesanan", "No. KTP", "Nama Paket", "Jenis Pembayaran", "Status Pembayaran"};
         
         String sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE status_pembayaran Like ?";
+        }else if("Belum Lunas".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }else {
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }
+        
         con = new DBUtils().getKoneksi();
         int cnt = 1;
         List dataList = new ArrayList();
         
         try {
             ps = con.prepareStatement(sql);
+            if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            ps.setString(1, statusPembayaran);;
+            }else{
             ps.setDate(1, new java.sql.Date(dateFrom.getTime()));
             ps.setDate(2, new java.sql.Date(dateTo.getTime()));
             ps.setString(3, statusPembayaran);
+            }
             rs = ps.executeQuery();
             
             int i = 0;
@@ -464,15 +476,29 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         con = new DBUtils().getKoneksi();
         List dataList = new ArrayList();
         
-        String sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+       String sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        
+        
+        if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE status_pembayaran Like ?";
+        }else if("Belum Lunas".equals(statusPembayaranCB.getSelectedItem())){
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }else {
+            sql = "SELECT * FROM tbl_pemesanan WHERE DATE(tgl_pemesanan) BETWEEN ? AND ? AND status_pembayaran LIKE ?";
+        }
         
         con = new DBUtils().getKoneksi();
         int cnt = 1;
         try {
             ps = con.prepareStatement(sql);
+            if("Semua".equals(statusPembayaranCB.getSelectedItem())){
+            ps.setString(1, statusPembayaran);;
+            }else{
             ps.setDate(1, new java.sql.Date(dateFrom.getTime()));
             ps.setDate(2, new java.sql.Date(dateTo.getTime()));
             ps.setString(3, statusPembayaran);
+            }
+            
             rs = ps.executeQuery();
             
             while (rs.next()){
@@ -533,7 +559,6 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         exportPdf = new javax.swing.JButton();
         exportExcel = new javax.swing.JButton();
         exportWord = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
@@ -650,38 +675,26 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
             }
         });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/profile-16.png"))); // NOI18N
-        jButton4.setText("Detail Pesanan");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(91, 91, 91)
                 .addComponent(exportWord)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(exportExcel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(exportPdf)
-                .addGap(27, 27, 27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(exportExcel)
-                        .addComponent(exportWord)
-                        .addComponent(jButton4))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(exportExcel)
+                    .addComponent(exportWord)
                     .addComponent(exportPdf))
                 .addContainerGap())
         );
@@ -791,12 +804,8 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
         generateExcel();
     }//GEN-LAST:event_exportExcelActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void exportPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPdfActionPerformed
-        // TODO add your handling code here:
+        generatePdfOld();
     }//GEN-LAST:event_exportPdfActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -854,7 +863,6 @@ public class FrmLaporanPemesanan extends javax.swing.JDialog {
     private javax.swing.JButton exportExcel;
     private javax.swing.JButton exportPdf;
     private javax.swing.JButton exportWord;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

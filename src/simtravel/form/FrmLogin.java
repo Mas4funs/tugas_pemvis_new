@@ -59,7 +59,7 @@ public class FrmLogin extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         
         jPanel2.setOpaque(true);
-        jPanel2.setBackground(new Color(0,0,0,0));
+        //jPanel2.setBackground(new Color(0,0,0,0));
     }
 
     /**
@@ -92,7 +92,6 @@ public class FrmLogin extends javax.swing.JDialog {
         setTitle("Sistem Informasi Travel Umrah & Haji - PT. Ismata Nusantara Abadi");
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/simtravel/image/user-32.png"))); // NOI18N

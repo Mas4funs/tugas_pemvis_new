@@ -25,7 +25,7 @@
 
 	<parameter name="p_nopemesanan" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="logo" isForPrompting="false" class="java.io.InputStream"/>
-	<queryString><![CDATA[SELECT b.nama, b.no_ktp, a.no_pemesanan, a.tgl_pemesanan, a.nama_paket, a.status_pembayaran, a.jns_pembayaran, a.total_bayar as total_harga 
+	<queryString><![CDATA[SELECT b.nama, b.no_ktp, a.no_pemesanan, a.tgl_pemesanan, a.nama_paket, a.status_pembayaran, a.jns_pembayaran, a.tgl_berangkat, a.tgl_pulang, a.pimpinan_rombongan, a.total_bayar as total_harga 
 FROM tbl_pemesanan as a, tbl_customer as b
 WHERE a.no_ktp = b.no_ktp
 AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
@@ -37,7 +37,10 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 	<field name="nama_paket" class="java.lang.String"/>
 	<field name="status_pembayaran" class="java.lang.String"/>
 	<field name="jns_pembayaran" class="java.lang.String"/>
-	<field name="total_harga" class="java.lang.String"/>
+	<field name="tgl_berangkat" class="java.sql.Date"/>
+	<field name="tgl_pulang" class="java.sql.Date"/>
+	<field name="pimpinan_rombongan" class="java.lang.String"/>
+	<field name="total_harga" class="java.lang.Integer"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -132,7 +135,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="350"  isSplitAllowed="true" >
+			<band height="413"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="127"
@@ -384,7 +387,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					<textElement>
 						<font size="12"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{jns_pembayaran}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{tgl_berangkat}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -404,7 +407,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					<textElement>
 						<font size="12"/>
 					</textElement>
-				<text><![CDATA[Jenis Pembayaran]]></text>
+				<text><![CDATA[Tanggal Berangkat]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -443,7 +446,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					<textElement>
 						<font size="12"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{total_harga}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{total_harga}]]></textFieldExpression>
 				</textField>
 				<image  scaleImage="RetainShape" vAlign="Top" hAlign="Left" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -508,12 +511,12 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="18" isBold="true"/>
 					</textElement>
-				<text><![CDATA[FAKTUR PEMESANAN]]></text>
+				<text><![CDATA[INVOICE KEPERGIAN]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
-						x="366"
-						y="236"
+						x="364"
+						y="287"
 						width="36"
 						height="19"
 						key="staticText-7"/>
@@ -530,7 +533,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="MMMMM dd, yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="402"
-						y="236"
+						y="287"
 						width="128"
 						height="19"
 						forecolor="#000000"
@@ -549,7 +552,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="36"
-						y="269"
+						y="331"
 						width="115"
 						height="19"
 						key="staticText-8"/>
@@ -566,7 +569,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="36"
-						y="316"
+						y="386"
 						width="115"
 						height="19"
 						key="staticText-9"/>
@@ -576,14 +579,14 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement>
-						<font/>
+						<font pdfFontName="Helvetica" isBold="false"/>
 					</textElement>
 				<text><![CDATA[Manajer Umrah/Travel]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="210"
-						y="269"
+						y="331"
 						width="115"
 						height="19"
 						key="staticText-10"/>
@@ -600,7 +603,7 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 				<staticText>
 					<reportElement
 						x="210"
-						y="316"
+						y="386"
 						width="115"
 						height="19"
 						key="staticText-11"/>
@@ -614,6 +617,84 @@ AND a.no_pemesanan = $P{p_nopemesanan}]]></queryString>
 					</textElement>
 				<text><![CDATA[Bag. Keuangan]]></text>
 				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="236"
+						width="115"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-12"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Tanggal Pulang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="258"
+						width="115"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-13"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[P. Rombongan]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="127"
+						y="236"
+						width="398"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-3"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{tgl_pulang}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="127"
+						y="258"
+						width="398"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-4"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{pimpinan_rombongan}]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>

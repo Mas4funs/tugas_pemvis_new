@@ -249,7 +249,7 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
         JasperPrint jasperPrint = null;
                
          try {
-            URL url = getClass().getResource("/simtravel/report/rpt_status_kepergian.jrxml");
+            URL url = getClass().getResource("/simtravel/report/rpt_kepergian.jrxml");
             jasperDesign = JRXmlLoader.load(url.openStream());
             
             Map param = new HashMap();
@@ -285,9 +285,9 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
             
         }
         
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_kepergian.pdf";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_kepergian.pdf";
          try {
-            File file = new File("src/simtravel/report/rpt_status_kepergian.jrxml");
+            File file = new File("src/simtravel/report/rpt_kepergian.jrxml");
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
@@ -438,7 +438,7 @@ public class FrmLaporanKeberangkatan extends javax.swing.JDialog {
             }
             
         }
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_status_kepergian.docx";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_kepergian.docx";
         
         //Blank Document
         XWPFDocument document = new XWPFDocument();

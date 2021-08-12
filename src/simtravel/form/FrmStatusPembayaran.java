@@ -77,7 +77,9 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             String namaPaket = (String) data.get("namaPaket");
             String noKTP = (String) data.get("noKTP");
             tipePemesanan = (String) data.get("tipePemesanan");
+            //String email = (String) data.get("email");
             
+           // emailField.setText(email);
             noPemesananField.setText(noPemesanan);
             tglPesanan.setDate(tglPemesanan);
             namaPaketField.setText(namaPaket);
@@ -182,7 +184,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             rs = ps.executeQuery();
             
             while (rs.next()){
-                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga"))));
+                hargaField.setText(new CurrencyUtils().formatRupiah(new BigDecimal(rs.getString("harga_total"))));
             }    
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -213,7 +215,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
     
     public void sentNotification(){
         Map data = new HashMap();
-        data.put("to", emailField.getText());
+        data.put("to", emailField.getText());//emailField.getText());
         data.put("noPemesanan", noPemesananField.getText());
         data.put("tglPemesanan", tglPesanan.getDate());
         data.put("nama", namaLengkapField.getText());
@@ -567,7 +569,7 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             int pilih = JOptionPane.showConfirmDialog(null, "Apakah Data yang Anda masukkan sudah benar?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION);
             if(pilih == JOptionPane.OK_OPTION){
                 updateRecord();
-                clear();
+                //clear();
                 sentNotification();     
             } 
         }
@@ -717,9 +719,9 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             
         }
         
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_keberangkatan.pdf";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_kepergian.pdf";
          try {
-            File file = new File("src/simtravel/report/invoice_keberangkatan.jrxml");
+            File file = new File("src/simtravel/report/invoice_kepergian.jrxml");
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
@@ -754,9 +756,9 @@ public class FrmStatusPembayaran extends javax.swing.JDialog {
             
         }
         
-        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_keberangkatan.pdf";
+        String FILE_NAME = dir.getAbsolutePath()+"/rpt_invoice_kepergian.pdf";
          try {
-            File file = new File("src/simtravel/report/invoice_keberangkatan.jrxml");
+            File file = new File("src/simtravel/report/invoice_kepergian.jrxml");
             jasperDesign = JRXmlLoader.load(file);
             
             Map param = new HashMap();
